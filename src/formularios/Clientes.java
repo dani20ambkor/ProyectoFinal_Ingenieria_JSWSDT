@@ -21,9 +21,9 @@ import javax.swing.table.DefaultTableModel;
  * @author Usuario
  */
 public class Clientes extends javax.swing.JDialog {
-    
+
     DefaultTableModel model;
-    
+
     public Clientes(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
@@ -31,14 +31,14 @@ public class Clientes extends javax.swing.JDialog {
         cargarDatosClientes("");
         botonesInicio();
         txtBloqueo(false);
-        
+
         jTable_DatosClientes.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-            
+
             @Override
             public void valueChanged(ListSelectionEvent e) {
                 if (jTable_DatosClientes.getSelectedRow() != -1) {
                     int fila = jTable_DatosClientes.getSelectedRow();
-                    
+
                     jTextField_CedCli.setText(jTable_DatosClientes.getValueAt(fila, 0).toString().trim());
                     jTextField_ApeCli.setText(jTable_DatosClientes.getValueAt(fila, 1).toString().trim());
                     jTextField_NomCli.setText(jTable_DatosClientes.getValueAt(fila, 2).toString().trim());
@@ -51,7 +51,7 @@ public class Clientes extends javax.swing.JDialog {
                 }
             }
         });
-        
+
     }
     /*
      * DefaultTableModel modeloTabla = new DefaultTableModel() {
@@ -60,7 +60,7 @@ public class Clientes extends javax.swing.JDialog {
      * false; } }; Coneccion cn = new Coneccion(); PreparedStatement pst = null;
      * Statement st = null; ResultSet rs = null;
      */
-    
+
     public void txtLimpiar() {
         jTextField_CedCli.setText("");
         jTextField_NomCli.setText("");
@@ -69,25 +69,26 @@ public class Clientes extends javax.swing.JDialog {
         jTextField_TelCli.setText("");
         jTextField_Buscar.setText("");
         txtBloqueo(false);
-        
+
     }
+
     public void bonotesBorrar() {
         jButton_Nuevo.setEnabled(false);
         jButton_Guardar.setEnabled(false);
         jButton_Actualizar.setEnabled(true);
         jButton_Cancelar.setEnabled(true);
         jButton_Salir.setEnabled(true);
-       
+
     }
-    
-     public void botonesActualizar() {
+
+    public void botonesActualizar() {
         jButton_Nuevo.setEnabled(false);
         jButton_Guardar.setEnabled(false);
         jButton_Actualizar.setEnabled(true);
         jButton_Cancelar.setEnabled(true);
         jButton_Salir.setEnabled(true);
     }
-    
+
     public void txtBloqueo(boolean tutia) {
         jTextField_CedCli.requestFocus();
         jTextField_CedCli.setEnabled(tutia);
@@ -98,7 +99,7 @@ public class Clientes extends javax.swing.JDialog {
         //jTextField_Buscar.setEnabled(tutia);
 
     }
-    
+
     public void txtDesbloqueo() {
         jTextField_CedCli.requestFocus();
         jTextField_CedCli.setEnabled(true);
@@ -106,16 +107,16 @@ public class Clientes extends javax.swing.JDialog {
         jTextField_ApeCli.setEnabled(true);
         jTextField_DirCli.setEnabled(true);
         jTextField_TelCli.setEnabled(true);
-        
+
     }
-    
+
     public void botonesNuevo() {
         jButton_Actualizar.setEnabled(false);
         jButton_Cancelar.setEnabled(true);
         jButton_Guardar.setEnabled(true);
         jButton_Nuevo.setEnabled(false);
     }
-    
+
     public void botonesInicio() {
         jButton_Actualizar.setEnabled(false);
         jButton_Cancelar.setEnabled(false);
@@ -225,6 +226,9 @@ public class Clientes extends javax.swing.JDialog {
         jTextField_Buscar.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 jTextField_BuscarKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTextField_BuscarKeyTyped(evt);
             }
         });
 
@@ -367,41 +371,19 @@ public class Clientes extends javax.swing.JDialog {
         limpiarTabla();
         //cargarDatosClientes();
     }
-    
+
     private void limpiarTabla() {
         for (int i = jTable_DatosClientes.getRowCount() - 1; i >= 0; i--) {
             // modeloTabla.removeRow(i);
         }
     }
-    
+
     public void cargarDatosClientes(String Dato) {
-//        Vector<Cliente> clientes = DatosClientes();
-//        Object cli[] = new Object[5];
-//        boolean existe = false;
-//        for (int i = 0; i < clientes.size(); i++) {
-//            cli[0] = clientes.get(i).getCedula();
-//            cli[1] = clientes.get(i).getNombre();
-//            cli[2] = clientes.get(i).getApellido();
-//            cli[3] = clientes.get(i).getDireccion();
-//            cli[4] = clientes.get(i).getTelefono();
-//            for (int j = 0; j < jTable_DatosClientes.getRowCount(); j++) {
-//                if (cli[0].toString().equals(jTable_DatosClientes.getValueAt(j, 0))) {
-//                    existe = true;
-//                    break;
-//                } else {
-//                    existe = false;
-//                }
-//            }
-//            
-//            if (!existe) {
-//                modeloTabla.addRow(cli);
-//            }
-//            
-//        }
+
         String[] titulos = {"CEDULA", "APELLIDO", "NOMBRE", "DIRECCION", "TELEFONO"};
         String[] registros = new String[5];
         model = new DefaultTableModel(null, titulos) {
-            
+
             @Override
             public boolean isCellEditable(int row, int column) {
                 if (column == 0) {
@@ -410,11 +392,15 @@ public class Clientes extends javax.swing.JDialog {
                 return true;
             }
         };
-        
+
         ConexionTienda cc = new ConexionTienda();
         Connection cn = cc.conectar();
         String sql = "";
-        sql = "select * from clientes where CED_CLI LIKE'%" + Dato + "%'";
+        if (paraBuscar) {
+            sql = "select * from clientes where CED_CLI LIKE'%" + Dato + "%'";
+        }else{
+            sql = "select * from clientes where APE_CLI LIKE'%" + Dato + "%'";
+        }
         try {
             Statement psd = cn.createStatement();
             ResultSet rs = psd.executeQuery(sql);
@@ -429,13 +415,22 @@ public class Clientes extends javax.swing.JDialog {
             jTable_DatosClientes.setModel(model);
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, ex);
+        } catch (NullPointerException ex1) {
         }
-        
+
     }
-    
+
+    public boolean filtroBuscarCedula(java.awt.event.KeyEvent evt) {
+        char c = evt.getKeyChar();
+        if (c < '0' || c > '9') {
+            return true;
+        }
+        return false;
+    }
+
     public void guardar() {
-        
-        
+
+
         if (jTextField_CedCli.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Debe ingresar la cédula");
             jTextField_CedCli.requestFocus(); // Para posicionar el raton
@@ -444,7 +439,7 @@ public class Clientes extends javax.swing.JDialog {
         } else if (jTextField_ApeCli.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Debe ingresar el nombre");
         } else {
-            
+
             ConexionTienda cc = new ConexionTienda();
             Connection cn = cc.conectar();
             String CED_CLI, APE_CLI, NOM_CLI, DIR_CLI, TEL_CLI;
@@ -453,7 +448,7 @@ public class Clientes extends javax.swing.JDialog {
             NOM_CLI = jTextField_ApeCli.getText();
             DIR_CLI = jTextField_DirCli.getText();
             TEL_CLI = jTextField_TelCli.getText();
-            
+
             String sql = "";
             sql = "insert into clientes(CED_CLI, APE_CLI, NOM_CLI, DIR_CLI, TEL_CLI)"
                     + "values(?,?,?,?,?)";
@@ -464,24 +459,23 @@ public class Clientes extends javax.swing.JDialog {
                 psd.setString(3, NOM_CLI);
                 psd.setString(4, DIR_CLI);
                 psd.setString(5, TEL_CLI);
-                
+
                 int n = psd.executeUpdate();
-                
+
                 if (n > 0) {
                     JOptionPane.showMessageDialog(null, "Se insertó la información correctamente");
                     cargarDatosClientes(""); //Actualizar la carga de datos
                     txtLimpiar();
-                    
+
                 }
-                
+
             } catch (SQLException ex) { //permite manejar la excepcion de la base de datos
                 Logger.getLogger(Clientes.class.getName()).log(Level.SEVERE, null, ex);
-                JOptionPane.showMessageDialog(
-                        null, ex);
+                JOptionPane.showMessageDialog(null, ex);
             }
         }
-        
-        
+
+
     }
 
 //    public Vector<Cliente> DatosClientes() {
@@ -550,14 +544,14 @@ public class Clientes extends javax.swing.JDialog {
         jTextField_DirCli.setEnabled(true);
         jTextField_TelCli.setEnabled(true);
     }
-    
+
     public void deshabilitarComponentes() {
         jTextField_NomCli.setEnabled(false);
         jTextField_ApeCli.setEnabled(false);
         jTextField_DirCli.setEnabled(false);
         jTextField_TelCli.setEnabled(false);
     }
-    
+
     public void limpiarCampos() {
         jTextField_CedCli.setText("");
         jTextField_NomCli.setText("");
@@ -565,7 +559,7 @@ public class Clientes extends javax.swing.JDialog {
         jTextField_DirCli.setText("");
         jTextField_TelCli.setText("");
     }
-    
+
     private void mostrarValores() {
         // TODO add your handling code here:
         if (jTable_DatosClientes.getSelectedRow() != -1) {
@@ -584,10 +578,11 @@ public class Clientes extends javax.swing.JDialog {
 //    public void buscarDato() {
 //        limpiarTabla();
 //        try {
-//            cn.Conectar();
+//            ConexionTienda cc = new ConexionTienda();
+//            Connection cn = cc.conectar();
 //            String consulta = "SELECT * FROM CLIENTES WHERE APE_CLI LIKE " + "'" + jTextField_Buscar.getText() + "_%'";
-//            st = cn.getConexion().prepareStatement(consulta);
-//            rs = st.executeQuery(consulta);
+//            Statement st = cn.createStatement();
+//            ResultSet rs = st.executeQuery(consulta);
 //            String[] fila = new String[5];
 //            while (rs.next()) {
 //                fila[0] = rs.getString("CED_CLI");
@@ -608,54 +603,67 @@ public class Clientes extends javax.swing.JDialog {
     private void jTable_DatosClientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable_DatosClientesMouseClicked
         mostrarValores();
     }//GEN-LAST:event_jTable_DatosClientesMouseClicked
-    
+
     private void jTextField_ApeCliKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_ApeCliKeyTyped
         // TODO add your handling code here:
         Metodos.validarLetras(evt, jTextField_ApeCli);
     }//GEN-LAST:event_jTextField_ApeCliKeyTyped
-    
+
     private void jTextField_NomCliKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_NomCliKeyTyped
         // TODO add your handling code here:
         Metodos.validarLetras(evt, jTextField_NomCli);
     }//GEN-LAST:event_jTextField_NomCliKeyTyped
-    
+
     private void jTextField_DirCliKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_DirCliKeyTyped
         // TODO add your handling code here:
         Metodos.validarLetras(evt, jTextField_DirCli);
     }//GEN-LAST:event_jTextField_DirCliKeyTyped
-    
+
     private void jTextField_TelCliKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_TelCliKeyTyped
         // TODO add your handling code here:
         Metodos.validarTelefono(evt, jTextField_TelCli);
     }//GEN-LAST:event_jTextField_TelCliKeyTyped
-    
+    int cont = 0;
+    boolean paraBuscar;
     private void jTextField_BuscarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_BuscarKeyReleased
         // TODO add your handling code here:
-        // buscarDato();
+        if (jTextField_Buscar.getText().isEmpty()) {
+            cont = 0;
+        }
+        if (cont == 0) {
+            paraBuscar = filtroBuscarCedula(evt);
+        }
+        cont++;
+        
+        cargarDatosClientes(jTextField_Buscar.getText());
     }//GEN-LAST:event_jTextField_BuscarKeyReleased
-    
+
     private void jButton_GuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_GuardarActionPerformed
         // TODO add your handling code here:
         guardar();
     }//GEN-LAST:event_jButton_GuardarActionPerformed
-    
+
     private void jButton_NuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_NuevoActionPerformed
         // TODO add your handling code here:
         botonesNuevo();
         txtBloqueo(true);
     }//GEN-LAST:event_jButton_NuevoActionPerformed
-    
+
     private void jButton_CancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_CancelarActionPerformed
         // TODO add your handling code here:
         txtLimpiar();
         txtBloqueo(false);
         botonesInicio();
     }//GEN-LAST:event_jButton_CancelarActionPerformed
-    
+
     private void jButton_SalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_SalirActionPerformed
         // TODO add your handling code here:
         dispose();
     }//GEN-LAST:event_jButton_SalirActionPerformed
+
+    private void jTextField_BuscarKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_BuscarKeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField_BuscarKeyTyped
 
     /**
      * @param args the command line arguments
@@ -692,11 +700,11 @@ public class Clientes extends javax.swing.JDialog {
          * Create and display the dialog
          */
         java.awt.EventQueue.invokeLater(new Runnable() {
-            
+
             public void run() {
                 Clientes dialog = new Clientes(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    
+
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
                         System.exit(0);
