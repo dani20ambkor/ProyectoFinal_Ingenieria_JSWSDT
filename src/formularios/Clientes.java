@@ -31,7 +31,13 @@ public class Clientes extends javax.swing.JDialog {
         cargarDatosClientes("");
         botonesInicio();
         txtBloqueo(false);
+        jTextField_Buscar.setEnabled(true);
 
+        mostrarDatosSeleccionaTabla();
+
+    }
+
+    public void mostrarDatosSeleccionaTabla() {
         jTable_DatosClientes.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
 
             @Override
@@ -44,22 +50,14 @@ public class Clientes extends javax.swing.JDialog {
                     jTextField_NomCli.setText(jTable_DatosClientes.getValueAt(fila, 2).toString().trim());
                     jTextField_DirCli.setText(jTable_DatosClientes.getValueAt(fila, 3).toString().trim());
                     jTextField_TelCli.setText(jTable_DatosClientes.getValueAt(fila, 4).toString().trim());
-                    txtDesbloqueo();
+                    txtBloqueo(true);
                     jTextField_CedCli.setEnabled(false);
                     bonotesBorrar();
                     botonesActualizar();
                 }
             }
         });
-
     }
-    /*
-     * DefaultTableModel modeloTabla = new DefaultTableModel() {
-     *
-     * @Override public boolean isCellEditable(int row, int column) { return
-     * false; } }; Coneccion cn = new Coneccion(); PreparedStatement pst = null;
-     * Statement st = null; ResultSet rs = null;
-     */
 
     public void txtLimpiar() {
         jTextField_CedCli.setText("");
@@ -96,17 +94,7 @@ public class Clientes extends javax.swing.JDialog {
         jTextField_NomCli.setEnabled(tutia);
         jTextField_DirCli.setEnabled(tutia);
         jTextField_TelCli.setEnabled(tutia);
-        //jTextField_Buscar.setEnabled(tutia);
-
-    }
-
-    public void txtDesbloqueo() {
-        jTextField_CedCli.requestFocus();
-        jTextField_CedCli.setEnabled(true);
-        jTextField_NomCli.setEnabled(true);
-        jTextField_ApeCli.setEnabled(true);
-        jTextField_DirCli.setEnabled(true);
-        jTextField_TelCli.setEnabled(true);
+        jTextField_Buscar.setEnabled(tutia);
 
     }
 
@@ -367,17 +355,6 @@ public class Clientes extends javax.swing.JDialog {
      * modeloTabla.addColumn("Apellido"); modeloTabla.addColumn("Dirección");
      * modeloTabla.addColumn("Teléfono"); }
      */
-    public void actualizarClientes() {
-        limpiarTabla();
-        //cargarDatosClientes();
-    }
-
-    private void limpiarTabla() {
-        for (int i = jTable_DatosClientes.getRowCount() - 1; i >= 0; i--) {
-            // modeloTabla.removeRow(i);
-        }
-    }
-
     public void cargarDatosClientes(String Dato) {
 
         String[] titulos = {"CEDULA", "APELLIDO", "NOMBRE", "DIRECCION", "TELEFONO"};
@@ -397,9 +374,9 @@ public class Clientes extends javax.swing.JDialog {
         Connection cn = cc.conectar();
         String sql = "";
         if (paraBuscar) {
-            sql = "select * from clientes where CED_CLI LIKE'%" + Dato + "%'";
-        }else{
-            sql = "select * from clientes where APE_CLI LIKE'%" + Dato + "%'";
+            sql = "select * from clientes where CED_CLI LIKE '%" + Dato + "%'";
+        } else {
+            sql = "select * from clientes where APE_CLI LIKE '%" + Dato + "%'";
         }
         try {
             Statement psd = cn.createStatement();
@@ -418,14 +395,6 @@ public class Clientes extends javax.swing.JDialog {
         } catch (NullPointerException ex1) {
         }
 
-    }
-
-    public boolean filtroBuscarCedula(java.awt.event.KeyEvent evt) {
-        char c = evt.getKeyChar();
-        if (c < '0' || c > '9') {
-            return true;
-        }
-        return false;
     }
 
     public void guardar() {
@@ -478,66 +447,6 @@ public class Clientes extends javax.swing.JDialog {
 
     }
 
-//    public Vector<Cliente> DatosClientes() {
-//        Vector<Cliente> clientes = new Vector<Cliente>();
-//        Cliente cl;
-//        try {
-//            
-//            cn.Conectar();
-//            st = cn.getConexion().createStatement();
-//            String sql = "select * from clientes";
-//            rs = st.executeQuery(sql);
-//            while (rs.next()) {
-//                cl = new Cliente();
-//                cl.setCedula(rs.getString(1));
-//                cl.setNombre(rs.getString(2));
-//                cl.setApellido(rs.getString(3));
-//                cl.setDireccion(rs.getString(4));
-//                cl.setTelefono(rs.getString(5));
-//                clientes.add(cl);
-//            }
-//            st.close();
-//            rs.close();
-//            cn.getConexion().close();
-//        } catch (SQLException ex) {
-//            JOptionPane.showMessageDialog(null, "Ocurrió un error : " + ex.toString(), "ERROR", JOptionPane.ERROR_MESSAGE);
-//        } catch (java.lang.NullPointerException ex1) {
-//            JOptionPane.showMessageDialog(null, "Ocurrió un error : " + ex1.toString(), "ERROR", JOptionPane.ERROR_MESSAGE);
-//        }
-//        return clientes;
-//    }
-//    private void actualizarUnDato() throws HeadlessException {
-//        // TODO add your handling code here:
-//
-//        if (jTextField_ApeCli.getText().equals("")
-//                || jTextField_NomCli.getText().equals("")
-//                || jTextField_DirCli.getText().equals("")
-//                || jTextField_TelCli.getText().equals("")) {
-//            JOptionPane.showMessageDialog(null, "Campos sin llenar", "ERROR", JOptionPane.ERROR_MESSAGE);
-//        } else {
-//            Object[] datos = {jTextField_CedCli.getText(), jTextField_NomCli.getText(), jTextField_ApeCli.getText(),
-//                jTextField_DirCli.getText(), jTextField_TelCli.getText()};
-//            try {
-//                cn.Conectar();
-//                String sql = "UPDATE CLIENTES SET "
-//                        + "NOM_CLI = '" + datos[1].toString() + "' , "
-//                        + "APE_CLI = '" + datos[2].toString() + "' , "
-//                        + "DIR_CLI = '" + datos[3].toString() + "' , "
-//                        + "TEL_CLI = '" + datos[4].toString() + "' "
-//                        + "WHERE CED_CLI = '" + datos[0].toString() + "'";
-//                pst = cn.getConexion().prepareStatement(sql);
-//                pst.executeUpdate();
-//                JOptionPane.showMessageDialog(null, "Datos actualizados correctamente!...");
-//                limpiarCampos();
-//                cargarDatosClientes();
-//                deshabilitarComponentes();
-//                actualizarClientes();
-//                
-//            } catch (SQLException ex) {
-//                JOptionPane.showMessageDialog(null, "Error al actualizar " + ex.toString(), "ERROR", JOptionPane.ERROR_MESSAGE);
-//            }
-//        }
-//    }
     public void habilitarComponentes() {
         jTextField_NomCli.setEnabled(true);
         jTextField_ApeCli.setEnabled(true);
@@ -575,31 +484,6 @@ public class Clientes extends javax.swing.JDialog {
         }
     }
 
-//    public void buscarDato() {
-//        limpiarTabla();
-//        try {
-//            ConexionTienda cc = new ConexionTienda();
-//            Connection cn = cc.conectar();
-//            String consulta = "SELECT * FROM CLIENTES WHERE APE_CLI LIKE " + "'" + jTextField_Buscar.getText() + "_%'";
-//            Statement st = cn.createStatement();
-//            ResultSet rs = st.executeQuery(consulta);
-//            String[] fila = new String[5];
-//            while (rs.next()) {
-//                fila[0] = rs.getString("CED_CLI");
-//                fila[1] = rs.getString("NOM_CLI");
-//                fila[2] = rs.getString("APE_CLI");
-//                fila[3] = rs.getString("DIR_CLI");
-//                fila[4] = rs.getString("TEL_CLI");
-//                modeloTabla.addRow(fila);
-//            }
-//            
-//            rs.close();
-//            st.close();
-//        } catch (SQLException ex) {
-//            JOptionPane.showMessageDialog(null, "Ocurrió un error : " + ex.toString(), "ERROR", JOptionPane.ERROR_MESSAGE);
-//        }
-//        
-//    }
     private void jTable_DatosClientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable_DatosClientesMouseClicked
         mostrarValores();
     }//GEN-LAST:event_jTable_DatosClientesMouseClicked
@@ -627,14 +511,21 @@ public class Clientes extends javax.swing.JDialog {
     boolean paraBuscar;
     private void jTextField_BuscarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_BuscarKeyReleased
         // TODO add your handling code here:
+        char c = evt.getKeyChar();
+        if (cont == 0) {
+            if (Character.isDigit(c)) {
+                paraBuscar = true;
+
+            } else if (Character.isLetter(c)) {
+                paraBuscar = false;
+            }
+        }
+        cont++;
         if (jTextField_Buscar.getText().isEmpty()) {
             cont = 0;
         }
-        if (cont == 0) {
-            paraBuscar = filtroBuscarCedula(evt);
-        }
-        cont++;
-        
+
+
         cargarDatosClientes(jTextField_Buscar.getText());
     }//GEN-LAST:event_jTextField_BuscarKeyReleased
 
@@ -663,6 +554,18 @@ public class Clientes extends javax.swing.JDialog {
 
     private void jTextField_BuscarKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_BuscarKeyTyped
         // TODO add your handling code here:
+        if (cont != 0) {
+            char c = evt.getKeyChar();
+            if (paraBuscar) {
+                if (Character.isLetter(c)) {
+                    evt.consume();
+                }
+            } else if (!paraBuscar) {
+                if (Character.isDigit(c)) {
+                    evt.consume();
+                }
+            }
+        }
     }//GEN-LAST:event_jTextField_BuscarKeyTyped
 
     /**

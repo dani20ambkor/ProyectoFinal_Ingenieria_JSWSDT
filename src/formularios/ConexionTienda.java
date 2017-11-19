@@ -22,13 +22,7 @@ public class ConexionTienda {
     public Connection conectar() {
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            //Class.forName("oracle.jdbc.OracleDriver");
-            /*String user = "";
-            String url = "jdbc:oracle:thin:@localhost:1521:XE";
-            String password = "";
-
-            connect = DriverManager.getConnection(url, user, password);*/
-            connect = DriverManager.getConnection("jdbc:mysql://localhost/tienda","root","");
+            connect = DriverManager.getConnection("jdbc:mysql://localhost/rosita","root","");
         } catch (ClassNotFoundException ex) {
             JOptionPane.showMessageDialog(null, "Driver no encontrado");
         } catch (SQLException ex) {
