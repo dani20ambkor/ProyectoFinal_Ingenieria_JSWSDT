@@ -434,8 +434,8 @@ public class Clientes extends javax.swing.JDialog {
             Connection cn = cc.conectar();
             String CED_CLI, APE_CLI, NOM_CLI, DIR_CLI, TEL_CLI;
             CED_CLI = jTextField_CedCli.getText().trim();
-            APE_CLI = jTextField_NomCli.getText().trim();
-            NOM_CLI = jTextField_ApeCli.getText().trim();
+            APE_CLI = jTextField_ApeCli.getText().trim();
+            NOM_CLI = jTextField_NomCli.getText().trim();
             DIR_CLI = jTextField_DirCli.getText().trim();
             TEL_CLI = jTextField_TelCli.getText().trim();
 
