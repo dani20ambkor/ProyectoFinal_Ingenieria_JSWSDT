@@ -92,8 +92,8 @@
                           </Group>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jTextField_Nombre" alignment="0" max="32767" attributes="0"/>
                               <Component id="jTextField_Apellido" alignment="0" max="32767" attributes="0"/>
+                              <Component id="jTextField_Nombre" alignment="0" max="32767" attributes="0"/>
                               <Group type="102" attributes="0">
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Component id="jComboBox_Cargo" alignment="0" min="-2" pref="117" max="-2" attributes="0"/>
@@ -121,12 +121,12 @@
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jTextField_Nombre" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jTextField_Apellido" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jTextField_Apellido" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jTextField_Nombre" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
@@ -183,7 +183,7 @@
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel2">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Apellido:"/>
+            <Property name="text" type="java.lang.String" value="Nombre:"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel3">
@@ -206,7 +206,7 @@
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel1">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Nombre:"/>
+            <Property name="text" type="java.lang.String" value="Apellido:"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="jTextField_Cedula">
@@ -214,14 +214,14 @@
             <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jTextField_CedulaKeyTyped"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JTextField" name="jTextField_Nombre">
-          <Events>
-            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jTextField_NombreKeyTyped"/>
-          </Events>
-        </Component>
         <Component class="javax.swing.JTextField" name="jTextField_Apellido">
           <Events>
             <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jTextField_ApellidoKeyTyped"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JTextField" name="jTextField_Nombre">
+          <Events>
+            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jTextField_NombreKeyTyped"/>
           </Events>
         </Component>
         <Component class="javax.swing.JTextField" name="jTextField_Buscar">

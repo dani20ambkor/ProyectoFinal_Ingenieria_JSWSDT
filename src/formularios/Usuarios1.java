@@ -50,8 +50,8 @@ public class Usuarios1 extends javax.swing.JDialog {
                 if (jTable_Usuarios.getSelectedRow() != -1) {
                     int fila = jTable_Usuarios.getSelectedRow();
                     jTextField_Cedula.setText(String.valueOf(jTable_Usuarios.getValueAt(fila, 0)).trim());
-                    jTextField_Nombre.setText(String.valueOf(jTable_Usuarios.getValueAt(fila, 1)).trim());
-                    jTextField_Apellido.setText(String.valueOf(jTable_Usuarios.getValueAt(fila, 2)).trim());
+                    jTextField_Apellido.setText(String.valueOf(jTable_Usuarios.getValueAt(fila, 1)).trim());
+                    jTextField_Nombre.setText(String.valueOf(jTable_Usuarios.getValueAt(fila, 2)).trim());
                     jComboBox_Cargo.setSelectedItem(String.valueOf(jTable_Usuarios.getValueAt(fila, 3)).trim());
                     jPasswordField_Contraseña.setText(String.valueOf(jTable_Usuarios.getValueAt(fila, 4)).trim());
                     jPasswordField_ContraseñaCon.setText(String.valueOf(jTable_Usuarios.getValueAt(fila, 4)).trim());
@@ -65,7 +65,7 @@ public class Usuarios1 extends javax.swing.JDialog {
 
     public void cargarTablaUsuarios(String Dato) {
 
-        String[] titulos = {"CÉDULA", "NOMBRE", "APELLIDO", "CARGO", "CONTRASEÑA"};
+        String[] titulos = {"CÉDULA", "APELLIDO", "NOMBRE", "CARGO", "CONTRASEÑA"};
         String[] registros = new String[5];
         DefaultTableModel modeloTabla = new DefaultTableModel(null, titulos) {
 
@@ -103,12 +103,12 @@ public class Usuarios1 extends javax.swing.JDialog {
         if (jTextField_Cedula.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Debe ingresar cédula");
             jTextField_Cedula.requestFocus();
-        } else if (jTextField_Nombre.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Debe ingresar el nombre");
-            jTextField_Nombre.requestFocus();
         } else if (jTextField_Apellido.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Debe ingresar el apellido");
+            JOptionPane.showMessageDialog(null, "Debe ingresar el nombre");
             jTextField_Apellido.requestFocus();
+        } else if (jTextField_Nombre.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Debe ingresar el apellido");
+            jTextField_Nombre.requestFocus();
         } else if (jPasswordField_Contraseña.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Debe ingresar la contraseña");
             jPasswordField_Contraseña.requestFocus();
@@ -124,18 +124,18 @@ public class Usuarios1 extends javax.swing.JDialog {
         }else{
             ConexionTienda cc = new ConexionTienda();
             Connection cn = cc.conectar();
-            String cod_usu,nom_usu,ape_usu,cargo,cla_usu;
+            String cod_usu,ape_usu,nom_usu,cargo,cla_usu;
             cod_usu=jTextField_Cedula.getText();
-            nom_usu=jTextField_Nombre.getText();
             ape_usu=jTextField_Apellido.getText();
+            nom_usu=jTextField_Nombre.getText();
             cargo=jComboBox_Cargo.getSelectedItem().toString();
             cla_usu=jPasswordField_Contraseña.getText();
-            String sql="insert into usuarios (cod_usu,nom_usu,ape_usu,cargo,cla_usu) values(?,?,?,?,?)";
+            String sql="insert into usuarios (cod_usu,ape_usu,nom_usu,cargo,cla_usu) values(?,?,?,?,?)";
             try {
                 PreparedStatement psd = cn.prepareStatement(sql);
                 psd.setString(1, cod_usu);
-                psd.setString(2, nom_usu);
-                psd.setString(3, ape_usu);
+                psd.setString(2, ape_usu);
+                psd.setString(3, nom_usu);
                 psd.setString(4, cargo);
                 psd.setString(5, Encriptar(cla_usu));
                 
@@ -173,8 +173,8 @@ public class Usuarios1 extends javax.swing.JDialog {
         jLabel_ConfirmarContrasenia = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jTextField_Cedula = new javax.swing.JTextField();
-        jTextField_Nombre = new javax.swing.JTextField();
         jTextField_Apellido = new javax.swing.JTextField();
+        jTextField_Nombre = new javax.swing.JTextField();
         jTextField_Buscar = new javax.swing.JTextField();
         jComboBox_Cargo = new javax.swing.JComboBox();
         jPasswordField_Contraseña = new javax.swing.JPasswordField();
@@ -203,7 +203,7 @@ public class Usuarios1 extends javax.swing.JDialog {
 
         jLabel7.setText("Contraseña:");
 
-        jLabel2.setText("Apellido:");
+        jLabel2.setText("Nombre:");
 
         jLabel3.setText("Cargo:");
 
@@ -212,7 +212,7 @@ public class Usuarios1 extends javax.swing.JDialog {
         jLabel_ConfirmarContrasenia.setForeground(new java.awt.Color(255, 0, 0));
         jLabel_ConfirmarContrasenia.setText("Confirme la contraseña porfavor.");
 
-        jLabel1.setText("Nombre:");
+        jLabel1.setText("Apellido:");
 
         jTextField_Cedula.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
@@ -220,15 +220,15 @@ public class Usuarios1 extends javax.swing.JDialog {
             }
         });
 
-        jTextField_Nombre.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                jTextField_NombreKeyTyped(evt);
-            }
-        });
-
         jTextField_Apellido.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 jTextField_ApellidoKeyTyped(evt);
+            }
+        });
+
+        jTextField_Nombre.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTextField_NombreKeyTyped(evt);
             }
         });
 
@@ -271,8 +271,8 @@ public class Usuarios1 extends javax.swing.JDialog {
                             .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField_Nombre)
                             .addComponent(jTextField_Apellido)
+                            .addComponent(jTextField_Nombre)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jComboBox_Cargo, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -292,11 +292,11 @@ public class Usuarios1 extends javax.swing.JDialog {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jTextField_Nombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTextField_Apellido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jTextField_Apellido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTextField_Nombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
@@ -459,8 +459,8 @@ public class Usuarios1 extends javax.swing.JDialog {
 
     public void txtLimpiar() {
         jTextField_Cedula.setText("");
-        jTextField_Nombre.setText("");
         jTextField_Apellido.setText("");
+        jTextField_Nombre.setText("");
         jPasswordField_Contraseña.setText("");
         jPasswordField_ContraseñaCon.setText("");
         txtBloqueo(false);
@@ -470,8 +470,8 @@ public class Usuarios1 extends javax.swing.JDialog {
     public void txtBloqueo(boolean tutia) {
         jTextField_Cedula.requestFocus();
         jTextField_Cedula.setEnabled(tutia);
-        jTextField_Nombre.setEnabled(tutia);
         jTextField_Apellido.setEnabled(tutia);
+        jTextField_Nombre.setEnabled(tutia);
         jComboBox_Cargo.setEnabled(tutia);
         jPasswordField_Contraseña.setEnabled(tutia);
         jPasswordField_ContraseñaCon.setEnabled(tutia);
@@ -558,15 +558,15 @@ public class Usuarios1 extends javax.swing.JDialog {
         Metodos.validarTelefono(evt, jTextField_Cedula);
     }//GEN-LAST:event_jTextField_CedulaKeyTyped
 
-    private void jTextField_NombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_NombreKeyTyped
-        // TODO add your handling code here:
-        Metodos.validarLetras(evt, jTextField_Nombre);
-    }//GEN-LAST:event_jTextField_NombreKeyTyped
-
     private void jTextField_ApellidoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_ApellidoKeyTyped
         // TODO add your handling code here:
         Metodos.validarLetras(evt, jTextField_Apellido);
     }//GEN-LAST:event_jTextField_ApellidoKeyTyped
+
+    private void jTextField_NombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_NombreKeyTyped
+        // TODO add your handling code here:
+        Metodos.validarLetras(evt, jTextField_Nombre);
+    }//GEN-LAST:event_jTextField_NombreKeyTyped
 
     private void jPasswordField_ContraseñaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jPasswordField_ContraseñaKeyTyped
         // TODO add your handling code here:
