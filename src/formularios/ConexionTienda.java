@@ -24,7 +24,7 @@ public class ConexionTienda {
             Class.forName("com.mysql.jdbc.Driver");
             connect = DriverManager.getConnection("jdbc:mysql://localhost/rosita","root","");
         } catch (ClassNotFoundException ex) {
-            JOptionPane.showMessageDialog(null, "Driver no encontrado");
+            JOptionPane.showMessageDialog(null, "Driver no encontrado "+ex);
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Fallo al recibir base de datos");
         } catch (Exception ex) {

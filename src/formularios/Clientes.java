@@ -48,7 +48,7 @@ public class Clientes extends javax.swing.JDialog {
                     jTextField_NomCli.setText(jTable_DatosClientes.getValueAt(fila, 2).toString().trim());
                     jTextField_DirCli.setText(jTable_DatosClientes.getValueAt(fila, 3).toString().trim());
                     jTextField_TelCli.setText(jTable_DatosClientes.getValueAt(fila, 4).toString().trim());
-                    jTextField_Email.setText(jTable_DatosClientes.getValueAt(fila, 4).toString().trim());
+                    jTextField_Email.setText(jTable_DatosClientes.getValueAt(fila, 5).toString().trim());
                     txtBloqueo(true);
                     jTextField_CedCli.setEnabled(false);
                     botonesBorrar();
@@ -529,6 +529,7 @@ public class Clientes extends javax.swing.JDialog {
                     + ",NOM_CLI='" + jTextField_NomCli.getText() + "'"
                     + ",DIR_CLI='" + jTextField_DirCli.getText() + "'"
                     + ",TEL_CLI='" + jTextField_TelCli.getText() + "'"
+                    + ",EMAIL_CLI='" + jTextField_Email.getText() + "'"
                     + " WHERE CED_CLI=" + jTextField_CedCli.getText();
             try {
                 PreparedStatement psd = cn.prepareStatement(sql);
@@ -565,10 +566,10 @@ public class Clientes extends javax.swing.JDialog {
                 JOptionPane.showMessageDialog(null, "No se pudo eliminar los datos. Intentelo nuevamente");
             }
         } else {
-            cargarDatosClientes("");
-            txtBloqueo(false);
-            txtLimpiar();
-            botonesInicio();
+//            cargarDatosClientes("");
+//            txtBloqueo(false);
+//            txtLimpiar();
+//            botonesInicio();
         }
     }
     
