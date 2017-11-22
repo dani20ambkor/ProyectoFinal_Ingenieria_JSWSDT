@@ -202,7 +202,7 @@ public class Usuarios1 extends javax.swing.JDialog {
     }
 
     public void borrar() {
-        
+
         ConexionTienda cc = new ConexionTienda();
         Connection cn = cc.conectar();
         String sql = "";

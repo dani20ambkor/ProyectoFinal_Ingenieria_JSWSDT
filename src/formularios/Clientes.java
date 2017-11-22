@@ -415,7 +415,7 @@ public class Clientes extends javax.swing.JDialog {
 
     public void cargarDatosClientes(String Dato) {
 
-        String[] titulos = {"CEDULA", "APELLIDO", "NOMBRE", "DIRECCION", "TELEFONO","E-MAIL"};
+        String[] titulos = {"CEDULA", "APELLIDO", "NOMBRE", "DIRECCION", "TELEFONO", "E-MAIL"};
         String[] registros = new String[6];
         jTable_DatosClientes.getTableHeader().setReorderingAllowed(false);
         model = new DefaultTableModel(null, titulos) {
@@ -546,14 +546,15 @@ public class Clientes extends javax.swing.JDialog {
             }
         }
     }
+
     public void borrar() {
-        int n = JOptionPane.showConfirmDialog(null, "Desea eliminar el registro ","Borrar",JOptionPane.YES_NO_OPTION);
+        int n = JOptionPane.showConfirmDialog(null, "Desea eliminar el registro ", "Borrar", JOptionPane.YES_NO_OPTION);
 
         if (n == 0) {
             ConexionTienda cc = new ConexionTienda();
             Connection cn = cc.conectar();
             String sql = "";
-            sql="DELETE FROM CLIENTES WHERE CED_CLI='"+jTextField_CedCli.getText()+"'";
+            sql = "DELETE FROM CLIENTES WHERE CED_CLI='" + jTextField_CedCli.getText() + "'";
             //sql = "UPDATE AUTO SET AUT_ESTADO='0' WHERE AUT_PLACA='" + txtPlaca.getText() + "'";
             try {
                 PreparedStatement psd = cn.prepareStatement(sql);
@@ -572,7 +573,6 @@ public class Clientes extends javax.swing.JDialog {
 //            botonesInicio();
         }
     }
-    
 
     private void jTable_DatosClientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable_DatosClientesMouseClicked
         mostrarDatosSeleccionaTabla();

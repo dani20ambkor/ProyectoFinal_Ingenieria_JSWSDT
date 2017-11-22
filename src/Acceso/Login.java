@@ -48,13 +48,13 @@ public class Login extends javax.swing.JFrame {
 
     private void EstablecerValoresPorDefecto() {
         this.setSize(470, 270);
-        ucTextLetrasMayusculas_Usuario.setText("");
+        ucTextNumeros_Usuario.setText("");
         jPassword_Pass.setText("");
     }
 
     public void cargarUsuarios() throws HeadlessException, Exception {
 
-        String nom_usu = ucTextLetrasMayusculas_Usuario.getText().trim();
+        String nom_usu = ucTextNumeros_Usuario.getText().trim();
         String cla_usu = jPassword_Pass.getText().trim();
         ConexionTienda cc = new ConexionTienda();
         Connection cn = cc.conectar();
@@ -65,7 +65,7 @@ public class Login extends javax.swing.JFrame {
             ResultSet rs = psd.executeQuery(sql);
             while (rs.next()) {
                 //cuando cambies componente solo cambias nom_usu por cod_usu
-                String var1 = rs.getString("nom_usu").toUpperCase();
+                String var1 = rs.getString("COD_USU").toUpperCase();
                 String var2 = Encriptacion.Desencriptar(rs.getString("CLA_USU"));
                 String var5 = rs.getString("CARGO");
                 if (var1.equals(nom_usu) && var2.equals(cla_usu)) {
@@ -110,7 +110,7 @@ public class Login extends javax.swing.JFrame {
         btn_Aceptar = new javax.swing.JButton();
         btn_Cancelar = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
-        ucTextLetrasMayusculas_Usuario = new uctextletras.UcTextLetrasMayusculas();
+        ucTextNumeros_Usuario = new uctextletras.UcTextNumeros();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -143,6 +143,12 @@ public class Login extends javax.swing.JFrame {
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Iniciar Sesión");
 
+        ucTextNumeros_Usuario.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                ucTextNumeros_UsuarioKeyTyped(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -154,7 +160,7 @@ public class Login extends javax.swing.JFrame {
                         .addGap(82, 82, 82)
                         .addComponent(btn_Aceptar, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jLabel1)
-                    .addComponent(ucTextLetrasMayusculas_Usuario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(ucTextNumeros_Usuario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2)
@@ -178,7 +184,7 @@ public class Login extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPassword_Pass, javax.swing.GroupLayout.DEFAULT_SIZE, 31, Short.MAX_VALUE)
-                    .addComponent(ucTextLetrasMayusculas_Usuario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(ucTextNumeros_Usuario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_Cancelar)
@@ -210,6 +216,13 @@ public class Login extends javax.swing.JFrame {
         // TODO add your handling code here:
         System.exit(0);
     }//GEN-LAST:event_btn_CancelarActionPerformed
+
+    private void ucTextNumeros_UsuarioKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_ucTextNumeros_UsuarioKeyTyped
+        // TODO add your handling code here:
+        if (ucTextNumeros_Usuario.getText().length() >= 10) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_ucTextNumeros_UsuarioKeyTyped
 
     /**
      * @param args the command line arguments
@@ -259,6 +272,6 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPasswordField jPassword_Pass;
-    private uctextletras.UcTextLetrasMayusculas ucTextLetrasMayusculas_Usuario;
+    private uctextletras.UcTextNumeros ucTextNumeros_Usuario;
     // End of variables declaration//GEN-END:variables
 }
