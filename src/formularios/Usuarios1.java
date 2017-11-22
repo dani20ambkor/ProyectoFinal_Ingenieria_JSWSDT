@@ -67,6 +67,7 @@ public class Usuarios1 extends javax.swing.JDialog {
 
         String[] titulos = {"CÉDULA", "APELLIDO", "NOMBRE", "CARGO", "CONTRASEÑA"};
         String[] registros = new String[5];
+        jTable_Usuarios.getTableHeader().setReorderingAllowed(false);
         DefaultTableModel modeloTabla = new DefaultTableModel(null, titulos) {
 
             @Override
@@ -82,11 +83,11 @@ public class Usuarios1 extends javax.swing.JDialog {
             Statement psd = cn.createStatement();
             ResultSet rs = psd.executeQuery(sql); //Manejar celda por celda el resultado del statement (consulta)
             while (rs.next()) {
-                registros[0] = rs.getString("cod_usu");
-                registros[1] = rs.getString("nom_usu");
-                registros[2] = rs.getString("ape_usu");
-                registros[3] = rs.getString("cargo");
-                registros[4] = Desencriptar(rs.getString("cla_usu"));
+                registros[0] = rs.getString("cod_usu").trim();
+                registros[1] = rs.getString("ape_usu").trim();
+                registros[2] = rs.getString("nom_usu").trim();
+                registros[3] = rs.getString("cargo").trim();
+                registros[4] = Encriptacion.Desencriptar(rs.getString("cla_usu"));
 
                 modeloTabla.addRow(registros);
 
@@ -117,30 +118,30 @@ public class Usuarios1 extends javax.swing.JDialog {
             jLabel_ConfirmarContrasenia.setVisible(true);
             jPasswordField_ContraseñaCon.requestFocus();
             System.out.println(jPasswordField_Contraseña.getText());
-        }else if(!jPasswordField_Contraseña.getText().equals(jPasswordField_ContraseñaCon.getText())){
+        } else if (!jPasswordField_Contraseña.getText().equals(jPasswordField_ContraseñaCon.getText())) {
             jLabel_ConfirmarContrasenia.setVisible(false);
             jLabel_ContraseniasDiferentes.setVisible(true);
             jPasswordField_ContraseñaCon.requestFocus();
-        }else{
+        } else {
             ConexionTienda cc = new ConexionTienda();
             Connection cn = cc.conectar();
-            String cod_usu,ape_usu,nom_usu,cargo,cla_usu;
-            cod_usu=jTextField_Cedula.getText();
-            ape_usu=jTextField_Apellido.getText();
-            nom_usu=jTextField_Nombre.getText();
-            cargo=jComboBox_Cargo.getSelectedItem().toString();
-            cla_usu=jPasswordField_Contraseña.getText();
-            String sql="insert into usuarios (cod_usu,ape_usu,nom_usu,cargo,cla_usu) values(?,?,?,?,?)";
+            String cod_usu, ape_usu, nom_usu, cargo, cla_usu;
+            cod_usu = jTextField_Cedula.getText();
+            ape_usu = jTextField_Apellido.getText();
+            nom_usu = jTextField_Nombre.getText();
+            cargo = jComboBox_Cargo.getSelectedItem().toString();
+            cla_usu = jPasswordField_Contraseña.getText();
+            String sql = "insert into usuarios (cod_usu,ape_usu,nom_usu,cargo,cla_usu) values(?,?,?,?,?)";
             try {
                 PreparedStatement psd = cn.prepareStatement(sql);
                 psd.setString(1, cod_usu);
                 psd.setString(2, ape_usu);
                 psd.setString(3, nom_usu);
                 psd.setString(4, cargo);
-                psd.setString(5, Encriptar(cla_usu));
-                
+                psd.setString(5, Encriptacion.Encriptar(cla_usu));
+
                 int n = psd.executeUpdate();
-                if(n>0){
+                if (n > 0) {
                     JOptionPane.showMessageDialog(null, "Datos ingresados correctamente");
                     cargarTablaUsuarios("");
                     txtLimpiar();
@@ -149,7 +150,79 @@ public class Usuarios1 extends javax.swing.JDialog {
                 }
             } catch (SQLException ex) {
                 JOptionPane.showMessageDialog(null, ex);
-            }  
+            }
+        }
+    }
+
+    public void actualizar() {
+        if (jTextField_Nombre.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Debe ingresar el nombre");
+            jTextField_Nombre.requestFocus();
+        } else if (jTextField_Apellido.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Debe ingresar el apellido");
+            jTextField_Apellido.requestFocus();
+        } else if (jPasswordField_Contraseña.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Debe ingresar la contraseña");
+            jPasswordField_Contraseña.requestFocus();
+        } else if (jPasswordField_ContraseñaCon.getText().isEmpty()) {
+            jLabel_ContraseniasDiferentes.setEnabled(false);
+            jLabel_ConfirmarContrasenia.setVisible(true);
+            jPasswordField_ContraseñaCon.requestFocus();
+            System.out.println(jPasswordField_Contraseña.getText());
+        } else if (!jPasswordField_Contraseña.getText().equals(jPasswordField_ContraseñaCon.getText())) {
+            jLabel_ConfirmarContrasenia.setVisible(false);
+            jLabel_ContraseniasDiferentes.setVisible(true);
+            jPasswordField_ContraseñaCon.requestFocus();
+        } else {
+            if (jPasswordField_Contraseña.getText().equals(jPasswordField_ContraseñaCon.getText())) {
+                ConexionTienda cc = new ConexionTienda();
+                Connection cn = cc.conectar();
+                String sql = "";
+                System.out.println(jComboBox_Cargo.getSelectedItem().toString().trim());
+                sql = "update usuarios set NOM_USU='" + jTextField_Nombre.getText().trim() + "' "
+                        + ",APE_USU='" + jTextField_Apellido.getText().trim() + "' "
+                        + ",CARGO='" + jComboBox_Cargo.getSelectedItem().toString().trim() + "' "
+                        + ",CLA_USU='" + Encriptacion.Encriptar(jPasswordField_Contraseña.getText()).trim() + "' "
+                        + "where COD_USU='" + jTextField_Cedula.getText().trim() + "'";
+                try {
+                    PreparedStatement psd = cn.prepareStatement(sql);
+                    int n = psd.executeUpdate();
+                    if (n > 0) {
+                        JOptionPane.showMessageDialog(null, "Se actualizó el registro correctamente");
+                        cargarTablaUsuarios("");
+                        txtLimpiar();
+                        botonesInicio();
+                    }
+
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(null, ex);
+                }
+            }
+        }
+    }
+
+    public void borrar() {
+        
+        ConexionTienda cc = new ConexionTienda();
+        Connection cn = cc.conectar();
+        String sql = "";
+        sql = "delete from usuarios where cod_usu='" + jTextField_Cedula.getText() + "'";
+        //sql = "update auto set AUT_ESTADO='" + 0 + "' where AUT_PLACA='" + ucTextLetras12.getText() + "'";;
+        int confirm = JOptionPane.showConfirmDialog(null, "¿Está seguro que desea borrar?", "Borrar Dato", JOptionPane.YES_NO_OPTION);
+        if (confirm == 0) {
+            try {
+                PreparedStatement psd = cn.prepareStatement(sql);
+                int n = psd.executeUpdate();
+                if (n > 0) {
+                    JOptionPane.showMessageDialog(null, "Se borró el registro correctamente");
+                    cargarTablaUsuarios("");
+                    txtLimpiar();
+                    botonesInicio();
+                }
+
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, ex);
+            }
         }
     }
 
@@ -337,6 +410,11 @@ public class Usuarios1 extends javax.swing.JDialog {
         });
 
         jButton_Actualizar.setText("Actualizar");
+        jButton_Actualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_ActualizarActionPerformed(evt);
+            }
+        });
 
         jButton_Cancelar.setText("Cancelar");
         jButton_Cancelar.addActionListener(new java.awt.event.ActionListener() {
@@ -346,6 +424,11 @@ public class Usuarios1 extends javax.swing.JDialog {
         });
 
         jButton_Borrar.setText("Borrar");
+        jButton_Borrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_BorrarActionPerformed(evt);
+            }
+        });
 
         jButton_Volver.setText("Volver");
         jButton_Volver.addActionListener(new java.awt.event.ActionListener() {
@@ -504,55 +587,6 @@ public class Usuarios1 extends javax.swing.JDialog {
         jButton_Volver.setEnabled(true);
     }
 
-    public static String Encriptar(String texto) {
-
-        String secretKey = "qualityinfosolutions"; //llave para encriptar datos
-        String base64EncryptedString = "";
-
-        try {
-
-            MessageDigest md = MessageDigest.getInstance("MD5");
-            byte[] digestOfPassword = md.digest(secretKey.getBytes("utf-8"));
-            byte[] keyBytes = Arrays.copyOf(digestOfPassword, 24);
-
-            SecretKey key = new SecretKeySpec(keyBytes, "DESede");
-            Cipher cipher = Cipher.getInstance("DESede");
-            cipher.init(Cipher.ENCRYPT_MODE, key);
-
-            byte[] plainTextBytes = texto.getBytes("utf-8");
-            byte[] buf = cipher.doFinal(plainTextBytes);
-            byte[] base64Bytes = Base64.encodeBase64(buf);
-            base64EncryptedString = new String(base64Bytes);
-
-        } catch (Exception ex) {
-        }
-        return base64EncryptedString;
-    }
-
-    public static String Desencriptar(String textoEncriptado) throws Exception {
-
-        String secretKey = "qualityinfosolutions"; //llave para desenciptar datos
-        String base64EncryptedString = "";
-
-        try {
-            byte[] message = Base64.decodeBase64(textoEncriptado.getBytes("utf-8"));
-            MessageDigest md = MessageDigest.getInstance("MD5");
-            byte[] digestOfPassword = md.digest(secretKey.getBytes("utf-8"));
-            byte[] keyBytes = Arrays.copyOf(digestOfPassword, 24);
-            SecretKey key = new SecretKeySpec(keyBytes, "DESede");
-
-            Cipher decipher = Cipher.getInstance("DESede");
-            decipher.init(Cipher.DECRYPT_MODE, key);
-
-            byte[] plainText = decipher.doFinal(message);
-
-            base64EncryptedString = new String(plainText, "UTF-8");
-
-        } catch (Exception ex) {
-        }
-        return base64EncryptedString;
-    }
-
     private void jTextField_CedulaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_CedulaKeyTyped
         // TODO add your handling code here:
         Metodos.validarTelefono(evt, jTextField_Cedula);
@@ -604,6 +638,16 @@ public class Usuarios1 extends javax.swing.JDialog {
         txtLimpiar();
         txtBloqueo(false);
     }//GEN-LAST:event_jButton_CancelarActionPerformed
+
+    private void jButton_ActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_ActualizarActionPerformed
+        // TODO add your handling code here:
+        actualizar();
+    }//GEN-LAST:event_jButton_ActualizarActionPerformed
+
+    private void jButton_BorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_BorrarActionPerformed
+        // TODO add your handling code here:
+        borrar();
+    }//GEN-LAST:event_jButton_BorrarActionPerformed
 
     /**
      * @param args the command line arguments

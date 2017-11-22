@@ -163,10 +163,10 @@ public class FramePrincipal extends javax.swing.JFrame {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btn_Administrador;
-    private javax.swing.JButton btn_Clientes;
-    private javax.swing.JButton btn_Inventario;
-    private javax.swing.JButton btn_Ventas;
+    public javax.swing.JButton btn_Administrador;
+    public javax.swing.JButton btn_Clientes;
+    public javax.swing.JButton btn_Inventario;
+    public javax.swing.JButton btn_Ventas;
     private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
 }

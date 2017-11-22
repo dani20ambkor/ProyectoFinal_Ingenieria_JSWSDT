@@ -4,11 +4,18 @@
  */
 package Acceso;
 
+import formularios.ConexionTienda;
+import formularios.Encriptacion;
 import formularios.FramePrincipal;
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-import javax.swing.JLayeredPane;
-import javax.swing.JPanel;
+import java.awt.HeadlessException;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.*;
+import org.apache.commons.codec.digest.DigestUtils;
 
 /**
  *
@@ -19,30 +26,73 @@ public class Login extends javax.swing.JFrame {
     /**
      * Creates new form Login
      */
-    protected String Usario = "ADMIN";
+    protected String Usuario = "ADMIN";
     protected String Contraseña = "admin";
-    
+
     public Login() {
         initComponents();
         EstablecerValoresPorDefecto();
         PonerImagenFondo();
         this.setLocationRelativeTo(null);
     }
-    
+
     private void PonerImagenFondo() {
-        
-        ((JPanel) getContentPane()).setOpaque(false);        
+
+        ((JPanel) getContentPane()).setOpaque(false);
         ImageIcon uno = new ImageIcon(this.getClass().getResource("/imagenes/fondo1.jpg"));
         JLabel fondo = new JLabel();
         fondo.setIcon(uno);
         getLayeredPane().add(fondo, JLayeredPane.FRAME_CONTENT_LAYER);
         fondo.setBounds(0, 0, uno.getIconWidth(), uno.getIconHeight());
     }
-    
+
     private void EstablecerValoresPorDefecto() {
         this.setSize(470, 270);
         ucTextLetrasMayusculas_Usuario.setText("");
         jPassword_Pass.setText("");
+    }
+
+    public void cargarUsuarios() throws HeadlessException, Exception {
+
+        String nom_usu = ucTextLetrasMayusculas_Usuario.getText().trim();
+        String cla_usu = jPassword_Pass.getText().trim();
+        ConexionTienda cc = new ConexionTienda();
+        Connection cn = cc.conectar();
+        String sql = "";
+        sql = "SELECT * FROM USUARIOS";
+        try {
+            Statement psd = cn.createStatement(); //statement devuelve todas las filas
+            ResultSet rs = psd.executeQuery(sql);
+            while (rs.next()) {
+                //cuando cambies componente solo cambias nom_usu por cod_usu
+                String var1 = rs.getString("nom_usu").toUpperCase();
+                String var2 = Encriptacion.Desencriptar(rs.getString("CLA_USU"));
+                String var5 = rs.getString("CARGO");
+                if (var1.equals(nom_usu) && var2.equals(cla_usu)) {
+                    if ("Vendedor".equals(var5)) {
+                        this.dispose();
+                        FramePrincipal men = new FramePrincipal();
+                        men.btn_Administrador.setEnabled(false);
+                        men.setVisible(true);
+
+                    } else if ("Administrador".equals(var5)) {
+                        this.dispose();
+                        FramePrincipal men = new FramePrincipal();
+                        men.btn_Administrador.setEnabled(true);
+                        men.btn_Clientes.setEnabled(true);
+                        men.btn_Inventario.setEnabled(true);
+                        men.btn_Ventas.setEnabled(true); 
+                        men.setVisible(true);
+
+                    }
+                } else {
+//                    j.setVisible(true);
+//                    txtcalve.setText("");
+                }
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, ex);
+        }
     }
 
     /**
@@ -140,18 +190,25 @@ public class Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_AceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_AceptarActionPerformed
-        // TODO add your handling code here:
-         String Pass = new String(jPassword_Pass.getPassword());
-        if(ucTextLetrasMayusculas_Usuario.getText().equals(Usario) && Pass.equals(Contraseña) ){
-            FramePrincipal principal = new FramePrincipal();
-            principal.setVisible(true);
-            dispose();
+        try {
+            // TODO add your handling code here:
+    //        String Pass = new String(jPassword_Pass.getPassword());
+    //        if (ucTextLetrasMayusculas_Usuario.getText().equals(Usuario) && Pass.equals(Contraseña)) {
+    //            FramePrincipal principal = new FramePrincipal();
+    //            principal.setVisible(true);
+    //            dispose();
+    //        }
+            cargarUsuarios();
+        } catch (HeadlessException ex) {
+            //Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            //Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btn_AceptarActionPerformed
 
     private void btn_CancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_CancelarActionPerformed
         // TODO add your handling code here:
-         System.exit(0);
+        System.exit(0);
     }//GEN-LAST:event_btn_CancelarActionPerformed
 
     /**
@@ -189,7 +246,7 @@ public class Login extends javax.swing.JFrame {
          * Create and display the form
          */
         java.awt.EventQueue.invokeLater(new Runnable() {
-            
+
             public void run() {
                 new Login().setVisible(true);
             }
