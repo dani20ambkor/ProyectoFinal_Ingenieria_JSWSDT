@@ -4,6 +4,7 @@
  */
 package formularios;
 
+import java.awt.event.KeyEvent;
 import java.security.MessageDigest;
 import java.sql.*;
 import java.util.Arrays;
@@ -14,9 +15,11 @@ import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumnModel;
 import org.apache.commons.codec.binary.Base64;
 
 /**
@@ -28,12 +31,20 @@ public class Usuarios1 extends javax.swing.JDialog {
     /**
      * Creates new form Usuarios1
      */
-    public Usuarios1(java.awt.Frame parent, boolean modal) {
+    int cont = 0;
+    boolean paraBuscar;
+    String cedUser;
+    TableColumnModel modeloColumna;
+
+    public Usuarios1(java.awt.Frame parent, boolean modal, String cedUsu) {
         super(parent, modal);
         initComponents();
+        this.setLocationRelativeTo(parent);
+        cedUser = cedUsu;
         botonesInicio();
         txtBloqueo(false);
         cargarTablaUsuarios("");
+        
         jLabel_ConfirmarContrasenia.setVisible(false);
         jLabel_ContraseniasDiferentes.setVisible(false);
         llenarComboBox();
@@ -63,11 +74,22 @@ public class Usuarios1 extends javax.swing.JDialog {
         });
     }
 
+    public void establecerTamañoColumnas() {
+        modeloColumna = jTable_Usuarios.getColumnModel();
+        modeloColumna.getColumn(0).setPreferredWidth(80);
+        modeloColumna.getColumn(1).setPreferredWidth(110);
+        modeloColumna.getColumn(2).setPreferredWidth(110);
+        modeloColumna.getColumn(3).setPreferredWidth(90);
+        modeloColumna.getColumn(4).setPreferredWidth(120);
+
+    }
+
     public void cargarTablaUsuarios(String Dato) {
 
         String[] titulos = {"CÉDULA", "APELLIDO", "NOMBRE", "CARGO", "CONTRASEÑA"};
         String[] registros = new String[5];
         jTable_Usuarios.getTableHeader().setReorderingAllowed(false);
+        jTable_Usuarios.getTableHeader().setResizingAllowed(false);
         DefaultTableModel modeloTabla = new DefaultTableModel(null, titulos) {
 
             @Override
@@ -78,7 +100,12 @@ public class Usuarios1 extends javax.swing.JDialog {
         ConexionTienda cc = new ConexionTienda();
         Connection cn = cc.conectar();
         String sql = "";
-        sql = "select * from usuarios where cod_usu like '" + Dato + "%' order by ape_usu";
+        if (paraBuscar) {
+            sql = "select * from usuarios where cod_usu like '" + Dato + "%' order by ape_usu";
+        } else {
+            sql = "select * from usuarios where ape_usu like '" + Dato + "%' order by ape_usu";
+        }
+
         try {
             Statement psd = cn.createStatement();
             ResultSet rs = psd.executeQuery(sql); //Manejar celda por celda el resultado del statement (consulta)
@@ -93,6 +120,7 @@ public class Usuarios1 extends javax.swing.JDialog {
 
             }
             jTable_Usuarios.setModel(modeloTabla);
+            establecerTamañoColumnas();
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, ex);
         } catch (Exception ex) {
@@ -101,8 +129,8 @@ public class Usuarios1 extends javax.swing.JDialog {
     }
 
     public void guardar() {
-        if (jTextField_Cedula.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Debe ingresar cédula");
+        if (jTextField_Cedula.getText().isEmpty() || !Metodos.verificadorCédula(jTextField_Cedula.getText())) {
+            JOptionPane.showMessageDialog(null, "Debe ingresar una cédula correcta");
             jTextField_Cedula.requestFocus();
         } else if (jTextField_Apellido.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Debe ingresar el nombre");
@@ -208,16 +236,28 @@ public class Usuarios1 extends javax.swing.JDialog {
         String sql = "";
         sql = "delete from usuarios where cod_usu='" + jTextField_Cedula.getText() + "'";
         //sql = "update auto set AUT_ESTADO='" + 0 + "' where AUT_PLACA='" + ucTextLetras12.getText() + "'";;
+        boolean autenticado= false;
         int confirm = JOptionPane.showConfirmDialog(null, "¿Está seguro que desea borrar?", "Borrar Dato", JOptionPane.YES_NO_OPTION);
         if (confirm == 0) {
             try {
-                PreparedStatement psd = cn.prepareStatement(sql);
-                int n = psd.executeUpdate();
-                if (n > 0) {
-                    JOptionPane.showMessageDialog(null, "Se borró el registro correctamente");
-                    cargarTablaUsuarios("");
-                    txtLimpiar();
-                    botonesInicio();
+                
+                    if (jTextField_Cedula.getText().equals(cedUser)) {
+                        autenticado = true;
+                    } else {
+                        autenticado = false;
+                    }
+                
+                if (!autenticado) {
+                    PreparedStatement psd = cn.prepareStatement(sql);
+                    int n = psd.executeUpdate();
+                    if (n > 0) {
+                        JOptionPane.showMessageDialog(null, "Se borró el registro correctamente");
+                        cargarTablaUsuarios("");
+                        txtLimpiar();
+                        botonesInicio();
+                    }
+                }else{
+                    JOptionPane.showMessageDialog(null, "Error no puede eliminar usuario de la sesión activa");
                 }
 
             } catch (SQLException ex) {
@@ -264,6 +304,7 @@ public class Usuarios1 extends javax.swing.JDialog {
         jTable_Usuarios = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setUndecorated(true);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
@@ -302,6 +343,15 @@ public class Usuarios1 extends javax.swing.JDialog {
         jTextField_Nombre.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 jTextField_NombreKeyTyped(evt);
+            }
+        });
+
+        jTextField_Buscar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextField_BuscarKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTextField_BuscarKeyTyped(evt);
             }
         });
 
@@ -483,6 +533,7 @@ public class Usuarios1 extends javax.swing.JDialog {
 
             }
         ));
+        jTable_Usuarios.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
         jScrollPane1.setViewportView(jTable_Usuarios);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -587,6 +638,42 @@ public class Usuarios1 extends javax.swing.JDialog {
         jButton_Volver.setEnabled(true);
     }
 
+    public void ValidarIngresoBusqueda(KeyEvent evt, JTextField componente) {
+        // TODO add your handling code here:
+        char c = evt.getKeyChar();
+        if (cont == 0) {
+            if (Character.isDigit(c)) {
+                paraBuscar = true;
+
+            } else if (Character.isLetter(c)) {
+                paraBuscar = false;
+            }
+        }
+        cont++;
+        if (componente.getText().isEmpty()) {
+            cont = 0;
+        }
+
+
+        cargarTablaUsuarios(componente.getText());
+    }
+
+    public void validarSoloLetrasSoloNumerosBuscar(KeyEvent evt) {
+        // TODO add your handling code here:
+        if (cont != 0) {
+            char c = evt.getKeyChar();
+            if (paraBuscar) {
+                if (Character.isLetter(c)) {
+                    evt.consume();
+                }
+            } else if (!paraBuscar) {
+                if (Character.isDigit(c)) {
+                    evt.consume();
+                }
+            }
+        }
+    }
+
     private void jTextField_CedulaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_CedulaKeyTyped
         // TODO add your handling code here:
         Metodos.validarTelefono(evt, jTextField_Cedula);
@@ -649,6 +736,17 @@ public class Usuarios1 extends javax.swing.JDialog {
         borrar();
     }//GEN-LAST:event_jButton_BorrarActionPerformed
 
+    private void jTextField_BuscarKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_BuscarKeyTyped
+        // TODO add your handling code here:
+        validarSoloLetrasSoloNumerosBuscar(evt);
+
+    }//GEN-LAST:event_jTextField_BuscarKeyTyped
+
+    private void jTextField_BuscarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_BuscarKeyReleased
+        // TODO add your handling code here:
+        ValidarIngresoBusqueda(evt, jTextField_Buscar);
+    }//GEN-LAST:event_jTextField_BuscarKeyReleased
+
     /**
      * @param args the command line arguments
      */
@@ -686,7 +784,7 @@ public class Usuarios1 extends javax.swing.JDialog {
         java.awt.EventQueue.invokeLater(new Runnable() {
 
             public void run() {
-                Usuarios1 dialog = new Usuarios1(new javax.swing.JFrame(), true);
+                Usuarios1 dialog = new Usuarios1(new javax.swing.JFrame(), true, "");
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
 
                     @Override

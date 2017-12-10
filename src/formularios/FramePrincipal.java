@@ -15,8 +15,10 @@ public class FramePrincipal extends javax.swing.JFrame {
     /**
      * Creates new form FramePrincipal
      */
-    public FramePrincipal() {
+    public static String cedUsuario;
+    public FramePrincipal(String cedUsu) {
         initComponents();
+        cedUsuario = cedUsu;
         PonerImagenFondo();
         this.setLocationRelativeTo(null);
     }
@@ -54,6 +56,11 @@ public class FramePrincipal extends javax.swing.JFrame {
         btn_Administrador.setText("Administrador");
         btn_Administrador.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btn_Administrador.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btn_Administrador.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_AdministradorActionPerformed(evt);
+            }
+        });
 
         btn_Clientes.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         btn_Clientes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/menu/clientes.png"))); // NOI18N
@@ -77,6 +84,11 @@ public class FramePrincipal extends javax.swing.JFrame {
         btn_Inventario.setText("Inventario");
         btn_Inventario.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btn_Inventario.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btn_Inventario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_InventarioActionPerformed(evt);
+            }
+        });
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/menu/LogoR.png"))); // NOI18N
 
@@ -121,6 +133,16 @@ public class FramePrincipal extends javax.swing.JFrame {
         new Clientes(null,true).setVisible(true);
     }//GEN-LAST:event_btn_ClientesActionPerformed
 
+    private void btn_AdministradorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_AdministradorActionPerformed
+        // TODO add your handling code here:
+        new Usuarios1(null, true,cedUsuario).setVisible(true);
+    }//GEN-LAST:event_btn_AdministradorActionPerformed
+
+    private void btn_InventarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_InventarioActionPerformed
+        // TODO add your handling code here:
+        new Inventario(null, true).setVisible(true);
+    }//GEN-LAST:event_btn_InventarioActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -158,7 +180,7 @@ public class FramePrincipal extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
 
             public void run() {
-                new FramePrincipal().setVisible(true);
+                new FramePrincipal("").setVisible(true);
             }
         });
     }

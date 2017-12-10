@@ -71,6 +71,44 @@ public class Metodos {
             return false;
         }
     }
+    
+    public static void validarCamposSoloLetras(KeyEvent evt, JTextField txt, int lon) {
+        // TODO add your handling code here:
+        char Alfab[] = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'ñ', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
+            'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'Ñ', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
+            'á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú', 'ü', 'Ü', ' '};
+        char c = evt.getKeyChar();
+        int x = 0;
+        int longitud = Alfab.length;
+
+        for (int i = 0; i < longitud; i++) {
+            if (c != (Alfab[i])) {
+                x += 1;
+            }
+        }
+
+        if (x == longitud || txt.getText().length() >= lon) {
+            evt.consume();
+        }
+    }
+    
+    public static void validarCamposSoloNumeros(KeyEvent evt, JTextField txt, int lon) {
+        // TODO add your handling code here:
+        char Alfab[] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
+        char c = evt.getKeyChar();
+        int x = 0;
+        int longitud = Alfab.length;
+
+        for (int i = 0; i < longitud; i++) {
+            if (c != (Alfab[i])) {
+                x += 1;
+            }
+        }
+
+        if (x == longitud || txt.getText().length() >= lon) {
+            evt.consume();
+        }
+    }
 
     public static void validarLetras(KeyEvent evt, JTextField texto) {
         // TODO add your handling code here:

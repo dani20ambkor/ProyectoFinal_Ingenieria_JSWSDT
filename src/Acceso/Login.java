@@ -26,9 +26,6 @@ public class Login extends javax.swing.JFrame {
     /**
      * Creates new form Login
      */
-    protected String Usuario = "ADMIN";
-    protected String Contraseña = "admin";
-
     public Login() {
         initComponents();
         EstablecerValoresPorDefecto();
@@ -71,17 +68,26 @@ public class Login extends javax.swing.JFrame {
                 if (var1.equals(nom_usu) && var2.equals(cla_usu)) {
                     if ("Vendedor".equals(var5)) {
                         this.dispose();
-                        FramePrincipal men = new FramePrincipal();
+                        FramePrincipal men = new FramePrincipal(var1);
                         men.btn_Administrador.setEnabled(false);
                         men.setVisible(true);
 
                     } else if ("Administrador".equals(var5)) {
                         this.dispose();
-                        FramePrincipal men = new FramePrincipal();
+                        FramePrincipal men = new FramePrincipal(var1);
                         men.btn_Administrador.setEnabled(true);
                         men.btn_Clientes.setEnabled(true);
                         men.btn_Inventario.setEnabled(true);
-                        men.btn_Ventas.setEnabled(true); 
+                        men.btn_Ventas.setEnabled(true);
+                        men.setVisible(true);
+
+                    } else if ("Bodeguero".equals(var5)) {
+                        this.dispose();
+                        FramePrincipal men = new FramePrincipal(var1);
+                        men.btn_Administrador.setEnabled(false);
+                        men.btn_Clientes.setEnabled(false);
+                        men.btn_Inventario.setEnabled(true);
+                        men.btn_Ventas.setEnabled(false);
                         men.setVisible(true);
 
                     }
@@ -198,12 +204,12 @@ public class Login extends javax.swing.JFrame {
     private void btn_AceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_AceptarActionPerformed
         try {
             // TODO add your handling code here:
-    //        String Pass = new String(jPassword_Pass.getPassword());
-    //        if (ucTextLetrasMayusculas_Usuario.getText().equals(Usuario) && Pass.equals(Contraseña)) {
-    //            FramePrincipal principal = new FramePrincipal();
-    //            principal.setVisible(true);
-    //            dispose();
-    //        }
+            //        String Pass = new String(jPassword_Pass.getPassword());
+            //        if (ucTextLetrasMayusculas_Usuario.getText().equals(Usuario) && Pass.equals(Contraseña)) {
+            //            FramePrincipal principal = new FramePrincipal();
+            //            principal.setVisible(true);
+            //            dispose();
+            //        }
             cargarUsuarios();
         } catch (HeadlessException ex) {
             //Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
