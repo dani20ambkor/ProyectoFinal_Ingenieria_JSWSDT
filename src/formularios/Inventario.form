@@ -70,7 +70,7 @@
                                   <Component id="jButton_Guardar" min="-2" pref="79" max="-2" attributes="0"/>
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
-                                  <Component id="jTextField_PrePro" min="-2" pref="47" max="-2" attributes="0"/>
+                                  <Component id="jTextField_PrePro" min="-2" pref="68" max="-2" attributes="0"/>
                                   <EmptySpace max="32767" attributes="0"/>
                                   <Component id="jButton_Cancelar" min="-2" pref="79" max="-2" attributes="0"/>
                               </Group>
@@ -113,25 +113,27 @@
                                   <EmptySpace max="32767" attributes="0"/>
                                   <Component id="jButton_Volver" min="-2" pref="79" max="-2" attributes="0"/>
                               </Group>
-                              <Group type="102" attributes="0">
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Group type="102" attributes="0">
-                                          <Group type="103" groupAlignment="0" attributes="0">
-                                              <Component id="jTextField_CodPro" min="-2" pref="75" max="-2" attributes="0"/>
-                                              <Component id="jTextField_StockPro" min="-2" pref="53" max="-2" attributes="0"/>
-                                              <Component id="jTextField_Descripcion" min="-2" pref="152" max="-2" attributes="0"/>
-                                          </Group>
-                                          <EmptySpace min="-2" pref="135" max="-2" attributes="0"/>
-                                          <Component id="jButton_Nuevo" min="-2" pref="79" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="102" attributes="0">
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Component id="jTextField_CodPro" min="-2" pref="75" max="-2" attributes="0"/>
+                                          <Component id="jTextField_StockPro" min="-2" pref="53" max="-2" attributes="0"/>
+                                          <Component id="jTextField_Descripcion" min="-2" pref="152" max="-2" attributes="0"/>
                                       </Group>
-                                      <Group type="102" attributes="0">
-                                          <Component id="jTextField_PreVen" min="-2" pref="47" max="-2" attributes="0"/>
-                                          <EmptySpace min="-2" pref="240" max="-2" attributes="0"/>
-                                          <Component id="jButton_Borrar" min="-2" pref="79" max="-2" attributes="0"/>
-                                      </Group>
-                                      <Component id="jComboBox_Talla" min="-2" pref="152" max="-2" attributes="0"/>
+                                      <EmptySpace max="32767" attributes="0"/>
+                                      <Component id="jButton_Nuevo" min="-2" pref="79" max="-2" attributes="0"/>
                                   </Group>
-                                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                  <Group type="102" attributes="0">
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Component id="jComboBox_Talla" min="-2" pref="152" max="-2" attributes="0"/>
+                                          <Group type="102" alignment="0" attributes="0">
+                                              <Component id="jTextField_PreVen" min="-2" pref="68" max="-2" attributes="0"/>
+                                              <EmptySpace min="-2" pref="231" max="-2" attributes="0"/>
+                                              <Component id="jButton_Borrar" min="-2" pref="79" max="-2" attributes="0"/>
+                                          </Group>
+                                      </Group>
+                                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                  </Group>
                               </Group>
                           </Group>
                       </Group>
@@ -164,8 +166,8 @@
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jLabel6" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jTextField_PrePro" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jButton_Cancelar" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jTextField_PrePro" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
@@ -361,19 +363,15 @@
             <Property name="text" type="java.lang.String" value="P.Venta:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JFormattedTextField" name="jTextField_PreVen">
-          <Properties>
-            <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor" preCode="try {" postCode="} catch (java.text.ParseException ex) {&#xa;ex.printStackTrace();&#xa;}">
-              <Format format="###.##" subtype="-1" type="5"/>
-            </Property>
-          </Properties>
+        <Component class="uctextletras.UcTextNumerosDecimales" name="jTextField_PrePro">
+          <Events>
+            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jTextField_PreProKeyTyped"/>
+          </Events>
         </Component>
-        <Component class="javax.swing.JFormattedTextField" name="jTextField_PrePro">
-          <Properties>
-            <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor" preCode="try {" postCode="} catch (java.text.ParseException ex) {&#xa;ex.printStackTrace();&#xa;}">
-              <Format format="###.##" subtype="-1" type="5"/>
-            </Property>
-          </Properties>
+        <Component class="uctextletras.UcTextNumerosDecimales" name="jTextField_PreVen">
+          <Events>
+            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jTextField_PreVenKeyTyped"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

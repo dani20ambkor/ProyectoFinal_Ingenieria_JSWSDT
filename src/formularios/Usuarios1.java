@@ -132,12 +132,12 @@ public class Usuarios1 extends javax.swing.JDialog {
         if (jTextField_Cedula.getText().isEmpty() || !Metodos.verificadorCédula(jTextField_Cedula.getText())) {
             JOptionPane.showMessageDialog(null, "Debe ingresar una cédula correcta");
             jTextField_Cedula.requestFocus();
-        } else if (jTextField_Apellido.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Debe ingresar el nombre");
-            jTextField_Apellido.requestFocus();
         } else if (jTextField_Nombre.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Debe ingresar el apellido");
             jTextField_Nombre.requestFocus();
+        } else if (jTextField_Apellido.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Debe ingresar el nombre");
+            jTextField_Apellido.requestFocus();
         } else if (jPasswordField_Contraseña.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Debe ingresar la contraseña");
             jPasswordField_Contraseña.requestFocus();
@@ -154,9 +154,9 @@ public class Usuarios1 extends javax.swing.JDialog {
             ConexionTienda cc = new ConexionTienda();
             Connection cn = cc.conectar();
             String cod_usu, ape_usu, nom_usu, cargo, cla_usu;
-            cod_usu = jTextField_Cedula.getText();
-            ape_usu = jTextField_Apellido.getText();
-            nom_usu = jTextField_Nombre.getText();
+            cod_usu = jTextField_Cedula.getText().toUpperCase();
+            ape_usu = jTextField_Apellido.getText().toUpperCase();
+            nom_usu = jTextField_Nombre.getText().toUpperCase();
             cargo = jComboBox_Cargo.getSelectedItem().toString();
             cla_usu = jPasswordField_Contraseña.getText();
             String sql = "insert into usuarios (cod_usu,ape_usu,nom_usu,cargo,cla_usu) values(?,?,?,?,?)";
@@ -174,6 +174,7 @@ public class Usuarios1 extends javax.swing.JDialog {
                     cargarTablaUsuarios("");
                     txtLimpiar();
                     txtBloqueo(false);
+                    jLabel_ContraseniasDiferentes.setVisible(false);
                     botonesInicio();
                 }
             } catch (SQLException ex) {
@@ -219,6 +220,7 @@ public class Usuarios1 extends javax.swing.JDialog {
                         JOptionPane.showMessageDialog(null, "Se actualizó el registro correctamente");
                         cargarTablaUsuarios("");
                         txtLimpiar();
+                        jLabel_ContraseniasDiferentes.setVisible(false);
                         botonesInicio();
                     }
 
@@ -403,7 +405,7 @@ public class Usuarios1 extends javax.swing.JDialog {
                                     .addComponent(jPasswordField_Contraseña, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(0, 0, Short.MAX_VALUE))))
                     .addComponent(jLabel_ConfirmarContrasenia, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(50, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -542,7 +544,7 @@ public class Usuarios1 extends javax.swing.JDialog {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 466, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
@@ -559,13 +561,13 @@ public class Usuarios1 extends javax.swing.JDialog {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGap(18, 18, 18)
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
