@@ -164,9 +164,7 @@ public class FramePrincipal extends javax.swing.JFrame {
 
     private void jButton_SalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_SalirActionPerformed
         // TODO add your handling code here:
-        this.dispose();
-        Login log = new Login();
-        log.setVisible(true);
+        System.exit(0);
     }//GEN-LAST:event_jButton_SalirActionPerformed
 
     /**

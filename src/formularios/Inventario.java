@@ -37,7 +37,7 @@ public class Inventario extends javax.swing.JDialog {
         initComponents();
         setLocationRelativeTo(parent);
         cargarDatosProductos("");
-        
+
         cargarCombo();
         botonesInicio();
         txtBloqueo(false);
@@ -147,6 +147,25 @@ public class Inventario extends javax.swing.JDialog {
 
     }
 
+    public boolean compararPrecios() {
+        Double preCom = Double.valueOf(jTextField_PrePro.getText());
+        Double preVen = Double.valueOf(jTextField_PreVen.getText());
+        if (preVen.compareTo(preCom)==0) {
+            int confirmar = JOptionPane.showConfirmDialog(null, "¿Está seguro de realizar esta acción?", "Precio de venta", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+            if (confirmar == 0) {
+                return true;
+            } else {
+                jTextField_PreVen.requestFocus();
+                return false;
+            }
+        } else if (preVen < preCom) {
+            JOptionPane.showMessageDialog(null, "No se puede realizar esta acción","Precio venta",JOptionPane.ERROR_MESSAGE);
+            return false;
+        } else {
+            return true;
+        }
+    }
+
     public void guardar() {
 
 
@@ -168,7 +187,7 @@ public class Inventario extends javax.swing.JDialog {
         } else if (jTextField_StockPro.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Debe ingresar el stock");
             jTextField_StockPro.requestFocus();
-        } else {
+        } else if (compararPrecios()) {
 
             ConexionTienda cc = new ConexionTienda();
             Connection cn = cc.conectar();
@@ -185,6 +204,7 @@ public class Inventario extends javax.swing.JDialog {
             } else {
                 DES_PRO = jTextField_Descripcion.getText().toUpperCase();
             }
+
 
 
             String sql = "";
@@ -236,7 +256,7 @@ public class Inventario extends javax.swing.JDialog {
         } else if (jTextField_StockPro.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Debe ingresar el stock");
             jTextField_StockPro.requestFocus();
-        } else {
+        } else if (compararPrecios()) {
             ConexionTienda cc = new ConexionTienda();
             Connection cn = cc.conectar();
             String sql = "";
@@ -253,7 +273,7 @@ public class Inventario extends javax.swing.JDialog {
                     + ",PRE_VEN='" + jTextField_PreVen.getText() + "'"
                     + ",STO_PRO='" + jTextField_StockPro.getText() + "'"
                     + ",DES_PRO='" + DES_PRO.trim() + "'"
-                    + " WHERE ID_PRO='" + jTextField_CodPro.getText()+"'";
+                    + " WHERE ID_PRO='" + jTextField_CodPro.getText() + "'";
             try {
                 PreparedStatement psd = cn.prepareStatement(sql);
                 int n = psd.executeUpdate();
@@ -265,7 +285,7 @@ public class Inventario extends javax.swing.JDialog {
                 txtBloqueo(false);
                 botonesInicio();
             } catch (SQLException ex) {
-                JOptionPane.showMessageDialog(null, "No se pudo actualizar los datos. Intentelo nuevamente "+ex);
+                JOptionPane.showMessageDialog(null, "No se pudo actualizar los datos. Intentelo nuevamente " + ex);
             }
         }
     }
@@ -385,7 +405,7 @@ public class Inventario extends javax.swing.JDialog {
 
         jLabel6.setText("P.Compra:");
 
-        jLabel7.setText("Stock:");
+        jLabel7.setText("Existencia:");
 
         jLabel8.setText("Buscar:");
 
@@ -537,22 +557,21 @@ public class Inventario extends javax.swing.JDialog {
                                 .addComponent(jTextField_Buscar, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jButton_Volver, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(jPanel1Layout.createSequentialGroup()
-                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jTextField_CodPro, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jTextField_StockPro, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jTextField_Descripcion, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jButton_Nuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(jPanel1Layout.createSequentialGroup()
-                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jComboBox_Talla, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGroup(jPanel1Layout.createSequentialGroup()
-                                            .addComponent(jTextField_PreVen, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addGap(231, 231, 231)
-                                            .addComponent(jButton_Borrar, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                    .addGap(0, 0, Short.MAX_VALUE))))))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jTextField_CodPro, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jTextField_StockPro, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jTextField_Descripcion, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jButton_Nuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jComboBox_Talla, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jTextField_PreVen, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(231, 231, 231)
+                                        .addComponent(jButton_Borrar, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(0, 0, Short.MAX_VALUE)))))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -703,7 +722,7 @@ public class Inventario extends javax.swing.JDialog {
 
     private void jTextField_PreVenKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_PreVenKeyTyped
         // TODO add your handling code here:
-        
+
         if (jTextField_PreVen.getText().length() >= 6) {
             evt.consume();
         }

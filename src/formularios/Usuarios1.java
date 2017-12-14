@@ -44,7 +44,7 @@ public class Usuarios1 extends javax.swing.JDialog {
         botonesInicio();
         txtBloqueo(false);
         cargarTablaUsuarios("");
-        
+
         jLabel_ConfirmarContrasenia.setVisible(false);
         jLabel_ContraseniasDiferentes.setVisible(false);
         llenarComboBox();
@@ -115,7 +115,6 @@ public class Usuarios1 extends javax.swing.JDialog {
                 registros[2] = rs.getString("nom_usu").trim();
                 registros[3] = rs.getString("cargo").trim();
                 registros[4] = Encriptacion.Desencriptar(rs.getString("cla_usu"));
-
                 modeloTabla.addRow(registros);
 
             }
@@ -126,6 +125,35 @@ public class Usuarios1 extends javax.swing.JDialog {
         } catch (Exception ex) {
         }
 
+    }
+
+    public boolean validarContrasenias() {
+        String contraseña = jPasswordField_Contraseña.getText();
+        contraseña = contraseña.trim();
+        char con[] = contraseña.toCharArray();
+        int hayLetra = 0;
+        int hayNumero = 0;
+        for (int i = 0; i < con.length; i++) {
+            char c = con[i];
+            if (c < '0' || c > '9') {
+                hayLetra += 1;
+            }
+            if (c > '0' && c < '9') {
+                hayNumero += 1;
+            }
+        }
+        if (contraseña.length() < 6) {
+            JOptionPane.showMessageDialog(null, "Contraseña no válida\nContraseña debe tener:\n6 caracteres entre letras y números", "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        } else if (hayLetra == 0) {
+            JOptionPane.showMessageDialog(null, "Contraseña no válida\nContraseña debe tener al menos una letra", "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        } else if (hayNumero == 0) {
+            JOptionPane.showMessageDialog(null, "Contraseña no válida\nContraseña debe tener al menos un número", "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        } else {
+            return true;
+        }
     }
 
     public void guardar() {
@@ -150,15 +178,15 @@ public class Usuarios1 extends javax.swing.JDialog {
             jLabel_ConfirmarContrasenia.setVisible(false);
             jLabel_ContraseniasDiferentes.setVisible(true);
             jPasswordField_ContraseñaCon.requestFocus();
-        } else {
+        } else if(validarContrasenias()){
             ConexionTienda cc = new ConexionTienda();
             Connection cn = cc.conectar();
             String cod_usu, ape_usu, nom_usu, cargo, cla_usu;
             cod_usu = jTextField_Cedula.getText().toUpperCase();
-            ape_usu = jTextField_Apellido.getText().toUpperCase();
-            nom_usu = jTextField_Nombre.getText().toUpperCase();
+            ape_usu = jTextField_Apellido.getText().toUpperCase().trim();
+            nom_usu = jTextField_Nombre.getText().toUpperCase().trim();
             cargo = jComboBox_Cargo.getSelectedItem().toString();
-            cla_usu = jPasswordField_Contraseña.getText();
+            cla_usu = jPasswordField_Contraseña.getText().trim();
             String sql = "insert into usuarios (cod_usu,ape_usu,nom_usu,cargo,cla_usu) values(?,?,?,?,?)";
             try {
                 PreparedStatement psd = cn.prepareStatement(sql);
@@ -202,7 +230,7 @@ public class Usuarios1 extends javax.swing.JDialog {
             jLabel_ConfirmarContrasenia.setVisible(false);
             jLabel_ContraseniasDiferentes.setVisible(true);
             jPasswordField_ContraseñaCon.requestFocus();
-        } else {
+        } else if(validarContrasenias()){
             if (jPasswordField_Contraseña.getText().equals(jPasswordField_ContraseñaCon.getText())) {
                 ConexionTienda cc = new ConexionTienda();
                 Connection cn = cc.conectar();
@@ -238,17 +266,17 @@ public class Usuarios1 extends javax.swing.JDialog {
         String sql = "";
         sql = "delete from usuarios where cod_usu='" + jTextField_Cedula.getText() + "'";
         //sql = "update auto set AUT_ESTADO='" + 0 + "' where AUT_PLACA='" + ucTextLetras12.getText() + "'";;
-        boolean autenticado= false;
+        boolean autenticado = false;
         int confirm = JOptionPane.showConfirmDialog(null, "¿Está seguro que desea borrar?", "Borrar Dato", JOptionPane.YES_NO_OPTION);
         if (confirm == 0) {
             try {
-                
-                    if (jTextField_Cedula.getText().equals(cedUser)) {
-                        autenticado = true;
-                    } else {
-                        autenticado = false;
-                    }
-                
+
+                if (jTextField_Cedula.getText().equals(cedUser)) {
+                    autenticado = true;
+                } else {
+                    autenticado = false;
+                }
+
                 if (!autenticado) {
                     PreparedStatement psd = cn.prepareStatement(sql);
                     int n = psd.executeUpdate();
@@ -258,7 +286,7 @@ public class Usuarios1 extends javax.swing.JDialog {
                         txtLimpiar();
                         botonesInicio();
                     }
-                }else{
+                } else {
                     JOptionPane.showMessageDialog(null, "Error no puede eliminar usuario de la sesión activa");
                 }
 

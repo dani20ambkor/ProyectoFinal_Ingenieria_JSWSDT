@@ -113,27 +113,25 @@
                                   <EmptySpace max="32767" attributes="0"/>
                                   <Component id="jButton_Volver" min="-2" pref="79" max="-2" attributes="0"/>
                               </Group>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Group type="102" attributes="0">
-                                      <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="jTextField_CodPro" min="-2" pref="75" max="-2" attributes="0"/>
-                                          <Component id="jTextField_StockPro" min="-2" pref="53" max="-2" attributes="0"/>
-                                          <Component id="jTextField_Descripcion" min="-2" pref="152" max="-2" attributes="0"/>
-                                      </Group>
-                                      <EmptySpace max="32767" attributes="0"/>
-                                      <Component id="jButton_Nuevo" min="-2" pref="79" max="-2" attributes="0"/>
+                              <Group type="102" attributes="0">
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="jTextField_CodPro" min="-2" pref="75" max="-2" attributes="0"/>
+                                      <Component id="jTextField_StockPro" min="-2" pref="53" max="-2" attributes="0"/>
+                                      <Component id="jTextField_Descripcion" min="-2" pref="152" max="-2" attributes="0"/>
                                   </Group>
-                                  <Group type="102" attributes="0">
-                                      <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="jComboBox_Talla" min="-2" pref="152" max="-2" attributes="0"/>
-                                          <Group type="102" alignment="0" attributes="0">
-                                              <Component id="jTextField_PreVen" min="-2" pref="68" max="-2" attributes="0"/>
-                                              <EmptySpace min="-2" pref="231" max="-2" attributes="0"/>
-                                              <Component id="jButton_Borrar" min="-2" pref="79" max="-2" attributes="0"/>
-                                          </Group>
+                                  <EmptySpace max="32767" attributes="0"/>
+                                  <Component id="jButton_Nuevo" min="-2" pref="79" max="-2" attributes="0"/>
+                              </Group>
+                              <Group type="102" attributes="0">
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="jComboBox_Talla" min="-2" pref="152" max="-2" attributes="0"/>
+                                      <Group type="102" alignment="0" attributes="0">
+                                          <Component id="jTextField_PreVen" min="-2" pref="68" max="-2" attributes="0"/>
+                                          <EmptySpace min="-2" pref="231" max="-2" attributes="0"/>
+                                          <Component id="jButton_Borrar" min="-2" pref="79" max="-2" attributes="0"/>
                                       </Group>
-                                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                                   </Group>
+                                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                       </Group>
@@ -248,7 +246,7 @@
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel7">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Stock:"/>
+            <Property name="text" type="java.lang.String" value="Existencia:"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel8">
