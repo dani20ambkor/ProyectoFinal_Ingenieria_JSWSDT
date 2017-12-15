@@ -563,9 +563,9 @@ public class Usuarios1 extends javax.swing.JDialog {
                 .addComponent(jButton_Cancelar)
                 .addGap(18, 18, 18)
                 .addComponent(jButton_Borrar)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
                 .addComponent(jButton_Volver)
-                .addContainerGap(19, Short.MAX_VALUE))
+                .addGap(22, 22, 22))
         );
 
         jPanel3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
