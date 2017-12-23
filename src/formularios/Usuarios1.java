@@ -245,8 +245,8 @@ public class Usuarios1 extends javax.swing.JDialog {
                 Connection cn = cc.conectar();
                 String sql = "";
                 System.out.println(jComboBox_Cargo.getSelectedItem().toString().trim());
-                sql = "update usuarios set NOM_USU='" + jTextField_Nombre.getText().trim() + "' "
-                        + ",APE_USU='" + jTextField_Apellido.getText().trim() + "' "
+                sql = "update usuarios set NOM_USU='" + jTextField_Nombre.getText().trim().toUpperCase() + "' "
+                        + ",APE_USU='" + jTextField_Apellido.getText().trim().toUpperCase() + "' "
                         + ",CARGO='" + jComboBox_Cargo.getSelectedItem().toString().trim() + "' "
                         + ",CLA_USU='" + Encriptacion.Encriptar(jPasswordField_Contraseña.getText()).trim() + "' "
                         + "where COD_USU='" + jTextField_Cedula.getText().trim() + "'";

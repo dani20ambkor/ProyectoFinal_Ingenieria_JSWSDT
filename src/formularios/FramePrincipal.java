@@ -80,6 +80,11 @@ public class FramePrincipal extends javax.swing.JFrame {
         btn_Ventas.setText("Ventas");
         btn_Ventas.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btn_Ventas.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btn_Ventas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_VentasActionPerformed(evt);
+            }
+        });
 
         btn_Inventario.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         btn_Inventario.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/menu/stock.png"))); // NOI18N
@@ -166,6 +171,11 @@ public class FramePrincipal extends javax.swing.JFrame {
         // TODO add your handling code here:
         System.exit(0);
     }//GEN-LAST:event_jButton_SalirActionPerformed
+
+    private void btn_VentasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_VentasActionPerformed
+        // TODO add your handling code here:
+        new Venta(null,true).setVisible(true);
+    }//GEN-LAST:event_btn_VentasActionPerformed
 
     /**
      * @param args the command line arguments

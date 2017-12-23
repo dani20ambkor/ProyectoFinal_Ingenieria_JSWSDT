@@ -345,6 +345,11 @@ public class Clientes extends javax.swing.JDialog {
                 jButton_GuardarActionPerformed(evt);
             }
         });
+        jButton_Guardar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jButton_GuardarKeyTyped(evt);
+            }
+        });
 
         jButton_Actualizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/actualizar.png"))); // NOI18N
         jButton_Actualizar.setText("Actualizar");
@@ -676,10 +681,7 @@ public class Clientes extends javax.swing.JDialog {
 
     private void jTextField_DirCliKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_DirCliKeyTyped
         // TODO add your handling code here:
-        char c = evt.getKeyChar();
-        if (Character.isDigit(c)) {
-            evt.consume();
-        }
+
         if (jTextField_DirCli.getText().length() >= 15) {
             evt.consume();
         }
@@ -742,6 +744,10 @@ public class Clientes extends javax.swing.JDialog {
     private void jTextField_CedCliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField_CedCliActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField_CedCliActionPerformed
+
+    private void jButton_GuardarKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jButton_GuardarKeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton_GuardarKeyTyped
 
     /**
      * @param args the command line arguments
