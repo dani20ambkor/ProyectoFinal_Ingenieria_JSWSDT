@@ -42,6 +42,7 @@ public class Venta extends javax.swing.JDialog {
         modeloTablaCarrito();
         establecerTamañoColumnas();
         jButton_Cancelar.setEnabled(true);
+        habilitarComponentesParaFactura(false);
     }
 
     public void establecerFecha() {
@@ -370,6 +371,7 @@ public class Venta extends javax.swing.JDialog {
                 jButton_Eliminar.setEnabled(true);
                 jTextField_NumElim.setEnabled(true);
                 jButtonFacturar.setEnabled(true);
+                habilitarComponentesParaFactura(true);
             }
             calcularValorFactura();
         }
@@ -395,7 +397,7 @@ public class Venta extends javax.swing.JDialog {
         temporal = subtotal;
         subtotal = (float) (Math.round((temporal / iva) * 1000.0) / 1000.0);
         valorIva = (float) (Math.round((temporal - subtotal) * 1000.0) / 1000.0);
-        valorDescuento = (float) (Math.round(((subtotal * descuento) / 100) * 1000.0) * 1000.0);
+        valorDescuento = (float) (Math.round(((subtotal * descuento) / 100) * 1000.0) / 1000.0);
         total = subtotal + valorIva - valorDescuento;
         temporal = (float) (Math.round(total * 100.0) / (100.0));
         total = temporal;
@@ -451,6 +453,14 @@ public class Venta extends javax.swing.JDialog {
 
     }
 
+    public void habilitarComponentesParaFactura(boolean tutia) {
+        jTextField_Iva.setEnabled(tutia);
+        jTextField_Descuento.setEnabled(tutia);
+        jTextField_SubTotal.setEnabled(tutia);
+        jTextField_Total.setEnabled(tutia);
+        jSpinner_Descuento.setEnabled(tutia);
+    }
+
     public void vaciarCarrito() {
 
         for (int i = 0; i < jTable_CarritoCompra.getRowCount(); i++) {
@@ -464,6 +474,7 @@ public class Venta extends javax.swing.JDialog {
         jToggleButton_ConsumidorFinal.setSelected(false);
         jToggleButton_ConsumidorFinal.setEnabled(true);
         consumidorFinal();
+        habilitarComponentesParaFactura(false);
         jTextField_NumElim.setText("");
         jTextField_NumElim.setEnabled(false);
         jButtonFacturar.setEnabled(false);
@@ -531,6 +542,9 @@ public class Venta extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setUndecorated(true);
 
+        jScrollPane2.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        jScrollPane2.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+
         jPanel5.setAutoscrolls(true);
 
         jLabel_Fecha.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -542,6 +556,7 @@ public class Venta extends javax.swing.JDialog {
 
         jLabel1.setText("Cédula:");
 
+        jTextField_CedCli.setNextFocusableComponent(jButton_Cargar);
         jTextField_CedCli.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 jTextField_CedCliKeyTyped(evt);
@@ -549,6 +564,7 @@ public class Venta extends javax.swing.JDialog {
         });
 
         jTextField_NomCli.setEditable(false);
+        jTextField_NomCli.setNextFocusableComponent(jTextField_ApeCli);
         jTextField_NomCli.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 jTextField_NomCliKeyTyped(evt);
@@ -558,6 +574,7 @@ public class Venta extends javax.swing.JDialog {
         jLabel2.setText("Nombre:");
 
         jTextField_ApeCli.setEditable(false);
+        jTextField_ApeCli.setNextFocusableComponent(jTextField_TelCli);
         jTextField_ApeCli.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 jTextField_ApeCliKeyTyped(evt);
@@ -569,6 +586,7 @@ public class Venta extends javax.swing.JDialog {
         jLabel4.setText("Teléfono:");
 
         jTextField_TelCli.setEditable(false);
+        jTextField_TelCli.setNextFocusableComponent(jTextField_DirCli);
         jTextField_TelCli.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 jTextField_TelCliKeyTyped(evt);
@@ -578,6 +596,7 @@ public class Venta extends javax.swing.JDialog {
         jLabel5.setText("Dirección:");
 
         jTextField_DirCli.setEditable(false);
+        jTextField_DirCli.setNextFocusableComponent(jButton_Guardar);
         jTextField_DirCli.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 jTextField_DirCliKeyTyped(evt);
@@ -585,6 +604,7 @@ public class Venta extends javax.swing.JDialog {
         });
 
         jButton_Cargar.setText("Cargar");
+        jButton_Cargar.setNextFocusableComponent(jTextField_NomCli);
         jButton_Cargar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton_CargarActionPerformed(evt);
@@ -593,6 +613,7 @@ public class Venta extends javax.swing.JDialog {
 
         jButton_Guardar.setText("Guardar");
         jButton_Guardar.setEnabled(false);
+        jButton_Guardar.setNextFocusableComponent(jTextField_CedCli);
         jButton_Guardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton_GuardarActionPerformed(evt);
@@ -790,7 +811,7 @@ public class Venta extends javax.swing.JDialog {
         jTextField_Total.setEditable(false);
         jTextField_Total.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
 
-        jSpinner_Descuento.setModel(new javax.swing.SpinnerNumberModel(0, 0, 3, 1));
+        jSpinner_Descuento.setModel(new javax.swing.SpinnerNumberModel(0, 0, 10, 1));
         jSpinner_Descuento.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 jSpinner_DescuentoStateChanged(evt);
@@ -804,7 +825,7 @@ public class Venta extends javax.swing.JDialog {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 611, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                         .addComponent(jButtonFacturar)
                         .addGap(18, 18, 18)
@@ -819,10 +840,10 @@ public class Venta extends javax.swing.JDialog {
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jTextField_SubTotal)
                             .addComponent(jTextField_Total)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                                .addComponent(jSpinner_Descuento, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addComponent(jSpinner_Descuento, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextField_Descuento, javax.swing.GroupLayout.DEFAULT_SIZE, 84, Short.MAX_VALUE))
+                                .addComponent(jTextField_Descuento, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jTextField_Iva))))
                 .addContainerGap())
         );
@@ -844,7 +865,6 @@ public class Venta extends javax.swing.JDialog {
                     .addComponent(jLabel12)
                     .addComponent(jTextField_Descuento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jSpinner_Descuento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGap(0, 2, Short.MAX_VALUE)
@@ -929,13 +949,13 @@ public class Venta extends javax.swing.JDialog {
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel5Layout.createSequentialGroup()
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
                         .addComponent(jLabel13)
                         .addGap(18, 18, 18)
                         .addComponent(jLabel_Fecha, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jPanel_Fondo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 41, Short.MAX_VALUE))
+                    .addComponent(jPanel_Fondo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(16, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -955,7 +975,9 @@ public class Venta extends javax.swing.JDialog {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 735, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
