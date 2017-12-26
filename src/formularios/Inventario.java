@@ -145,10 +145,11 @@ public class Inventario extends javax.swing.JDialog {
         String sql = "";
         sql = "select p.id_pro,p.tip_pro,p.mar_pro,t.des_tal,c.nom_col,p.pre_com,p.pre_ven,p.sto_pro,p.des_pro "
                 + "from productos p, colores c, tallas t "
-                + "where p.TIP_PRO LIKE '" + Dato + "%' "
-                + "and p.id_col_per=c.id_col "
-                + "and p.id_tal_per=t.id_tal "
-                + "order by p.TIP_PRO";
+                + "where p.tip_pro LIKE '" + Dato + "%' "
+                + "and p.id_col_per = c.id_col "
+                + "and p.id_tal_per = t.id_tal "
+                + "and p.estado = " + 1 + " "
+                + "order by p.tip_pro ";
         try {
             Statement st = cn.createStatement();
             ResultSet rs = st.executeQuery(sql);
@@ -167,7 +168,7 @@ public class Inventario extends javax.swing.JDialog {
             jTable_Inventario.setModel(modeloTabla);
             establecerTamañoColumnas();
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, ex);
+            JOptionPane.showMessageDialog(null, "Error al obtener datos de la base:\n"+ex);
         } catch (Exception ex1) {
         }
 
@@ -261,6 +262,7 @@ public class Inventario extends javax.swing.JDialog {
             PRE_COM = jTextField_PrePro.getText().trim();
             PRE_VEN = jTextField_PreVen.getText().trim();
             STO_PRO = jTextField_StockPro.getText().trim();
+            int ESTADO = 1;
             System.out.println(ID_COL_PER);
             if (jTextField_Descripcion.getText().isEmpty()) {
                 DES_PRO = "SIN DESCRIPCIÓN";
@@ -269,8 +271,8 @@ public class Inventario extends javax.swing.JDialog {
             }
 
             String sql = "";
-            sql = "insert into productos(ID_PRO, TIP_PRO, MAR_PRO, ID_TAL_PER, ID_COL_PER, PRE_COM, PRE_VEN, STO_PRO, DES_PRO)"
-                    + "values(?,?,?,?,?,?,?,?,?)";
+            sql = "insert into productos(ID_PRO, TIP_PRO, MAR_PRO, ID_TAL_PER, ID_COL_PER, PRE_COM, PRE_VEN, STO_PRO, DES_PRO, ESTADO)"
+                    + "values(?,?,?,?,?,?,?,?,?,?)";
             try {
                 PreparedStatement psd = cn.prepareStatement(sql);
                 psd.setString(1, ID_PRO); //(Numero de campo/ nombre)
@@ -282,6 +284,7 @@ public class Inventario extends javax.swing.JDialog {
                 psd.setString(7, PRE_VEN);
                 psd.setString(8, STO_PRO);
                 psd.setString(9, DES_PRO);
+                psd.setInt(10, ESTADO);
                 int n = psd.executeUpdate();
 
                 if (n > 0) {
@@ -348,6 +351,28 @@ public class Inventario extends javax.swing.JDialog {
                 botonesInicio();
             } catch (SQLException ex) {
                 JOptionPane.showMessageDialog(null, "No se pudo actualizar los datos. Intentelo nuevamente " + ex);
+            }
+        }
+    }
+
+    public void borrarProducto() {
+        int conf = JOptionPane.showConfirmDialog(null, "¿Desea realizar la acción?", "Borrar registro", JOptionPane.YES_OPTION);
+        if (conf == 0) {
+            String sql = "update productos set estado = " + 0 + " where id_pro='" + jTextField_CodPro.getText() + "' ";
+            ConexionTienda cc = new ConexionTienda();
+            Connection cn = cc.conectar();
+            try {
+                PreparedStatement psd = cn.prepareStatement(sql);
+                int n = psd.executeUpdate();
+                if (n > 0) {
+                    JOptionPane.showMessageDialog(null, "Registro borrado correctamente");
+                    cargarDatosProductos("");
+                    botonesInicio();
+                    txtLimpiar();
+                    txtBloqueo(false);
+                }
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, "Ocurrió un error al realizar la acción:\n" + ex);
             }
         }
     }
@@ -478,6 +503,7 @@ public class Inventario extends javax.swing.JDialog {
         jLabel8.setText("Buscar:");
 
         jTextField_CodPro.setEnabled(false);
+        jTextField_CodPro.setNextFocusableComponent(jTextField_NomPro);
         jTextField_CodPro.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 jTextField_CodProKeyTyped(evt);
@@ -485,6 +511,7 @@ public class Inventario extends javax.swing.JDialog {
         });
 
         jTextField_NomPro.setEnabled(false);
+        jTextField_NomPro.setNextFocusableComponent(jTextField_MarcaPro);
         jTextField_NomPro.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 jTextField_NomProKeyTyped(evt);
@@ -492,6 +519,7 @@ public class Inventario extends javax.swing.JDialog {
         });
 
         jTextField_MarcaPro.setEnabled(false);
+        jTextField_MarcaPro.setNextFocusableComponent(jTextField_PrePro);
         jTextField_MarcaPro.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 jTextField_MarcaProKeyTyped(evt);
@@ -499,6 +527,7 @@ public class Inventario extends javax.swing.JDialog {
         });
 
         jTextField_StockPro.setEnabled(false);
+        jTextField_StockPro.setNextFocusableComponent(jTextField_Descripcion);
         jTextField_StockPro.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 jTextField_StockProKeyTyped(evt);
@@ -512,6 +541,7 @@ public class Inventario extends javax.swing.JDialog {
         });
 
         jButton_Actualizar.setText("Actualizar");
+        jButton_Actualizar.setNextFocusableComponent(jButton_Cancelar);
         jButton_Actualizar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton_ActualizarActionPerformed(evt);
@@ -519,6 +549,7 @@ public class Inventario extends javax.swing.JDialog {
         });
 
         jButton_Nuevo.setText("Nuevo");
+        jButton_Nuevo.setNextFocusableComponent(jButton_Guardar);
         jButton_Nuevo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton_NuevoActionPerformed(evt);
@@ -526,6 +557,7 @@ public class Inventario extends javax.swing.JDialog {
         });
 
         jButton_Guardar.setText("Guardar");
+        jButton_Guardar.setNextFocusableComponent(jButton_Actualizar);
         jButton_Guardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton_GuardarActionPerformed(evt);
@@ -533,6 +565,7 @@ public class Inventario extends javax.swing.JDialog {
         });
 
         jButton_Cancelar.setText("Cancelar");
+        jButton_Cancelar.setNextFocusableComponent(jButton_Borrar);
         jButton_Cancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton_CancelarActionPerformed(evt);
@@ -547,14 +580,18 @@ public class Inventario extends javax.swing.JDialog {
         });
 
         jButton_Borrar.setText("Borrar");
+        jButton_Borrar.setNextFocusableComponent(jButton_Volver);
         jButton_Borrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton_BorrarActionPerformed(evt);
             }
         });
 
+        jComboBox_Talla.setNextFocusableComponent(jComboBox_Colores);
+
         jLabel4.setText("Descripción:");
 
+        jTextField_Descripcion.setNextFocusableComponent(jButton_Nuevo);
         jTextField_Descripcion.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 jTextField_DescripcionKeyTyped(evt);
@@ -563,12 +600,14 @@ public class Inventario extends javax.swing.JDialog {
 
         jLabel9.setText("P.Venta:");
 
+        jTextField_PrePro.setNextFocusableComponent(jTextField_PreVen);
         jTextField_PrePro.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 jTextField_PreProKeyTyped(evt);
             }
         });
 
+        jTextField_PreVen.setNextFocusableComponent(jComboBox_Talla);
         jTextField_PreVen.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 jTextField_PreVenKeyTyped(evt);
@@ -577,6 +616,8 @@ public class Inventario extends javax.swing.JDialog {
 
         jLabel10.setText("Color:");
 
+        jComboBox_Colores.setNextFocusableComponent(jTextField_StockPro);
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -584,7 +625,7 @@ public class Inventario extends javax.swing.JDialog {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 434, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 482, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -745,7 +786,7 @@ public class Inventario extends javax.swing.JDialog {
 
     private void jButton_BorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_BorrarActionPerformed
         // TODO add your handling code here:
-        //borrar();
+        borrarProducto();
     }//GEN-LAST:event_jButton_BorrarActionPerformed
 
     private void jTextField_DescripcionKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_DescripcionKeyTyped

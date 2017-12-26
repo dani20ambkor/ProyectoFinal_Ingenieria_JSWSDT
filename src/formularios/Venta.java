@@ -412,7 +412,7 @@ public class Venta extends javax.swing.JDialog {
         float PRE_TOT_P;
         String ID_PRO_V;
         NUM_VEN_P = codCab;
-        int n=0;
+        int n = 0;
         int i;
         for (i = 0; i < jTable_CarritoCompra.getRowCount(); i++) {
             ID_PRO_V = jTable_CarritoCompra.getValueAt(i, 0).toString();
@@ -437,26 +437,30 @@ public class Venta extends javax.swing.JDialog {
                 }
             }
         }
-        if (n==i){
+        if (n == i) {
             JOptionPane.showMessageDialog(null, "Venta exitosa!");
             vaciarCarrito();
             valoresIniciales();
+            //Aqui sacar la factura a imprimir OJOOO
         }
-            try {
-                cn.close();
-            } catch (SQLException ex1) {
-                JOptionPane.showMessageDialog(null, "Error de conexión");
-            }
+        try {
+            cn.close();
+        } catch (SQLException ex1) {
+            JOptionPane.showMessageDialog(null, "Error de conexión");
+        }
 
     }
-    
-    public void vaciarCarrito(){
-        int filas = jTable_CarritoCompra.getRowCount();
-        for (int i = 0; i < filas; i++) {
+
+    public void vaciarCarrito() {
+
+        for (int i = 0; i < jTable_CarritoCompra.getRowCount(); i++) {
             modeloTabla.removeRow(i);
+            i -= 1;
         }
+
     }
-    public void valoresIniciales(){
+
+    public void valoresIniciales() {
         jToggleButton_ConsumidorFinal.setSelected(false);
         jToggleButton_ConsumidorFinal.setEnabled(true);
         consumidorFinal();
@@ -1009,7 +1013,7 @@ public class Venta extends javax.swing.JDialog {
         if (preg == 0) {
             facturar();
         }
-        
+
     }//GEN-LAST:event_jButtonFacturarActionPerformed
 
     private void jButton_CancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_CancelarActionPerformed

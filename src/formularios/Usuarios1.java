@@ -367,18 +367,21 @@ public class Usuarios1 extends javax.swing.JDialog {
 
         jLabel1.setText("Apellido:");
 
+        jTextField_Cedula.setNextFocusableComponent(jTextField_Apellido);
         jTextField_Cedula.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 jTextField_CedulaKeyTyped(evt);
             }
         });
 
+        jTextField_Apellido.setNextFocusableComponent(jTextField_Nombre);
         jTextField_Apellido.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 jTextField_ApellidoKeyTyped(evt);
             }
         });
 
+        jTextField_Nombre.setNextFocusableComponent(jComboBox_Cargo);
         jTextField_Nombre.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 jTextField_NombreKeyTyped(evt);
@@ -394,12 +397,16 @@ public class Usuarios1 extends javax.swing.JDialog {
             }
         });
 
+        jComboBox_Cargo.setNextFocusableComponent(jPasswordField_Contraseña);
+
+        jPasswordField_Contraseña.setNextFocusableComponent(jPasswordField_ContraseñaCon);
         jPasswordField_Contraseña.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 jPasswordField_ContraseñaKeyTyped(evt);
             }
         });
 
+        jPasswordField_ContraseñaCon.setNextFocusableComponent(jButton_Nuevo);
         jPasswordField_ContraseñaCon.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 jPasswordField_ContraseñaConKeyTyped(evt);
@@ -484,6 +491,7 @@ public class Usuarios1 extends javax.swing.JDialog {
         jButton_Nuevo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/nuevo.png"))); // NOI18N
         jButton_Nuevo.setText("Nuevo");
         jButton_Nuevo.setHorizontalAlignment(javax.swing.SwingConstants.LEADING);
+        jButton_Nuevo.setNextFocusableComponent(jButton_Guardar);
         jButton_Nuevo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton_NuevoActionPerformed(evt);
@@ -493,6 +501,7 @@ public class Usuarios1 extends javax.swing.JDialog {
         jButton_Guardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/guardar.png"))); // NOI18N
         jButton_Guardar.setText("Guardar");
         jButton_Guardar.setHorizontalAlignment(javax.swing.SwingConstants.LEADING);
+        jButton_Guardar.setNextFocusableComponent(jButton_Actualizar);
         jButton_Guardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton_GuardarActionPerformed(evt);
@@ -502,6 +511,8 @@ public class Usuarios1 extends javax.swing.JDialog {
         jButton_Actualizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/actualizar.png"))); // NOI18N
         jButton_Actualizar.setText("Actualizar");
         jButton_Actualizar.setHorizontalAlignment(javax.swing.SwingConstants.LEADING);
+        jButton_Actualizar.setName(""); // NOI18N
+        jButton_Actualizar.setNextFocusableComponent(jButton_Cancelar);
         jButton_Actualizar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton_ActualizarActionPerformed(evt);
@@ -511,6 +522,7 @@ public class Usuarios1 extends javax.swing.JDialog {
         jButton_Cancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/cancelar.png"))); // NOI18N
         jButton_Cancelar.setText("Cancelar");
         jButton_Cancelar.setHorizontalAlignment(javax.swing.SwingConstants.LEADING);
+        jButton_Cancelar.setNextFocusableComponent(jButton_Borrar);
         jButton_Cancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton_CancelarActionPerformed(evt);
@@ -520,6 +532,7 @@ public class Usuarios1 extends javax.swing.JDialog {
         jButton_Borrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/borrar.png"))); // NOI18N
         jButton_Borrar.setText("Borrar");
         jButton_Borrar.setHorizontalAlignment(javax.swing.SwingConstants.LEADING);
+        jButton_Borrar.setNextFocusableComponent(jButton_Volver);
         jButton_Borrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton_BorrarActionPerformed(evt);

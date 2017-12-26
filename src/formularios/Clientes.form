@@ -7,6 +7,7 @@
   </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
+    <SyntheticProperty name="generateCenter" type="boolean" value="false"/>
   </SyntheticProperties>
   <AuxValues>
     <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
@@ -93,10 +94,10 @@
                       <Component id="jTextField_NomCli" min="-2" pref="124" max="-2" attributes="0"/>
                       <Component id="jTextField_DirCli" min="-2" pref="143" max="-2" attributes="0"/>
                       <Component id="jTextField_TelCli" min="-2" pref="93" max="-2" attributes="0"/>
-                      <Component id="jTextField_Email" min="-2" pref="144" max="-2" attributes="0"/>
                       <Component id="jTextField_Buscar" min="-2" pref="93" max="-2" attributes="0"/>
+                      <Component id="jTextField_Email" alignment="0" min="-2" pref="199" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace max="32767" attributes="0"/>
+                  <EmptySpace pref="82" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -172,6 +173,9 @@
         <Component class="javax.swing.JTextField" name="jTextField_CedCli">
           <Properties>
             <Property name="enabled" type="boolean" value="false"/>
+            <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+              <ComponentRef name="jTextField_ApeCli"/>
+            </Property>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextField_CedCliActionPerformed"/>
@@ -181,6 +185,9 @@
         <Component class="javax.swing.JTextField" name="jTextField_ApeCli">
           <Properties>
             <Property name="enabled" type="boolean" value="false"/>
+            <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+              <ComponentRef name="jTextField_NomCli"/>
+            </Property>
           </Properties>
           <Events>
             <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jTextField_ApeCliKeyTyped"/>
@@ -189,6 +196,9 @@
         <Component class="javax.swing.JTextField" name="jTextField_NomCli">
           <Properties>
             <Property name="enabled" type="boolean" value="false"/>
+            <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+              <ComponentRef name="jTextField_DirCli"/>
+            </Property>
           </Properties>
           <Events>
             <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jTextField_NomCliKeyTyped"/>
@@ -197,6 +207,9 @@
         <Component class="javax.swing.JTextField" name="jTextField_DirCli">
           <Properties>
             <Property name="enabled" type="boolean" value="false"/>
+            <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+              <ComponentRef name="jTextField_TelCli"/>
+            </Property>
           </Properties>
           <Events>
             <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jTextField_DirCliKeyTyped"/>
@@ -205,6 +218,9 @@
         <Component class="javax.swing.JTextField" name="jTextField_TelCli">
           <Properties>
             <Property name="enabled" type="boolean" value="false"/>
+            <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+              <ComponentRef name="jTextField_Email"/>
+            </Property>
           </Properties>
           <Events>
             <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jTextField_TelCliKeyTyped"/>
@@ -230,6 +246,11 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="jTextField_Email">
+          <Properties>
+            <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+              <ComponentRef name="jButton_Guardar"/>
+            </Property>
+          </Properties>
         </Component>
       </SubComponents>
     </Container>
@@ -299,6 +320,9 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Guardar"/>
             <Property name="horizontalAlignment" type="int" value="10"/>
+            <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+              <ComponentRef name="jButton_Actualizar"/>
+            </Property>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton_GuardarActionPerformed"/>
@@ -312,6 +336,9 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Actualizar"/>
             <Property name="horizontalAlignment" type="int" value="10"/>
+            <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+              <ComponentRef name="jButton_Cancelar"/>
+            </Property>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton_ActualizarActionPerformed"/>
@@ -324,6 +351,9 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Cancelar"/>
             <Property name="horizontalAlignment" type="int" value="10"/>
+            <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+              <ComponentRef name="jButton_Borrar"/>
+            </Property>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton_CancelarActionPerformed"/>
@@ -336,6 +366,9 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Borrar"/>
             <Property name="horizontalAlignment" type="int" value="10"/>
+            <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+              <ComponentRef name="jButton_Volver"/>
+            </Property>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton_BorrarActionPerformed"/>
@@ -348,6 +381,9 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Volver"/>
             <Property name="horizontalAlignment" type="int" value="10"/>
+            <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+              <ComponentRef name="jTextField_CedCli"/>
+            </Property>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton_VolverActionPerformed"/>

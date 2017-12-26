@@ -5,6 +5,12 @@
 package formularios;
 
 import Acceso.Login;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.*;
 
 /**
@@ -17,23 +23,48 @@ public class FramePrincipal extends javax.swing.JFrame {
      * Creates new form FramePrincipal
      */
     public static String cedUsuario;
+    public Usuario usuario;
+
     public FramePrincipal(String cedUsu) {
         initComponents();
         cedUsuario = cedUsu;
         PonerImagenFondo();
         this.setLocationRelativeTo(null);
+        usuario = obtenerUsuario();
     }
 
-    
     private void PonerImagenFondo() {
-        
-        ((JPanel) getContentPane()).setOpaque(false);        
+        ((JPanel) getContentPane()).setOpaque(false);
         ImageIcon uno = new ImageIcon(this.getClass().getResource("/imagenes/menu/fondoMenu.png"));
         JLabel fondo = new JLabel();
         fondo.setIcon(uno);
         getLayeredPane().add(fondo, JLayeredPane.FRAME_CONTENT_LAYER);
         fondo.setBounds(0, 0, uno.getIconWidth(), uno.getIconHeight());
     }
+
+    public static Usuario obtenerUsuario() {
+        String sql = "select * from usuarios where cod_usu ='" + cedUsuario + "'";
+        ConexionTienda cc = new ConexionTienda();
+        Connection cn = cc.conectar();
+        Usuario usu = null;
+        try {
+            Statement st = cn.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            while (rs.next()) {
+                usu = new Usuario(cedUsuario, rs.getString(2), rs.getString(3), rs.getString(4));
+                return usu;
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Ocurrió un error al recuperar datos de la base \n" + ex);
+            try {
+                cn.close();
+            } catch (SQLException ex1) {
+                JOptionPane.showMessageDialog(null, "Error de conexión");
+            }
+        }
+        return usu;
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -154,17 +185,21 @@ public class FramePrincipal extends javax.swing.JFrame {
 
     private void btn_ClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_ClientesActionPerformed
         // TODO add your handling code here:
-        new Clientes(null,true).setVisible(true);
+        new Clientes(null, true).setVisible(true);
     }//GEN-LAST:event_btn_ClientesActionPerformed
 
     private void btn_AdministradorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_AdministradorActionPerformed
         // TODO add your handling code here:
-        new Usuarios1(null, true,cedUsuario).setVisible(true);
+        new Usuarios1(null, true, cedUsuario).setVisible(true);
     }//GEN-LAST:event_btn_AdministradorActionPerformed
 
     private void btn_InventarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_InventarioActionPerformed
         // TODO add your handling code here:
-        new Inventario(null, true).setVisible(true);
+        if (usuario.getCargo().equalsIgnoreCase("Vendedor")) {
+            new InventarioVendedor(null, true).setVisible(true);
+        } else {
+            new Inventario(null, true).setVisible(true);
+        }
     }//GEN-LAST:event_btn_InventarioActionPerformed
 
     private void jButton_SalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_SalirActionPerformed
@@ -174,7 +209,7 @@ public class FramePrincipal extends javax.swing.JFrame {
 
     private void btn_VentasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_VentasActionPerformed
         // TODO add your handling code here:
-        new Venta(null,true).setVisible(true);
+        new Venta(null, true).setVisible(true);
     }//GEN-LAST:event_btn_VentasActionPerformed
 
     /**

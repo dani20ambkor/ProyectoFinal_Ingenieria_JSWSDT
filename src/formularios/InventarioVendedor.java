@@ -74,7 +74,6 @@ public class InventarioVendedor extends javax.swing.JDialog {
         modeloColumna.getColumn(5).setPreferredWidth(55);
         modeloColumna.getColumn(6).setPreferredWidth(55);
         modeloColumna.getColumn(7).setPreferredWidth(140);
-
     }
 
     public void cargarDatosProductos(String Dato) {
@@ -133,7 +132,7 @@ public class InventarioVendedor extends javax.swing.JDialog {
                 if (tabla.getSelectedRow() != -1) {
                     int fila = tabla.getSelectedRow();
                     lab.setText(tabla.getValueAt(fila, 0).toString());
-
+                    jTextField_Cant.requestFocus();
                 }
             }
         });

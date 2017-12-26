@@ -234,6 +234,9 @@
             <Component class="javax.swing.JTextField" name="jTextField_CodPro">
               <Properties>
                 <Property name="enabled" type="boolean" value="false"/>
+                <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+                  <ComponentRef name="jTextField_NomPro"/>
+                </Property>
               </Properties>
               <Events>
                 <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jTextField_CodProKeyTyped"/>
@@ -242,6 +245,9 @@
             <Component class="javax.swing.JTextField" name="jTextField_NomPro">
               <Properties>
                 <Property name="enabled" type="boolean" value="false"/>
+                <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+                  <ComponentRef name="jTextField_MarcaPro"/>
+                </Property>
               </Properties>
               <Events>
                 <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jTextField_NomProKeyTyped"/>
@@ -250,6 +256,9 @@
             <Component class="javax.swing.JTextField" name="jTextField_MarcaPro">
               <Properties>
                 <Property name="enabled" type="boolean" value="false"/>
+                <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+                  <ComponentRef name="jTextField_PrePro"/>
+                </Property>
               </Properties>
               <Events>
                 <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jTextField_MarcaProKeyTyped"/>
@@ -258,6 +267,9 @@
             <Component class="javax.swing.JTextField" name="jTextField_StockPro">
               <Properties>
                 <Property name="enabled" type="boolean" value="false"/>
+                <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+                  <ComponentRef name="jTextField_Descripcion"/>
+                </Property>
               </Properties>
               <Events>
                 <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jTextField_StockProKeyTyped"/>
@@ -271,6 +283,9 @@
             <Component class="javax.swing.JButton" name="jButton_Actualizar">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Actualizar"/>
+                <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+                  <ComponentRef name="jButton_Cancelar"/>
+                </Property>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton_ActualizarActionPerformed"/>
@@ -279,6 +294,9 @@
             <Component class="javax.swing.JButton" name="jButton_Nuevo">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Nuevo"/>
+                <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+                  <ComponentRef name="jButton_Guardar"/>
+                </Property>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton_NuevoActionPerformed"/>
@@ -287,6 +305,9 @@
             <Component class="javax.swing.JButton" name="jButton_Guardar">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Guardar"/>
+                <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+                  <ComponentRef name="jButton_Actualizar"/>
+                </Property>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton_GuardarActionPerformed"/>
@@ -295,6 +316,9 @@
             <Component class="javax.swing.JButton" name="jButton_Cancelar">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Cancelar"/>
+                <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+                  <ComponentRef name="jButton_Borrar"/>
+                </Property>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton_CancelarActionPerformed"/>
@@ -311,6 +335,9 @@
             <Component class="javax.swing.JButton" name="jButton_Borrar">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Borrar"/>
+                <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+                  <ComponentRef name="jButton_Volver"/>
+                </Property>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton_BorrarActionPerformed"/>
@@ -321,6 +348,9 @@
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                   <StringArray count="0"/>
                 </Property>
+                <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+                  <ComponentRef name="jComboBox_Colores"/>
+                </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel4">
@@ -329,6 +359,11 @@
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="jTextField_Descripcion">
+              <Properties>
+                <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+                  <ComponentRef name="jButton_Nuevo"/>
+                </Property>
+              </Properties>
               <Events>
                 <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jTextField_DescripcionKeyTyped"/>
               </Events>
@@ -339,11 +374,21 @@
               </Properties>
             </Component>
             <Component class="uctextletras.UcTextNumerosDecimales" name="jTextField_PrePro">
+              <Properties>
+                <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+                  <ComponentRef name="jTextField_PreVen"/>
+                </Property>
+              </Properties>
               <Events>
                 <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jTextField_PreProKeyTyped"/>
               </Events>
             </Component>
             <Component class="uctextletras.UcTextNumerosDecimales" name="jTextField_PreVen">
+              <Properties>
+                <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+                  <ComponentRef name="jComboBox_Talla"/>
+                </Property>
+              </Properties>
               <Events>
                 <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jTextField_PreVenKeyTyped"/>
               </Events>
@@ -357,6 +402,9 @@
               <Properties>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                   <StringArray count="0"/>
+                </Property>
+                <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+                  <ComponentRef name="jTextField_StockPro"/>
                 </Property>
               </Properties>
               <AuxValues>

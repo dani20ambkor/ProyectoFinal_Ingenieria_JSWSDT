@@ -210,6 +210,7 @@ public class Clientes extends javax.swing.JDialog {
         jLabel5.setText("Teléfono:");
 
         jTextField_CedCli.setEnabled(false);
+        jTextField_CedCli.setNextFocusableComponent(jTextField_ApeCli);
         jTextField_CedCli.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField_CedCliActionPerformed(evt);
@@ -222,6 +223,7 @@ public class Clientes extends javax.swing.JDialog {
         });
 
         jTextField_ApeCli.setEnabled(false);
+        jTextField_ApeCli.setNextFocusableComponent(jTextField_NomCli);
         jTextField_ApeCli.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 jTextField_ApeCliKeyTyped(evt);
@@ -229,6 +231,7 @@ public class Clientes extends javax.swing.JDialog {
         });
 
         jTextField_NomCli.setEnabled(false);
+        jTextField_NomCli.setNextFocusableComponent(jTextField_DirCli);
         jTextField_NomCli.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 jTextField_NomCliKeyTyped(evt);
@@ -236,6 +239,7 @@ public class Clientes extends javax.swing.JDialog {
         });
 
         jTextField_DirCli.setEnabled(false);
+        jTextField_DirCli.setNextFocusableComponent(jTextField_TelCli);
         jTextField_DirCli.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 jTextField_DirCliKeyTyped(evt);
@@ -243,6 +247,7 @@ public class Clientes extends javax.swing.JDialog {
         });
 
         jTextField_TelCli.setEnabled(false);
+        jTextField_TelCli.setNextFocusableComponent(jTextField_Email);
         jTextField_TelCli.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 jTextField_TelCliKeyTyped(evt);
@@ -262,6 +267,8 @@ public class Clientes extends javax.swing.JDialog {
         });
 
         jLabel7.setText("E_mail:");
+
+        jTextField_Email.setNextFocusableComponent(jButton_Guardar);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -288,9 +295,9 @@ public class Clientes extends javax.swing.JDialog {
                     .addComponent(jTextField_NomCli, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTextField_DirCli, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTextField_TelCli, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField_Email, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField_Buscar, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jTextField_Buscar, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField_Email, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(82, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -340,6 +347,7 @@ public class Clientes extends javax.swing.JDialog {
         jButton_Guardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/guardar.png"))); // NOI18N
         jButton_Guardar.setText("Guardar");
         jButton_Guardar.setHorizontalAlignment(javax.swing.SwingConstants.LEADING);
+        jButton_Guardar.setNextFocusableComponent(jButton_Actualizar);
         jButton_Guardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton_GuardarActionPerformed(evt);
@@ -354,6 +362,7 @@ public class Clientes extends javax.swing.JDialog {
         jButton_Actualizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/actualizar.png"))); // NOI18N
         jButton_Actualizar.setText("Actualizar");
         jButton_Actualizar.setHorizontalAlignment(javax.swing.SwingConstants.LEADING);
+        jButton_Actualizar.setNextFocusableComponent(jButton_Cancelar);
         jButton_Actualizar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton_ActualizarActionPerformed(evt);
@@ -363,6 +372,7 @@ public class Clientes extends javax.swing.JDialog {
         jButton_Cancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/cancelar.png"))); // NOI18N
         jButton_Cancelar.setText("Cancelar");
         jButton_Cancelar.setHorizontalAlignment(javax.swing.SwingConstants.LEADING);
+        jButton_Cancelar.setNextFocusableComponent(jButton_Borrar);
         jButton_Cancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton_CancelarActionPerformed(evt);
@@ -372,6 +382,7 @@ public class Clientes extends javax.swing.JDialog {
         jButton_Borrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/borrar.png"))); // NOI18N
         jButton_Borrar.setText("Borrar");
         jButton_Borrar.setHorizontalAlignment(javax.swing.SwingConstants.LEADING);
+        jButton_Borrar.setNextFocusableComponent(jButton_Volver);
         jButton_Borrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton_BorrarActionPerformed(evt);
@@ -381,6 +392,7 @@ public class Clientes extends javax.swing.JDialog {
         jButton_Volver.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/salir.png"))); // NOI18N
         jButton_Volver.setText("Volver");
         jButton_Volver.setHorizontalAlignment(javax.swing.SwingConstants.LEADING);
+        jButton_Volver.setNextFocusableComponent(jTextField_CedCli);
         jButton_Volver.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton_VolverActionPerformed(evt);
