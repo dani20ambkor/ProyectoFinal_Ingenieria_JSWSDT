@@ -10,6 +10,7 @@ import java.awt.Label;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -30,6 +31,8 @@ public class InventarioVendedor extends javax.swing.JDialog {
     TableColumnModel modeloColumna;
     boolean vale = false;
     int cantidadRestante;
+    ArrayList<Producto> productos;
+
     /**
      * Creates new form Clientes
      */
@@ -40,6 +43,20 @@ public class InventarioVendedor extends javax.swing.JDialog {
         setLocationRelativeTo(parent);
         cargarDatosProductos("");
         jLabel_Codigo.setVisible(false);
+        jTextField_Cant.setVisible(false);
+        jButton_Añadir.setVisible(false);
+        jLabel_Cant.setVisible(false);
+    }
+
+    public InventarioVendedor(java.awt.Frame parent, boolean modal, ArrayList<Producto> listaProd) {
+        super(parent, modal);
+        initComponents();
+        setearCodigo(jTable_Inventario, jLabel_Codigo);
+        setLocationRelativeTo(parent);
+        cargarDatosProductos("");
+        jLabel_Codigo.setVisible(false);
+        productos = listaProd;
+        jTextField_Cant.requestFocus();
     }
 
     /**
@@ -52,17 +69,18 @@ public class InventarioVendedor extends javax.swing.JDialog {
         modeloColumna.getColumn(0).setPreferredWidth(60);
         modeloColumna.getColumn(1).setPreferredWidth(120);
         modeloColumna.getColumn(2).setPreferredWidth(120);
-        modeloColumna.getColumn(3).setPreferredWidth(50);
-        modeloColumna.getColumn(4).setPreferredWidth(55);
+        modeloColumna.getColumn(3).setPreferredWidth(70);
+        modeloColumna.getColumn(4).setPreferredWidth(70);
         modeloColumna.getColumn(5).setPreferredWidth(55);
-        modeloColumna.getColumn(6).setPreferredWidth(140);
+        modeloColumna.getColumn(6).setPreferredWidth(55);
+        modeloColumna.getColumn(7).setPreferredWidth(140);
 
     }
 
     public void cargarDatosProductos(String Dato) {
 
-        String[] titulos = {"CÓDIGO", "NOMBRE", "MARCA", "TALLA", "P/V", "STOCK", "DESCRIPCIÓN"};
-        String[] registros = new String[7];
+        String[] titulos = {"CÓDIGO", "NOMBRE", "MARCA", "TALLA", "COLOR", "P/V", "STOCK", "DESCRIPCIÓN"};
+        String[] registros = new String[8];
         jTable_Inventario.getTableHeader().setReorderingAllowed(false);
         jTable_Inventario.getTableHeader().setResizingAllowed(false);
 
@@ -77,18 +95,25 @@ public class InventarioVendedor extends javax.swing.JDialog {
         ConexionTienda cc = new ConexionTienda();
         Connection cn = cc.conectar();
         String sql = "";
-        sql = "select * from productos where TIP_PRO LIKE '" + Dato + "%' order by TIP_PRO";
+        sql = "select p.id_pro,p.tip_pro,p.mar_pro,t.des_tal,c.nom_col,p.pre_ven,p.sto_pro,p.des_pro "
+                + "from productos p, colores c, tallas t "
+                + "where p.TIP_PRO LIKE '" + Dato + "%' "
+                + "and p.id_col_per=c.id_col "
+                + "and p.id_tal_per=t.id_tal "
+                + "order by p.TIP_PRO";
+        //sql = "select * from productos where TIP_PRO LIKE '" + Dato + "%' order by TIP_PRO";
         try {
             Statement st = cn.createStatement();
             ResultSet rs = st.executeQuery(sql);
             while (rs.next()) {
-                registros[0] = rs.getString("ID_PRO");
-                registros[1] = rs.getString("TIP_PRO");
-                registros[2] = rs.getString("MAR_PRO");
-                registros[3] = rs.getString("ID_TAL_PER");
-                registros[4] = rs.getString("PRE_VEN");
-                registros[5] = rs.getString("STO_PRO");
-                registros[6] = rs.getString("DES_PRO");
+                registros[0] = rs.getString(1);
+                registros[1] = rs.getString(2);
+                registros[2] = rs.getString(3);
+                registros[3] = rs.getString(4);
+                registros[4] = rs.getString(5);
+                registros[5] = rs.getString(6);
+                registros[6] = rs.getString(7);
+                registros[7] = rs.getString(8);
                 modeloTabla.addRow(registros);
             }
             jTable_Inventario.setModel(modeloTabla);
@@ -113,8 +138,8 @@ public class InventarioVendedor extends javax.swing.JDialog {
             }
         });
     }
-    
-    public int obtenerCantidad(){
+
+    public int obtenerCantidad() {
         return Integer.valueOf(jTextField_Cant.getText());
     }
 
@@ -122,11 +147,19 @@ public class InventarioVendedor extends javax.swing.JDialog {
         String sql = "select * from productos where id_pro='" + codigo + "'";
         ConexionTienda cc = new ConexionTienda();
         Connection cn = cc.conectar();
+        int aux = 0;
+        for (int i = 0; i < productos.size(); i++) {
+            if (codigo.equals(productos.get(i).getCodigo())) {
+                aux = productos.get(i).getCantidad();
+                break;
+            }
+        }
         try {
             Statement st = cn.createStatement();
             ResultSet rs = st.executeQuery(sql);
             while (rs.next()) {
-                return rs.getInt("STO_PRO");
+                
+                return rs.getInt("STO_PRO")-aux;
             }
             cn.close();
         } catch (SQLException ex) {

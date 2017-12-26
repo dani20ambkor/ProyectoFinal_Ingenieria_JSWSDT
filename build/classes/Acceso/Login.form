@@ -31,7 +31,7 @@
                       <Component id="btn_Aceptar" min="-2" pref="89" max="-2" attributes="0"/>
                   </Group>
                   <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
-                  <Component id="ucTextLetrasMayusculas_Usuario" alignment="0" max="32767" attributes="0"/>
+                  <Component id="ucTextNumeros_Usuario" alignment="0" max="32767" attributes="0"/>
               </Group>
               <EmptySpace pref="43" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
@@ -61,7 +61,7 @@
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                   <Component id="jPassword_Pass" pref="31" max="32767" attributes="0"/>
-                  <Component id="ucTextLetrasMayusculas_Usuario" max="32767" attributes="0"/>
+                  <Component id="ucTextNumeros_Usuario" max="32767" attributes="0"/>
               </Group>
               <EmptySpace pref="44" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
@@ -131,7 +131,10 @@
         <Property name="text" type="java.lang.String" value="Iniciar Sesi&#xf3;n"/>
       </Properties>
     </Component>
-    <Component class="uctextletras.UcTextLetrasMayusculas" name="ucTextLetrasMayusculas_Usuario">
+    <Component class="uctextletras.UcTextNumeros" name="ucTextNumeros_Usuario">
+      <Events>
+        <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="ucTextNumeros_UsuarioKeyTyped"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

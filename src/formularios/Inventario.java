@@ -26,7 +26,8 @@ import javax.swing.table.TableColumnModel;
 public class Inventario extends javax.swing.JDialog {
 
     DefaultTableModel modeloTabla;
-    DefaultComboBoxModel modeloCombo;
+    DefaultComboBoxModel modeloComboTallas;
+    DefaultComboBoxModel modeloComboColores;
     TableColumnModel modeloColumna;
 
     /**
@@ -37,8 +38,8 @@ public class Inventario extends javax.swing.JDialog {
         initComponents();
         setLocationRelativeTo(parent);
         cargarDatosProductos("");
-
-        cargarCombo();
+        cargarComboColores();
+        cargarComboTallas();
         botonesInicio();
         txtBloqueo(false);
         mostrarDatosSeleccionaTabla();
@@ -62,10 +63,11 @@ public class Inventario extends javax.swing.JDialog {
                     jTextField_NomPro.setText(jTable_Inventario.getValueAt(fila, 1).toString().trim());
                     jTextField_MarcaPro.setText(jTable_Inventario.getValueAt(fila, 2).toString().trim());
                     jComboBox_Talla.setSelectedItem(jTable_Inventario.getValueAt(fila, 3).toString().trim());
-                    jTextField_PrePro.setText(jTable_Inventario.getValueAt(fila, 4).toString().trim());
-                    jTextField_PreVen.setText(jTable_Inventario.getValueAt(fila, 5).toString().trim());
-                    jTextField_StockPro.setText(jTable_Inventario.getValueAt(fila, 6).toString().trim());
-                    jTextField_Descripcion.setText(jTable_Inventario.getValueAt(fila, 7).toString().trim());
+                    jComboBox_Colores.setSelectedItem(jTable_Inventario.getValueAt(fila, 4).toString().trim());
+                    jTextField_PrePro.setText(jTable_Inventario.getValueAt(fila, 5).toString().trim());
+                    jTextField_PreVen.setText(jTable_Inventario.getValueAt(fila, 6).toString().trim());
+                    jTextField_StockPro.setText(jTable_Inventario.getValueAt(fila, 7).toString().trim());
+                    jTextField_Descripcion.setText(jTable_Inventario.getValueAt(fila, 8).toString().trim());
                     txtBloqueo(true);
                     jTextField_CodPro.setEnabled(false);
                     botonesBorrar();
@@ -75,18 +77,35 @@ public class Inventario extends javax.swing.JDialog {
         });
     }
 
-    public void cargarCombo() {
+    public void cargarComboTallas() {
         ConexionTienda cc = new ConexionTienda();
         Connection cn = cc.conectar();
-        String sql = "select * from tallas";
-        modeloCombo = new DefaultComboBoxModel();
+        String sql = "select * from tallas order by id_tal";
+        modeloComboTallas = new DefaultComboBoxModel();
         try {
             Statement st = cn.createStatement();
             ResultSet rs = st.executeQuery(sql);
             while (rs.next()) {
-                modeloCombo.addElement(rs.getString(1) + " " + rs.getString(2));
+                modeloComboTallas.addElement(rs.getString(2));
             }
-            jComboBox_Talla.setModel(modeloCombo);
+            jComboBox_Talla.setModel(modeloComboTallas);
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error de base: " + ex);
+        }
+    }
+
+    public void cargarComboColores() {
+        ConexionTienda cc = new ConexionTienda();
+        Connection cn = cc.conectar();
+        String sql = "select * from colores order by nom_col";
+        modeloComboColores = new DefaultComboBoxModel();
+        try {
+            Statement st = cn.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            while (rs.next()) {
+                modeloComboColores.addElement(rs.getString(2));
+            }
+            jComboBox_Colores.setModel(modeloComboColores);
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Error de base: " + ex);
         }
@@ -97,18 +116,19 @@ public class Inventario extends javax.swing.JDialog {
         modeloColumna.getColumn(0).setPreferredWidth(60);
         modeloColumna.getColumn(1).setPreferredWidth(120);
         modeloColumna.getColumn(2).setPreferredWidth(120);
-        modeloColumna.getColumn(3).setPreferredWidth(50);
-        modeloColumna.getColumn(4).setPreferredWidth(55);
+        modeloColumna.getColumn(3).setPreferredWidth(70);
+        modeloColumna.getColumn(4).setPreferredWidth(70);
         modeloColumna.getColumn(5).setPreferredWidth(55);
         modeloColumna.getColumn(6).setPreferredWidth(55);
-        modeloColumna.getColumn(7).setPreferredWidth(140);
+        modeloColumna.getColumn(7).setPreferredWidth(55);
+        modeloColumna.getColumn(8).setPreferredWidth(140);
 
     }
 
     public void cargarDatosProductos(String Dato) {
 
-        String[] titulos = {"CÓDIGO", "NOMBRE", "MARCA", "TALLA", "P/C", "P/V", "STOCK", "DESCRIPCIÓN"};
-        String[] registros = new String[8];
+        String[] titulos = {"CÓDIGO", "NOMBRE", "MARCA", "TALLA", "COLOR", "P/C", "P/V", "STOCK", "DESCRIPCIÓN"};
+        String[] registros = new String[9];
         jTable_Inventario.getTableHeader().setReorderingAllowed(false);
         jTable_Inventario.getTableHeader().setResizingAllowed(false);
 
@@ -123,19 +143,25 @@ public class Inventario extends javax.swing.JDialog {
         ConexionTienda cc = new ConexionTienda();
         Connection cn = cc.conectar();
         String sql = "";
-        sql = "select * from productos where TIP_PRO LIKE '" + Dato + "%' order by TIP_PRO";
+        sql = "select p.id_pro,p.tip_pro,p.mar_pro,t.des_tal,c.nom_col,p.pre_com,p.pre_ven,p.sto_pro,p.des_pro "
+                + "from productos p, colores c, tallas t "
+                + "where p.TIP_PRO LIKE '" + Dato + "%' "
+                + "and p.id_col_per=c.id_col "
+                + "and p.id_tal_per=t.id_tal "
+                + "order by p.TIP_PRO";
         try {
             Statement st = cn.createStatement();
             ResultSet rs = st.executeQuery(sql);
             while (rs.next()) {
-                registros[0] = rs.getString("ID_PRO");
-                registros[1] = rs.getString("TIP_PRO");
-                registros[2] = rs.getString("MAR_PRO");
-                registros[3] = rs.getString("ID_TAL_PER");
-                registros[4] = rs.getString("PRE_COM");
-                registros[5] = rs.getString("PRE_VEN");
-                registros[6] = rs.getString("STO_PRO");
-                registros[7] = rs.getString("DES_PRO");
+                registros[0] = rs.getString(1);
+                registros[1] = rs.getString(2);
+                registros[2] = rs.getString(3);
+                registros[3] = rs.getString(4);
+                registros[4] = rs.getString(5);
+                registros[5] = rs.getString(6);
+                registros[6] = rs.getString(7);
+                registros[7] = rs.getString(8);
+                registros[8] = rs.getString(9);
                 modeloTabla.addRow(registros);
             }
             jTable_Inventario.setModel(modeloTabla);
@@ -150,7 +176,7 @@ public class Inventario extends javax.swing.JDialog {
     public boolean compararPrecios() {
         Double preCom = Double.valueOf(jTextField_PrePro.getText());
         Double preVen = Double.valueOf(jTextField_PreVen.getText());
-        if (preVen.compareTo(preCom)==0) {
+        if (preVen.compareTo(preCom) == 0) {
             int confirmar = JOptionPane.showConfirmDialog(null, "¿Está seguro de realizar esta acción?", "Precio de venta", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
             if (confirmar == 0) {
                 return true;
@@ -159,15 +185,50 @@ public class Inventario extends javax.swing.JDialog {
                 return false;
             }
         } else if (preVen < preCom) {
-            JOptionPane.showMessageDialog(null, "No se puede realizar esta acción","Precio venta",JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "No se puede realizar esta acción", "Precio venta", JOptionPane.ERROR_MESSAGE);
             return false;
         } else {
             return true;
         }
     }
 
-    public void guardar() {
+    public String obtenerCodigoColor() {
+        String color = jComboBox_Colores.getSelectedItem().toString();
+        String sql = "select * from colores where nom_col ='" + color + "'";
+        ConexionTienda cc = new ConexionTienda();
+        Connection cn = cc.conectar();
+        try {
+            Statement st = cn.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            while (rs.next()) {
+                return rs.getString(1);
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Ocurrió un error al intentar recuperar datos de la base\n" + ex);
+        }
 
+        return "";
+    }
+
+    public String obtenerCodigoTalla() {
+        String talla = jComboBox_Talla.getSelectedItem().toString();
+        String sql = "select * from tallas where des_tal ='" + talla + "'";
+        ConexionTienda cc = new ConexionTienda();
+        Connection cn = cc.conectar();
+        try {
+            Statement st = cn.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            while (rs.next()) {
+                return rs.getString(1);
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Ocurrió un error al intentar recuperar datos de la base\n" + ex);
+        }
+
+        return "";
+    }
+
+    public void guardar() {
 
         if (jTextField_CodPro.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Debe ingresar el código");
@@ -191,35 +252,36 @@ public class Inventario extends javax.swing.JDialog {
 
             ConexionTienda cc = new ConexionTienda();
             Connection cn = cc.conectar();
-            String ID_PRO, TIP_PRO, MAR_PRO, ID_TAL_PER, PRE_COM, PRE_VEN, STO_PRO, DES_PRO;
+            String ID_PRO, TIP_PRO, MAR_PRO, ID_TAL_PER, ID_COL_PER, PRE_COM, PRE_VEN, STO_PRO, DES_PRO;
             ID_PRO = jTextField_CodPro.getText().trim().toUpperCase();
             TIP_PRO = jTextField_NomPro.getText().trim().toUpperCase();
             MAR_PRO = jTextField_MarcaPro.getText().trim().toUpperCase();
-            ID_TAL_PER = jComboBox_Talla.getSelectedItem().toString().substring(0, 2).trim();
+            ID_TAL_PER = obtenerCodigoTalla();
+            ID_COL_PER = obtenerCodigoColor();
             PRE_COM = jTextField_PrePro.getText().trim();
             PRE_VEN = jTextField_PreVen.getText().trim();
             STO_PRO = jTextField_StockPro.getText().trim();
+            System.out.println(ID_COL_PER);
             if (jTextField_Descripcion.getText().isEmpty()) {
                 DES_PRO = "SIN DESCRIPCIÓN";
             } else {
                 DES_PRO = jTextField_Descripcion.getText().toUpperCase();
             }
 
-
-
             String sql = "";
-            sql = "insert into productos(ID_PRO, TIP_PRO, MAR_PRO, ID_TAL_PER, PRE_COM, PRE_VEN, STO_PRO, DES_PRO)"
-                    + "values(?,?,?,?,?,?,?,?)";
+            sql = "insert into productos(ID_PRO, TIP_PRO, MAR_PRO, ID_TAL_PER, ID_COL_PER, PRE_COM, PRE_VEN, STO_PRO, DES_PRO)"
+                    + "values(?,?,?,?,?,?,?,?,?)";
             try {
                 PreparedStatement psd = cn.prepareStatement(sql);
                 psd.setString(1, ID_PRO); //(Numero de campo/ nombre)
                 psd.setString(2, TIP_PRO);
                 psd.setString(3, MAR_PRO);
                 psd.setString(4, ID_TAL_PER);
-                psd.setString(5, PRE_COM);
-                psd.setString(6, PRE_VEN);
-                psd.setString(7, STO_PRO);
-                psd.setString(8, DES_PRO);
+                psd.setString(5, ID_COL_PER);
+                psd.setString(6, PRE_COM);
+                psd.setString(7, PRE_VEN);
+                psd.setString(8, STO_PRO);
+                psd.setString(9, DES_PRO);
                 int n = psd.executeUpdate();
 
                 if (n > 0) {
@@ -236,7 +298,6 @@ public class Inventario extends javax.swing.JDialog {
             } catch (Exception ex) {
             }
         }
-
 
     }
 
@@ -268,7 +329,8 @@ public class Inventario extends javax.swing.JDialog {
             }
             sql = "UPDATE productos SET TIP_PRO='" + jTextField_NomPro.getText().trim() + "'"
                     + ",MAR_PRO='" + jTextField_MarcaPro.getText().trim() + "'"
-                    + ",ID_TAL_PER='" + jComboBox_Talla.getSelectedItem().toString().substring(0, 2).trim() + "'"
+                    + ",ID_TAL_PER='" + obtenerCodigoTalla() + "'"
+                    + ",ID_COL_PER='" + obtenerCodigoColor() + "'"
                     + ",PRE_COM='" + jTextField_PrePro.getText() + "'"
                     + ",PRE_VEN='" + jTextField_PreVen.getText() + "'"
                     + ",STO_PRO='" + jTextField_StockPro.getText() + "'"
@@ -313,6 +375,7 @@ public class Inventario extends javax.swing.JDialog {
         jTextField_StockPro.setEnabled(tutia);
         jTextField_Descripcion.setEnabled(tutia);
         jComboBox_Talla.setEnabled(tutia);
+        jComboBox_Colores.setEnabled(tutia);
 
     }
 
@@ -354,6 +417,7 @@ public class Inventario extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jScrollPane2 = new javax.swing.JScrollPane();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable_Inventario = new javax.swing.JTable();
@@ -381,9 +445,13 @@ public class Inventario extends javax.swing.JDialog {
         jLabel9 = new javax.swing.JLabel();
         jTextField_PrePro = new uctextletras.UcTextNumerosDecimales();
         jTextField_PreVen = new uctextletras.UcTextNumerosDecimales();
+        jLabel10 = new javax.swing.JLabel();
+        jComboBox_Colores = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setUndecorated(true);
+
+        jScrollPane2.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Inventario"));
 
@@ -507,6 +575,8 @@ public class Inventario extends javax.swing.JDialog {
             }
         });
 
+        jLabel10.setText("Color:");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -514,64 +584,42 @@ public class Inventario extends javax.swing.JDialog {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 434, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, 58, Short.MAX_VALUE))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, 58, Short.MAX_VALUE))
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 58, Short.MAX_VALUE)
+                                .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jTextField_NomPro, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButton_Guardar, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jTextField_PrePro, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButton_Cancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jTextField_MarcaPro, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButton_Actualizar))))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addComponent(jTextField_NomPro, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextField_PrePro, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextField_MarcaPro, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextField_CodPro, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextField_PreVen, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jComboBox_Talla, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextField_StockPro, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextField_Descripcion, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jComboBox_Colores, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextField_Buscar, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addGroup(jPanel1Layout.createSequentialGroup()
-                                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(18, 18, 18))
-                                .addGroup(jPanel1Layout.createSequentialGroup()
-                                    .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(18, 18, 18))
-                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)))
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jTextField_Buscar, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButton_Volver, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jTextField_CodPro, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jTextField_StockPro, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jTextField_Descripcion, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButton_Nuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jComboBox_Talla, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jTextField_PreVen, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(231, 231, 231)
-                                        .addComponent(jButton_Borrar, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGap(0, 0, Short.MAX_VALUE)))))
+                            .addComponent(jButton_Actualizar, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jButton_Guardar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton_Cancelar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton_Nuevo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton_Borrar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton_Volver, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -608,6 +656,10 @@ public class Inventario extends javax.swing.JDialog {
                     .addComponent(jComboBox_Talla, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel10)
+                    .addComponent(jComboBox_Colores, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
                     .addComponent(jTextField_StockPro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
@@ -620,24 +672,26 @@ public class Inventario extends javax.swing.JDialog {
                     .addComponent(jTextField_Buscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton_Volver))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        jScrollPane2.setViewportView(jPanel1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 533, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 588, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -655,10 +709,6 @@ public class Inventario extends javax.swing.JDialog {
     private void jTextField_StockProKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_StockProKeyTyped
         Metodos.validarCamposSoloNumeros(evt, jTextField_StockPro, 3);
     }//GEN-LAST:event_jTextField_StockProKeyTyped
-
-    private void jTable_InventarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable_InventarioMouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTable_InventarioMouseClicked
 
     private void jTextField_BuscarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_BuscarKeyReleased
         // TODO add your handling code here:
@@ -728,6 +778,10 @@ public class Inventario extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_jTextField_PreVenKeyTyped
 
+    private void jTable_InventarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable_InventarioMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTable_InventarioMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -787,8 +841,10 @@ public class Inventario extends javax.swing.JDialog {
     private javax.swing.JButton jButton_Guardar;
     private javax.swing.JButton jButton_Nuevo;
     private javax.swing.JButton jButton_Volver;
+    private javax.swing.JComboBox<String> jComboBox_Colores;
     private javax.swing.JComboBox jComboBox_Talla;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -799,6 +855,7 @@ public class Inventario extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable_Inventario;
     private javax.swing.JTextField jTextField_Buscar;
     private javax.swing.JTextField jTextField_CodPro;
