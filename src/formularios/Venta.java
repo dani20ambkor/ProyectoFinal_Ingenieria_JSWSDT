@@ -284,6 +284,7 @@ public class Venta extends javax.swing.JDialog {
 
     public void eliminarProducto() {
         int fila = jTable_CarritoCompra.getSelectedRow();
+        double valorTProd=0;
         try {
             if (!jTextField_NumElim.getText().isEmpty()) {
                 int cantidad = Integer.valueOf(jTable_CarritoCompra.getValueAt(fila, 3).toString());
@@ -295,13 +296,17 @@ public class Venta extends javax.swing.JDialog {
                     try {
                         modeloTabla.removeRow(fila);
                         jTextField_NumElim.setText("");
+                        calcularValorFactura();
                     } catch (java.lang.ArrayIndexOutOfBoundsException ex) {
                         JOptionPane.showMessageDialog(null, "No se ha seleccionado una fila");
                     }
                 } else {
                     nueCan = cantidad - numEle;
                     jTable_CarritoCompra.setValueAt(nueCan, fila, 3);
+                    valorTProd = nueCan * Double.valueOf(jTable_CarritoCompra.getValueAt(fila, 4).toString());
+                    jTable_CarritoCompra.setValueAt(valorTProd, fila, 5);
                     jTextField_NumElim.setText("");
+                    calcularValorFactura();
                 }
             } else {
                 try {

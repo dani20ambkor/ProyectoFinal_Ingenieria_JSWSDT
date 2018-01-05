@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="8db34efd-b057-40d4-bc00-029305d984c1">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString>
+		<![CDATA[SELECT SUM( D.CANTIDAD ) SUMA, P.TIP_PRO NOMBRE
+FROM PRODUCTOS P, DETALLE_VENTAS D
+WHERE P.ID_PRO = D.ID_PRO_V
+GROUP BY P.TIP_PRO]]>
+	</queryString>
+	<field name="SUMA" class="java.math.BigDecimal"/>
+	<field name="NOMBRE" class="java.lang.String"/>
+	<title>
+		<band height="93" splitType="Stretch">
+			<staticText>
+				<reportElement x="172" y="0" width="243" height="59" uuid="64594175-4ffd-4a76-8774-7e2dbe344437"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="36"/>
+				</textElement>
+				<text><![CDATA[PRODUCTOS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="172" y="59" width="243" height="32" uuid="0c2cd673-ffe1-4914-bf97-f85fca13a23e"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="24"/>
+				</textElement>
+				<text><![CDATA[VENDIDOS]]></text>
+			</staticText>
+		</band>
+	</title>
+	<summary>
+		<band height="285" splitType="Stretch">
+			<barChart>
+				<chart>
+					<reportElement x="0" y="0" width="555" height="285" uuid="31d4f156-ef92-4528-b49e-3a1c90b088be"/>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<categorySeries>
+						<seriesExpression><![CDATA[$F{SUMA}]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{NOMBRE}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{SUMA}]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<barPlot>
+					<plot/>
+					<itemLabel/>
+					<categoryAxisFormat>
+						<axisFormat/>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat/>
+					</valueAxisFormat>
+				</barPlot>
+			</barChart>
+		</band>
+	</summary>
+</jasperReport>
