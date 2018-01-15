@@ -71,7 +71,6 @@ public class Venta extends javax.swing.JDialog {
                 JOptionPane.showMessageDialog(null, "Error de conexión");
             }
         } catch (Exception ex) {
-
         }
     }
 
@@ -96,8 +95,13 @@ public class Venta extends javax.swing.JDialog {
     }
 
     public void cargarCliente() {
-        if (jTextField_CedCli.getText().isEmpty() || !Metodos.verificadorCédula(jTextField_CedCli.getText())) {
+        if (jTextField_CedCli.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Ingrese Cédula");
+            jTextField_CedCli.requestFocus();
+            
+        }else if(!Metodos.verificadorCédula(jTextField_CedCli.getText())){
             JOptionPane.showMessageDialog(null, "Cédula Errónea");
+            jTextField_CedCli.setText("");
             jTextField_CedCli.requestFocus(); // Para posicionar el raton
         } else {
             String sql = "select * from clientes where ced_cli='" + jTextField_CedCli.getText() + "'";
@@ -129,7 +133,6 @@ public class Venta extends javax.swing.JDialog {
                     JOptionPane.showMessageDialog(null, "Error de conexión");
                 }
             } catch (Exception ex) {
-
             }
             if (!clienteExiste) {
                 int opcion = JOptionPane.showConfirmDialog(null, "¿Desea ingresar cliente?", "Cliente no existe", JOptionPane.YES_OPTION);
@@ -284,7 +287,7 @@ public class Venta extends javax.swing.JDialog {
 
     public void eliminarProducto() {
         int fila = jTable_CarritoCompra.getSelectedRow();
-        double valorTProd=0;
+        double valorTProd = 0;
         try {
             if (!jTextField_NumElim.getText().isEmpty()) {
                 int cantidad = Integer.valueOf(jTable_CarritoCompra.getValueAt(fila, 3).toString());
@@ -369,7 +372,6 @@ public class Venta extends javax.swing.JDialog {
                         JOptionPane.showMessageDialog(null, "Error de conexión");
                     }
                 } catch (Exception ex) {
-
                 }
             }
             if (jTable_CarritoCompra.getRowCount() > 0) {
@@ -426,6 +428,7 @@ public class Venta extends javax.swing.JDialog {
             CANTIDAD = Integer.valueOf(jTable_CarritoCompra.getValueAt(i, 3).toString());
             PRE_TOT_P = Float.valueOf(jTable_CarritoCompra.getValueAt(i, 5).toString());
             String sql = "insert into detalle_ventas (NUM_VEN_P, ID_PRO_V, CANTIDAD, PRE_TOT_P) values(?,?,?,?)";
+
             try {
                 PreparedStatement psd = cn.prepareStatement(sql);
                 psd.setInt(1, NUM_VEN_P);
@@ -433,6 +436,7 @@ public class Venta extends javax.swing.JDialog {
                 psd.setInt(3, CANTIDAD);
                 psd.setFloat(4, PRE_TOT_P);
 
+                actualizarSto(ID_PRO_V, CANTIDAD);
                 n += psd.executeUpdate();
 
             } catch (SQLException ex) {
@@ -456,6 +460,38 @@ public class Venta extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(null, "Error de conexión");
         }
 
+    }
+
+    public void actualizarSto(String id, Integer n) {
+        try {
+
+            ConexionTienda cc = new ConexionTienda();
+            Connection cn = cc.conectar();
+            String sql1 = "SELECT * FROM PRODUCTOS WHERE ID_PRO='" + id + "'";
+            int var1 = 0;
+            Statement psd1 = cn.createStatement(); //statement devuelve todas las filas
+            ResultSet rs = psd1.executeQuery(sql1);
+            while (rs.next()) {
+                var1 = rs.getInt("STO_PRO");
+            }
+
+            int resta = var1 - n;
+            String sql = "";
+            sql = "UPDATE productos SET STO_PRO='" + resta + "'"
+                    + " WHERE CED_CLI=" + id;
+            try {
+                PreparedStatement psd = cn.prepareStatement(sql);
+                int m = psd.executeUpdate();
+                if (m > 0) {
+                    JOptionPane.showMessageDialog(null, "Se actualizo el registro correctamente ");
+                }
+
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, "No se pudo actualizar los datos. Intentelo nuevamente");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Venta.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public void habilitarComponentesParaFactura(boolean tutia) {
@@ -552,6 +588,7 @@ public class Venta extends javax.swing.JDialog {
 
         jPanel5.setAutoscrolls(true);
 
+        jLabel_Fecha.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel_Fecha.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jLabel_Fecha.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
@@ -957,8 +994,9 @@ public class Venta extends javax.swing.JDialog {
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
                         .addComponent(jLabel13)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel_Fecha, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel_Fecha, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(8, 8, 8))
                     .addComponent(jPanel_Fondo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(16, Short.MAX_VALUE))
         );
@@ -986,7 +1024,9 @@ public class Venta extends javax.swing.JDialog {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 646, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 681, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
