@@ -18,7 +18,7 @@ import javax.swing.table.TableColumnModel;
  * @author PC
  */
 public class Proveedores extends javax.swing.JDialog {
-    
+
     DefaultTableModel model;
     TableColumnModel modeloColumna;
 
@@ -30,20 +30,20 @@ public class Proveedores extends javax.swing.JDialog {
         initComponents();
         setLocationRelativeTo(parent);
         cargarDatosProveedor("");
-        
+
         botonesInicio();
         txtBloqueo(false);
         mostrarDatosSeleccionaTabla();
         jTextField_Bus_Pro.setEnabled(true);
     }
-    
+
     public void ValidarIngresoBusqueda(KeyEvent evt, JTextField componente) {
         // TODO add your handling code here:
         char c = evt.getKeyChar();
         if (cont == 0) {
             if (Character.isDigit(c)) {
                 paraBuscar = true;
-                
+
             } else if (Character.isLetter(c)) {
                 paraBuscar = false;
             }
@@ -52,25 +52,25 @@ public class Proveedores extends javax.swing.JDialog {
         if (componente.getText().isEmpty()) {
             cont = 0;
         }
-        
-        
+
+
         cargarDatosProveedor(componente.getText());
     }
-    
+
     public void cargarDatosProveedor(String Dato) {
-        
+
         String[] titulos = {"CÓDIGO", "NOMBRE", "DIRECCION", "TELEFONO"};
         String[] registros = new String[4];
         jTable_Proveedores.getTableHeader().setReorderingAllowed(false);
         jTable_Proveedores.getTableHeader().setResizingAllowed(false);
         model = new DefaultTableModel(null, titulos) {
-            
+
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false;
             }
         };
-        
+
         ConexionTienda cc = new ConexionTienda();
         Connection cn = cc.conectar();
         String sql = "";
@@ -88,7 +88,7 @@ public class Proveedores extends javax.swing.JDialog {
                 registros[2] = rs.getString("DIR_PRO");
                 registros[3] = rs.getString("TEL_PRO");
                 model.addRow(registros);
-                
+
             }
             jTable_Proveedores.setModel(model);
             establecerTamañoColumnas();
@@ -96,17 +96,17 @@ public class Proveedores extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(null, ex);
         } catch (Exception ex1) {
         }
-        
+
     }
-    
+
     public void mostrarDatosSeleccionaTabla() {
         jTable_Proveedores.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-            
+
             @Override
             public void valueChanged(ListSelectionEvent e) {
                 if (jTable_Proveedores.getSelectedRow() != -1) {
                     int fila = jTable_Proveedores.getSelectedRow();
-                    
+
                     jTextField_Cod_Pro.setText(jTable_Proveedores.getValueAt(fila, 0).toString().trim());
                     jTextField_Nom_Prov.setText(jTable_Proveedores.getValueAt(fila, 1).toString().trim());
                     jTextField_Dir_Pro.setText(jTable_Proveedores.getValueAt(fila, 2).toString().trim());
@@ -119,7 +119,7 @@ public class Proveedores extends javax.swing.JDialog {
             }
         });
     }
-    
+
     public void validarSoloLetrasSoloNumerosBuscar(KeyEvent evt) {
         // TODO add your handling code here:
         if (cont != 0) {
@@ -135,7 +135,7 @@ public class Proveedores extends javax.swing.JDialog {
             }
         }
     }
-    
+
     public void establecerTamañoColumnas() {
         modeloColumna = jTable_Proveedores.getColumnModel();
         modeloColumna.getColumn(0).setPreferredWidth(80);
@@ -143,7 +143,7 @@ public class Proveedores extends javax.swing.JDialog {
         modeloColumna.getColumn(2).setPreferredWidth(110);
         modeloColumna.getColumn(3).setPreferredWidth(80);
     }
-    
+
     public void botonesInicio() {
         jButton_Actualizar.setEnabled(false);
         jButton_Cancelar.setEnabled(false);
@@ -151,7 +151,7 @@ public class Proveedores extends javax.swing.JDialog {
         jButton_Nuevo.setEnabled(true);
         jButton_Borrar.setEnabled(false);
     }
-    
+
     public void txtBloqueo(boolean tutia) {
         jTextField_Cod_Pro.requestFocus();
         jTextField_Cod_Pro.setEnabled(tutia);
@@ -159,7 +159,7 @@ public class Proveedores extends javax.swing.JDialog {
         jTextField_Dir_Pro.setEnabled(tutia);
         jTextField_Tel_Pro.setEnabled(tutia);
     }
-    
+
     public void botonesBorrar() {
         jButton_Nuevo.setEnabled(false);
         jButton_Guardar.setEnabled(false);
@@ -167,9 +167,9 @@ public class Proveedores extends javax.swing.JDialog {
         jButton_Cancelar.setEnabled(true);
         jButton_Borrar.setEnabled(true);
         jButton_Volver.setEnabled(true);
-        
+
     }
-    
+
     public void botonesActualizar() {
         jButton_Nuevo.setEnabled(false);
         jButton_Guardar.setEnabled(false);
@@ -177,7 +177,7 @@ public class Proveedores extends javax.swing.JDialog {
         jButton_Cancelar.setEnabled(true);
         jButton_Volver.setEnabled(true);
     }
-    
+
     public void txtLimpiar() {
         jTextField_Cod_Pro.setText("");
         jTextField_Nom_Prov.setText("");
@@ -185,9 +185,9 @@ public class Proveedores extends javax.swing.JDialog {
         jTextField_Tel_Pro.setText("");
         jTextField_Bus_Pro.setText("");
         txtBloqueo(false);
-        
+
     }
-    
+
     public void botonesNuevo() {
         jButton_Actualizar.setEnabled(false);
         jButton_Cancelar.setEnabled(true);
@@ -195,17 +195,15 @@ public class Proveedores extends javax.swing.JDialog {
         jButton_Nuevo.setEnabled(false);
         jButton_Borrar.setEnabled(false);
     }
-    
+
     private void jTextField_Dir_ProKeyTyped(java.awt.event.KeyEvent evt) {
         // TODO add your handling code here:
         if (jTextField_Dir_Pro.getText().length() >= 20) {
             evt.consume();
         }
     }
-    
+
     public void guardar() {
-        
-        
         if (jTextField_Cod_Pro.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Ingrese el Código del Proveedor");
             jTextField_Cod_Pro.requestFocus(); // Para posicionar el raton
@@ -218,43 +216,43 @@ public class Proveedores extends javax.swing.JDialog {
         } else if (jTextField_Tel_Pro.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Debe ingresar el teléfono");
             jTextField_Tel_Pro.requestFocus();
-            
+        } else {
             ConexionTienda cc = new ConexionTienda();
             Connection cn = cc.conectar();
-            String COD_CLI, NOM_PRO, DIR_PRO, TEL_PRO;
-            COD_CLI = jTextField_Cod_Pro.getText().trim();
+            String COD_PRO, NOM_PRO, DIR_PRO, TEL_PRO;
+            COD_PRO = jTextField_Cod_Pro.getText().trim().toUpperCase();
             NOM_PRO = jTextField_Nom_Prov.getText().trim().toUpperCase();
             DIR_PRO = jTextField_Dir_Pro.getText().trim().toUpperCase();
             TEL_PRO = jTextField_Tel_Pro.getText().trim();
             String sql = "";
-            sql = "insert into clientes(COD_CLI, NOM_PRO, DIR_PRO, TEL_PRO)"
+            sql = "insert into proveedores(COD_PRO, NOM_PRO, DIR_PRO, TEL_PRO)"
                     + "values(?,?,?,?)";
             try {
                 PreparedStatement psd = cn.prepareStatement(sql);
-                psd.setString(1, COD_CLI); //(Numero de campo/ nombre)
+                psd.setString(1, COD_PRO); //(Numero de campo/ nombre)
                 psd.setString(2, NOM_PRO);
                 psd.setString(3, DIR_PRO);
                 psd.setString(4, TEL_PRO);
                 int n = psd.executeUpdate();
-                
+
                 if (n > 0) {
                     JOptionPane.showMessageDialog(null, "Se insertó la información correctamente");
                     cargarDatosProveedor(""); //Actualizar la carga de datos
                     txtLimpiar();
                     txtBloqueo(false);
                     botonesInicio();
-                    
+
                 }
-                
+
             } catch (SQLException ex) { //permite manejar la excepcion de la base de datos
                 JOptionPane.showMessageDialog(null, ex);
             } catch (Exception ex) {
             }
         }
-        
-        
+
+
     }
-    
+
     public void actualizar() {
         if (jTextField_Nom_Prov.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Debe ingresar el nombre");
@@ -265,33 +263,33 @@ public class Proveedores extends javax.swing.JDialog {
         } else if (jTextField_Tel_Pro.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Debe ingresar el teléfono");
             jTextField_Tel_Pro.requestFocus();
-            
+        } else {
             ConexionTienda cc = new ConexionTienda();
             Connection cn = cc.conectar();
             String sql = "";
-            sql = "UPDATE clientes SET NOM_CLI='" + jTextField_Nom_Prov.getText().toUpperCase() + "'"
-                    + ",DIR_CLI='" + jTextField_Dir_Pro.getText().toUpperCase() + "'"
-                    + ",TEL_CLI='" + jTextField_Tel_Pro.getText() + "'"
-                    + " WHERE CED_CLI=" + jTextField_Cod_Pro.getText();
+            sql = "update proveedores set NOM_PRO='" + jTextField_Nom_Prov.getText().trim().toUpperCase() + "' "
+                    + ",DIR_PRO='" + jTextField_Dir_Pro.getText().trim().toUpperCase() + "' "
+                    + ",TEL_PRO='" + jTextField_Tel_Pro.getText() + "' "
+                    + "where COD_PRO='" + jTextField_Cod_Pro.getText().trim().toUpperCase() + "'";
             try {
                 PreparedStatement psd = cn.prepareStatement(sql);
                 int n = psd.executeUpdate();
                 if (n > 0) {
-                    JOptionPane.showMessageDialog(null, "Se actualizo el registro correctamente ");
+                    JOptionPane.showMessageDialog(null, "Se actualizó el registro correctamente");
+                    cargarDatosProveedor("");
+                    txtLimpiar();
+                    botonesInicio();
                 }
-                cargarDatosProveedor("");
-                txtLimpiar();
-                txtBloqueo(false);
-                botonesInicio();
+
             } catch (SQLException ex) {
-                JOptionPane.showMessageDialog(null, "No se pudo actualizar los datos. Intentelo nuevamente");
+                JOptionPane.showMessageDialog(null, ex);
             }
         }
     }
-    
+
     public void borrar() {
         int n = JOptionPane.showConfirmDialog(null, "Desea eliminar el registro ", "Borrar", JOptionPane.YES_NO_OPTION);
-        
+
         if (n == 0) {
             ConexionTienda cc = new ConexionTienda();
             Connection cn = cc.conectar();
@@ -586,37 +584,37 @@ public class Proveedores extends javax.swing.JDialog {
     boolean paraBuscar;
     private void jTextField_Bus_ProKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_Bus_ProKeyTyped
         // TODO add your handling code here:
-       validarSoloLetrasSoloNumerosBuscar(evt);
+        validarSoloLetrasSoloNumerosBuscar(evt);
     }//GEN-LAST:event_jTextField_Bus_ProKeyTyped
-    
+
     private void jButton_NuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_NuevoActionPerformed
         // TODO add your handling code here:
         botonesNuevo();
         txtBloqueo(true);
     }//GEN-LAST:event_jButton_NuevoActionPerformed
-    
+
     private void jButton_GuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_GuardarActionPerformed
         // TODO add your handling code here:
         guardar();
     }//GEN-LAST:event_jButton_GuardarActionPerformed
-    
+
     private void jButton_ActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_ActualizarActionPerformed
         // TODO add your handling code here:
         actualizar();
     }//GEN-LAST:event_jButton_ActualizarActionPerformed
-    
+
     private void jButton_CancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_CancelarActionPerformed
         // TODO add your handling code here:
         txtLimpiar();
         txtBloqueo(false);
         botonesInicio();
     }//GEN-LAST:event_jButton_CancelarActionPerformed
-    
+
     private void jButton_BorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_BorrarActionPerformed
         // TODO add your handling code here:
         borrar();
     }//GEN-LAST:event_jButton_BorrarActionPerformed
-    
+
     private void jButton_VolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_VolverActionPerformed
         // TODO add your handling code here:
         dispose();
@@ -624,7 +622,7 @@ public class Proveedores extends javax.swing.JDialog {
 
     private void jTextField_Bus_ProKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_Bus_ProKeyReleased
         // TODO add your handling code here:
-         ValidarIngresoBusqueda(evt, jTextField_Bus_Pro);
+        ValidarIngresoBusqueda(evt, jTextField_Bus_Pro);
     }//GEN-LAST:event_jTextField_Bus_ProKeyReleased
 
     /**
@@ -645,6 +643,8 @@ public class Proveedores extends javax.swing.JDialog {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
+
+
                 }
             }
         } catch (ClassNotFoundException ex) {
@@ -662,11 +662,11 @@ public class Proveedores extends javax.swing.JDialog {
          * Create and display the dialog
          */
         java.awt.EventQueue.invokeLater(new Runnable() {
-            
+
             public void run() {
                 Proveedores dialog = new Proveedores(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    
+
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
                         System.exit(0);
