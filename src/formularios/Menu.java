@@ -4,8 +4,6 @@
  */
 package formularios;
 
-import Reportes.ReporteVentas;
-
 /**
  *
  * @author PC

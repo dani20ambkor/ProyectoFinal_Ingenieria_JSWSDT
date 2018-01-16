@@ -5,7 +5,6 @@
 package formularios;
 
 import Acceso.Login;
-import Reportes.ReporteVentas;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
