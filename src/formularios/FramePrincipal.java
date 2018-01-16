@@ -84,8 +84,7 @@ public class FramePrincipal extends javax.swing.JFrame {
         jButton_Salir = new javax.swing.JButton();
         btn_Pedidos = new javax.swing.JButton();
         btn_Proveedores = new javax.swing.JButton();
-        jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
+        btn_Reportes = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -151,6 +150,11 @@ public class FramePrincipal extends javax.swing.JFrame {
         btn_Pedidos.setText("Pedidos");
         btn_Pedidos.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btn_Pedidos.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btn_Pedidos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_PedidosActionPerformed(evt);
+            }
+        });
 
         btn_Proveedores.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         btn_Proveedores.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/menu/proveedores.png"))); // NOI18N
@@ -163,20 +167,16 @@ public class FramePrincipal extends javax.swing.JFrame {
             }
         });
 
-        jMenu1.setText("Reportes");
-        jMenu1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jMenu1MouseClicked(evt);
-            }
-        });
-        jMenu1.addActionListener(new java.awt.event.ActionListener() {
+        btn_Reportes.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        btn_Reportes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/menu/reportes.png"))); // NOI18N
+        btn_Reportes.setText("Reportes");
+        btn_Reportes.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btn_Reportes.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btn_Reportes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenu1ActionPerformed(evt);
+                btn_ReportesActionPerformed(evt);
             }
         });
-        jMenuBar1.add(jMenu1);
-
-        setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -194,24 +194,27 @@ public class FramePrincipal extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btn_Clientes, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jLabel1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 58, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(btn_Administrador, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                         .addComponent(jButton_Salir, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(btn_Proveedores, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(btn_Proveedores, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btn_Reportes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(21, 21, 21))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
                         .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 122, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 123, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(btn_Reportes)
+                        .addGap(36, 36, 36)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(btn_Ventas, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btn_Administrador, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -263,16 +266,16 @@ public class FramePrincipal extends javax.swing.JFrame {
         new Proveedores(null, true).setVisible(true);
     }//GEN-LAST:event_btn_ProveedoresActionPerformed
 
-    private void jMenu1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu1ActionPerformed
+    private void btn_PedidosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_PedidosActionPerformed
         // TODO add your handling code here:
-   
-    }//GEN-LAST:event_jMenu1ActionPerformed
+        
+    }//GEN-LAST:event_btn_PedidosActionPerformed
 
-    private void jMenu1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu1MouseClicked
+    private void btn_ReportesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_ReportesActionPerformed
         // TODO add your handling code here:
-             Menu menu = new Menu();
+        Menu menu = new Menu();
         menu.setVisible(true);
-    }//GEN-LAST:event_jMenu1MouseClicked
+    }//GEN-LAST:event_btn_ReportesActionPerformed
 
     /**
      * @param args the command line arguments
@@ -319,12 +322,11 @@ public class FramePrincipal extends javax.swing.JFrame {
     public javax.swing.JButton btn_Administrador;
     public javax.swing.JButton btn_Clientes;
     public javax.swing.JButton btn_Inventario;
-    private javax.swing.JButton btn_Pedidos;
-    private javax.swing.JButton btn_Proveedores;
+    public javax.swing.JButton btn_Pedidos;
+    public javax.swing.JButton btn_Proveedores;
+    public javax.swing.JButton btn_Reportes;
     public javax.swing.JButton btn_Ventas;
     private javax.swing.JButton jButton_Salir;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenuBar jMenuBar1;
     // End of variables declaration//GEN-END:variables
 }
