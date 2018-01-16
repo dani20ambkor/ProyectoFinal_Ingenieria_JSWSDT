@@ -77,6 +77,7 @@ public class Menu extends javax.swing.JFrame {
 
     private void jMenu2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu2MouseClicked
         // TODO add your handling code here:
+        
         ReporteVentas ventas = new ReporteVentas();
         jDesktopPane1.add(ventas);
         ventas.show();// TODO add your handling code here:

@@ -5,8 +5,11 @@
 package formularios;
 
 import java.awt.HeadlessException;
+import java.beans.PropertyVetoException;
 import java.sql.*;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
 import net.sf.jasperreports.engine.JRException;
@@ -48,19 +51,24 @@ public class ReporteVentas extends javax.swing.JInternalFrame {
             Map parametros = new HashedMap();
             if (jComboBox_Ventas.getSelectedItem().equals("GENERAL")) {
                 //parametros.put("placa", txtReportes.getText());
-               // JasperReport reporte = (JasperReport) JRLoader.loadObject("src\\Reportes\\rptProductos.jrxml");
-                JasperReport reporte = JasperCompileManager.compileReport("src\\Reportes\\rptVentasGenerales.jrxml");
+                // JasperReport reporte = (JasperReport) JRLoader.loadObject("src\\Reportes\\rptProductos.jrxml");
+                JasperReport reporte = JasperCompileManager.compileReport("src\\Reportes\\rptProductos.jrxml");
                 JasperPrint imprimir = JasperFillManager.fillReport(reporte, null, cn);
-                JasperViewer.viewReport(imprimir);
-//                JInternalFrame frame = new JInternalFrame("Reporte");
-//                frame.getContentPane().add(new JRViewer(imprimir));
-//                frame.pack();
-//                frame.setResizable(true);
-//                frame.setClosable(true);
-//                frame.setMaximizable(true);
-//                frame.setSize(1000, 700);
-//                Menu.jDesktopPane1.add(frame);
-//                frame.setVisible(true);
+               // JasperViewer.viewReport(imprimir);
+                JInternalFrame frame = new JInternalFrame("Reporte");
+                frame.getContentPane().add(new JRViewer(imprimir));
+                frame.pack();
+                frame.setResizable(true);
+                frame.setClosable(true);
+                frame.setMaximizable(true);
+                frame.setSize(1000, 700);
+                Menu.jDesktopPane1.add(frame);
+                try {
+
+                    frame.setMaximum(true);
+                } catch (Exception e) {
+                }
+                frame.setVisible(true);
             }
             if (jComboBox_Ventas.getSelectedItem().equals("CÓDIGO")) {
                 parametros.put("codigo", jTextField_Reportes.getText());
@@ -75,6 +83,7 @@ public class ReporteVentas extends javax.swing.JInternalFrame {
                 frame.setSize(1000, 700);
                 Menu.jDesktopPane1.add(frame);
                 frame.setVisible(true);
+
             }
             if (jComboBox_Ventas.getSelectedItem().equals("TIPO")) {
                 parametros.put("tipo", jTextField_Reportes.getText());
@@ -139,7 +148,6 @@ public class ReporteVentas extends javax.swing.JInternalFrame {
 
             //JasperViewer.viewReport(imprimir,false);
         } catch (JRException ex) {
-            JOptionPane.showMessageDialog(null, "1" + ex);
         }
     }
 
@@ -185,11 +193,11 @@ public class ReporteVentas extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jComboBox_Ventas, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(30, 30, 30)
+                .addComponent(jComboBox_Ventas, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
                 .addComponent(jTextField_Reportes, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(btn_Generar_Reporte, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btn_Generar_Reporte, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -201,7 +209,7 @@ public class ReporteVentas extends javax.swing.JInternalFrame {
                     .addComponent(jComboBox_Ventas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTextField_Reportes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btn_Generar_Reporte))
-                .addContainerGap(33, Short.MAX_VALUE))
+                .addContainerGap(37, Short.MAX_VALUE))
         );
 
         pack();
