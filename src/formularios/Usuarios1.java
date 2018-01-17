@@ -738,17 +738,17 @@ public class Usuarios1 extends javax.swing.JDialog {
 
     private void jTextField_CedulaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_CedulaKeyTyped
         // TODO add your handling code here:
-        Metodos.validarTelefono(evt, jTextField_Cedula);
+        Metodos.validarCamposSoloNumeros(evt, jTextField_Cedula, 10);
     }//GEN-LAST:event_jTextField_CedulaKeyTyped
 
     private void jTextField_ApellidoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_ApellidoKeyTyped
         // TODO add your handling code here:
-        Metodos.validarLetras(evt, jTextField_Apellido);
+        Metodos.validarCamposSoloLetras(evt, jTextField_Apellido, 15);
     }//GEN-LAST:event_jTextField_ApellidoKeyTyped
 
     private void jTextField_NombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_NombreKeyTyped
         // TODO add your handling code here:
-        Metodos.validarLetras(evt, jTextField_Nombre);
+        Metodos.validarCamposSoloLetras(evt, jTextField_Nombre, 15);
     }//GEN-LAST:event_jTextField_NombreKeyTyped
 
     private void jPasswordField_ContraseñaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jPasswordField_ContraseñaKeyTyped

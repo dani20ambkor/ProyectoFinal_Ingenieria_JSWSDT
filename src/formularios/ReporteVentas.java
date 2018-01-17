@@ -52,7 +52,7 @@ public class ReporteVentas extends javax.swing.JInternalFrame {
             if (jComboBox_Ventas.getSelectedItem().equals("GENERAL")) {
                 //parametros.put("placa", txtReportes.getText());
                 // JasperReport reporte = (JasperReport) JRLoader.loadObject("src\\Reportes\\rptProductos.jrxml");
-                JasperReport reporte = JasperCompileManager.compileReport("src\\Reportes\\rptProductos.jrxml");
+                JasperReport reporte = JasperCompileManager.compileReport("src\\Reportes\\rptVentasGenerales.jrxml");
                 JasperPrint imprimir = JasperFillManager.fillReport(reporte, null, cn);
                // JasperViewer.viewReport(imprimir);
                 JInternalFrame frame = new JInternalFrame("Reporte");
