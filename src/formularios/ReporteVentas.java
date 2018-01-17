@@ -82,6 +82,11 @@ public class ReporteVentas extends javax.swing.JInternalFrame {
                 frame.setMaximizable(true);
                 frame.setSize(1000, 700);
                 Menu.jDesktopPane1.add(frame);
+                try {
+
+                    frame.setMaximum(true);
+                } catch (Exception e) {
+                }
                 frame.setVisible(true);
 
             }

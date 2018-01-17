@@ -1,31 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
-	<queryString language="SQL">
+	<parameter name="codigo" class="java.lang.String"/>
+	<queryString>
 		<![CDATA[SELECT
-     ventas_cab.`NUM_VEN` AS ventas_cab_NUM_VEN,
-     ventas_cab.`FEC_VEN` AS ventas_cab_FEC_VEN,
+     productos.`ID_PRO` AS productos_ID_PRO,
      productos.`TIP_PRO` AS productos_TIP_PRO,
-     tallas.`DES_TAL` AS tallas_DES_TAL,
+     tallas.`ID_TAL` AS tallas_ID_TAL,
      colores.`nom_col` AS colores_nom_col,
      productos.`MAR_PRO` AS productos_MAR_PRO,
-     detalle_ventas.`CANTIDAD` AS detalle_ventas_CANTIDAD,
-     productos.`PRE_VEN` AS productos_PRE_VEN
+     productos.`PRE_COM` AS productos_PRE_COM,
+     productos.`PRE_VEN` AS productos_PRE_VEN,
+     productos.`STO_PRO` AS productos_STO_PRO
 FROM
-     `detalle_ventas` detalle_ventas INNER JOIN `ventas_cab` ventas_cab ON detalle_ventas.`NUM_VEN_P` = ventas_cab.`NUM_VEN`
-     INNER JOIN `productos` productos ON detalle_ventas.`ID_PRO_V` = productos.`ID_PRO`
-     INNER JOIN `tallas` tallas ON productos.`id_tal_per` = tallas.`ID_TAL`
-     INNER JOIN `colores` colores ON productos.`id_col_per` = colores.`id_col`]]>
+     `productos` productos INNER JOIN `tallas` tallas ON productos.`id_tal_per` = tallas.`ID_TAL`
+     INNER JOIN `colores` colores ON productos.`id_col_per` = colores.`id_col`
+where productos.`ID_PRO` like $P{codigo}"%"]]>
 	</queryString>
-	<field name="ventas_cab_NUM_VEN" class="java.lang.Integer">
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
-	<field name="ventas_cab_FEC_VEN" class="java.sql.Date">
+	<field name="productos_ID_PRO" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
 	<field name="productos_TIP_PRO" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="tallas_DES_TAL" class="java.lang.String">
+	<field name="tallas_ID_TAL" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
 	<field name="colores_nom_col" class="java.lang.String">
@@ -34,10 +31,13 @@ FROM
 	<field name="productos_MAR_PRO" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="detalle_ventas_CANTIDAD" class="java.lang.Integer">
+	<field name="productos_PRE_COM" class="java.math.BigDecimal">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
 	<field name="productos_PRE_VEN" class="java.lang.Float">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="productos_STO_PRO" class="java.lang.Integer">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
 	<background>
@@ -56,7 +56,7 @@ FROM
 				<textElement textAlignment="Center">
 					<font size="26" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Classic template]]></text>
+				<text><![CDATA[Reporte Productos por código]]></text>
 			</staticText>
 		</band>
 	</title>
@@ -66,120 +66,120 @@ FROM
 	<columnHeader>
 		<band height="18" splitType="Stretch">
 			<staticText>
-				<reportElement mode="Opaque" x="0" y="0" width="69" height="18" forecolor="#FFFFFF" backcolor="#999999"/>
+				<reportElement mode="Opaque" x="0" y="0" width="55" height="18" forecolor="#FFFFFF" backcolor="#999999"/>
 				<textElement>
 					<font size="12"/>
 				</textElement>
-				<text><![CDATA[NUM_VEN]]></text>
+				<text><![CDATA[CODIGO]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="69" y="0" width="87" height="18" forecolor="#FFFFFF" backcolor="#999999"/>
-				<textElement>
-					<font size="12"/>
-				</textElement>
-				<text><![CDATA[FECHA]]></text>
-			</staticText>
-			<staticText>
-				<reportElement mode="Opaque" x="156" y="0" width="89" height="18" forecolor="#FFFFFF" backcolor="#999999"/>
+				<reportElement mode="Opaque" x="55" y="0" width="88" height="18" forecolor="#FFFFFF" backcolor="#999999"/>
 				<textElement>
 					<font size="12"/>
 				</textElement>
 				<text><![CDATA[PRODUCTO]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="245" y="0" width="49" height="18" forecolor="#FFFFFF" backcolor="#999999"/>
+				<reportElement mode="Opaque" x="143" y="0" width="52" height="18" forecolor="#FFFFFF" backcolor="#999999"/>
 				<textElement>
 					<font size="12"/>
 				</textElement>
 				<text><![CDATA[TALLA]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="294" y="0" width="69" height="18" forecolor="#FFFFFF" backcolor="#999999"/>
+				<reportElement mode="Opaque" x="195" y="0" width="69" height="18" forecolor="#FFFFFF" backcolor="#999999"/>
 				<textElement>
 					<font size="12"/>
 				</textElement>
 				<text><![CDATA[COLOR]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="363" y="0" width="69" height="18" forecolor="#FFFFFF" backcolor="#999999"/>
+				<reportElement mode="Opaque" x="264" y="0" width="69" height="18" forecolor="#FFFFFF" backcolor="#999999"/>
 				<textElement>
 					<font size="12"/>
 				</textElement>
 				<text><![CDATA[MARCA]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="432" y="0" width="69" height="18" forecolor="#FFFFFF" backcolor="#999999"/>
+				<reportElement mode="Opaque" x="333" y="0" width="94" height="18" forecolor="#FFFFFF" backcolor="#999999"/>
 				<textElement>
 					<font size="12"/>
 				</textElement>
-				<text><![CDATA[CANTIDAD]]></text>
+				<text><![CDATA[PRE. COMPRA]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="501" y="0" width="51" height="18" forecolor="#FFFFFF" backcolor="#999999"/>
+				<reportElement mode="Opaque" x="427" y="0" width="75" height="18" forecolor="#FFFFFF" backcolor="#999999"/>
 				<textElement>
 					<font size="12"/>
 				</textElement>
-				<text><![CDATA[PRECIO]]></text>
+				<text><![CDATA[PRE. VENTA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="502" y="0" width="53" height="18" forecolor="#FFFFFF" backcolor="#999999"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[STOCK]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
 	<detail>
 		<band height="20" splitType="Stretch">
 			<textField>
-				<reportElement x="0" y="0" width="69" height="20"/>
+				<reportElement x="0" y="0" width="55" height="20"/>
 				<textElement>
 					<font size="12"/>
 				</textElement>
-				<textFieldExpression class="java.lang.Integer"><![CDATA[$F{ventas_cab_NUM_VEN}]]></textFieldExpression>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{productos_ID_PRO}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="69" y="0" width="87" height="20"/>
-				<textElement>
-					<font size="12"/>
-				</textElement>
-				<textFieldExpression class="java.util.Date"><![CDATA[$F{ventas_cab_FEC_VEN}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="156" y="0" width="99" height="20"/>
+				<reportElement x="55" y="0" width="88" height="20"/>
 				<textElement>
 					<font size="12"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{productos_TIP_PRO}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="245" y="0" width="49" height="20"/>
+				<reportElement x="143" y="0" width="52" height="20"/>
 				<textElement>
 					<font size="12"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{tallas_DES_TAL}]]></textFieldExpression>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{tallas_ID_TAL}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="294" y="0" width="69" height="20"/>
+				<reportElement x="195" y="0" width="69" height="20"/>
 				<textElement>
 					<font size="12"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{colores_nom_col}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="363" y="0" width="69" height="20"/>
+				<reportElement x="264" y="0" width="69" height="20"/>
 				<textElement>
 					<font size="12"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{productos_MAR_PRO}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="432" y="0" width="69" height="20"/>
+				<reportElement x="333" y="0" width="94" height="20"/>
 				<textElement>
 					<font size="12"/>
 				</textElement>
-				<textFieldExpression class="java.lang.Integer"><![CDATA[$F{detalle_ventas_CANTIDAD}]]></textFieldExpression>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{productos_PRE_COM}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="501" y="0" width="51" height="20"/>
+				<reportElement x="427" y="0" width="75" height="20"/>
 				<textElement>
 					<font size="12"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Float"><![CDATA[$F{productos_PRE_VEN}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="502" y="0" width="56" height="20"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Integer"><![CDATA[$F{productos_STO_PRO}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
