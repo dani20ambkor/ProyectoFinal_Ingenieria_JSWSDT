@@ -134,8 +134,8 @@ Joaquín Lalama y Avenida Cevallos
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{fecha}]]></textFieldExpression>
 			</textField>
 			<image hAlign="Center">
-				<reportElement x="17" y="-2" width="174" height="99"/>
-				<imageExpression class="java.lang.String"><![CDATA["C:\\Users\\PC\\Documents\\NetBeansProjects\\ProyectoFinal_Ingenieria_JSWSDT\\src\\imagenes\\menu\\LogoR.png"]]></imageExpression>
+				<reportElement x="17" y="0" width="174" height="97"/>
+				<imageExpression class="java.lang.String"><![CDATA["C:\\Users\\user\\Documents\\NetBeansProjects\\ProyectoFinal_Ingenieria_JSWSDT\\src\\Reportes\\LogoR.png"]]></imageExpression>
 			</image>
 		</band>
 	</title>
@@ -295,17 +295,22 @@ Joaquín Lalama y Avenida Cevallos
 	</summary>
 	<noData>
 		<band height="502">
+			<image>
+				<reportElement x="0" y="126" width="554" height="351"/>
+				<imageExpression class="java.lang.String"><![CDATA["C:\\Users\\user\\Documents\\NetBeansProjects\\ProyectoFinal_Ingenieria_JSWSDT\\src\\Reportes\\no_datos.jpg"]]></imageExpression>
+			</image>
 			<staticText>
-				<reportElement x="54" y="72" width="456" height="103"/>
+				<reportElement x="229" y="90" width="100" height="20"/>
+				<textElement/>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="50" y="41" width="456" height="103"/>
 				<textElement textAlignment="Center">
 					<font fontName="Arial Black" size="26" isBold="true"/>
 				</textElement>
 				<text><![CDATA[NO EXISTEN DATOS PARA LA FACTURA INGRESADA]]></text>
 			</staticText>
-			<image hAlign="Center">
-				<reportElement x="54" y="175" width="456" height="262"/>
-				<imageExpression class="java.lang.String"><![CDATA["C:\\Users\\PC\\Documents\\NetBeansProjects\\ProyectoFinal_Ingenieria_JSWSDT\\src\\imagenes\\no_datos.jpg"]]></imageExpression>
-			</image>
 		</band>
 	</noData>
 </jasperReport>
