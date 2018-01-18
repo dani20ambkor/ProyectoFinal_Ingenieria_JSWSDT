@@ -9,8 +9,7 @@ and c.num_ven = d.num_ven_p
 and d.id_pro_v = p.id_pro
 and p.id_col_per = col.id_col
 and c.cod_usu_ven = u.cod_usu
-and c.num_ven = $P{numFac}
-]]>
+and c.num_ven = $P{numFac}]]>
 	</queryString>
 	<field name="numFactura" class="java.lang.Integer">
 		<fieldDescription><![CDATA[]]></fieldDescription>
@@ -71,10 +70,6 @@ and c.num_ven = $P{numFac}
 	</variable>
 	<title>
 		<band height="180" splitType="Stretch">
-			<image hAlign="Center">
-				<reportElement x="0" y="0" width="209" height="96"/>
-				<imageExpression class="java.lang.String"><![CDATA["C:\\Users\\user\\Documents\\NetBeansProjects\\ProyectoFinal_Ingenieria_JSWSDT\\src\\imagenes\\menu\\LogoR.png"]]></imageExpression>
-			</image>
 			<staticText>
 				<reportElement x="0" y="97" width="209" height="77"/>
 				<textElement textAlignment="Center">
@@ -138,6 +133,10 @@ Joaquín Lalama y Avenida Cevallos
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{fecha}]]></textFieldExpression>
 			</textField>
+			<image hAlign="Center">
+				<reportElement x="17" y="-2" width="174" height="99"/>
+				<imageExpression class="java.lang.String"><![CDATA["C:\\Users\\PC\\Documents\\NetBeansProjects\\ProyectoFinal_Ingenieria_JSWSDT\\src\\imagenes\\menu\\LogoR.png"]]></imageExpression>
+			</image>
 		</band>
 	</title>
 	<pageHeader>
@@ -226,7 +225,7 @@ Joaquín Lalama y Avenida Cevallos
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="21" splitType="Stretch">
+		<band height="22" splitType="Stretch">
 			<textField>
 				<reportElement x="17" y="0" width="92" height="20"/>
 				<textElement/>
@@ -254,46 +253,46 @@ Joaquín Lalama y Avenida Cevallos
 			</textField>
 		</band>
 	</detail>
-	<columnFooter>
-		<band height="23" splitType="Stretch">
-			<textField>
-				<reportElement x="455" y="3" width="100" height="20"/>
-				<textElement/>
-				<textFieldExpression class="java.lang.Float"><![CDATA[$F{total}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="109" y="3" width="100" height="20"/>
-				<textElement/>
-				<textFieldExpression class="java.lang.Double"><![CDATA[$F{subtotal}]]></textFieldExpression>
-			</textField>
+	<summary>
+		<band height="118">
 			<staticText>
-				<reportElement x="395" y="3" width="47" height="20"/>
+				<reportElement x="370" y="98" width="47" height="20"/>
 				<textElement>
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[TOTAL:]]></text>
 			</staticText>
+			<textField>
+				<reportElement x="455" y="98" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.Float"><![CDATA[$F{total}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="455" y="66" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$F{valIva}]]></textFieldExpression>
+			</textField>
 			<staticText>
-				<reportElement x="17" y="3" width="78" height="20"/>
-				<textElement>
-					<font isBold="true"/>
-				</textElement>
-				<text><![CDATA[SUBTOTAL:]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="224" y="3" width="28" height="20"/>
+				<reportElement x="370" y="66" width="28" height="20"/>
 				<textElement>
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[IVA:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="268" y="3" width="100" height="20"/>
+				<reportElement x="455" y="30" width="100" height="20"/>
 				<textElement/>
-				<textFieldExpression class="java.lang.Double"><![CDATA[$F{valIva}]]></textFieldExpression>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$F{subtotal}]]></textFieldExpression>
 			</textField>
+			<staticText>
+				<reportElement x="370" y="30" width="78" height="20"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[SUBTOTAL:]]></text>
+			</staticText>
 		</band>
-	</columnFooter>
+	</summary>
 	<noData>
 		<band height="502">
 			<staticText>
@@ -304,8 +303,8 @@ Joaquín Lalama y Avenida Cevallos
 				<text><![CDATA[NO EXISTEN DATOS PARA LA FACTURA INGRESADA]]></text>
 			</staticText>
 			<image hAlign="Center">
-				<reportElement x="54" y="175" width="456" height="293"/>
-				<imageExpression class="java.lang.String"><![CDATA["C:\\Users\\user\\Documents\\NetBeansProjects\\ProyectoFinal_Ingenieria_JSWSDT\\src\\imagenes\\no_datos.jpg"]]></imageExpression>
+				<reportElement x="54" y="175" width="456" height="262"/>
+				<imageExpression class="java.lang.String"><![CDATA["C:\\Users\\PC\\Documents\\NetBeansProjects\\ProyectoFinal_Ingenieria_JSWSDT\\src\\imagenes\\no_datos.jpg"]]></imageExpression>
 			</image>
 		</band>
 	</noData>

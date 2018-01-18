@@ -70,8 +70,8 @@ public class ReporteVentas extends javax.swing.JInternalFrame {
                 }
                 frame.setVisible(true);
             }
-            if (jComboBox_Ventas.getSelectedItem().equals("CÓDIGO")) {
-                parametros.put("codigo", jTextField_Reportes.getText());
+            if (jComboBox_Ventas.getSelectedItem().equals("Nº VENTA")) {
+                parametros.put("numVenta", jTextField_Reportes.getText());
                 JasperReport reporte = JasperCompileManager.compileReport("src\\Reportes\\reporteAutoxPlaca.jrxml");
                 JasperPrint imprimir = JasperFillManager.fillReport(reporte, parametros, cn);
                 JInternalFrame frame = new JInternalFrame("Reporte");
@@ -90,8 +90,8 @@ public class ReporteVentas extends javax.swing.JInternalFrame {
                 frame.setVisible(true);
 
             }
-            if (jComboBox_Ventas.getSelectedItem().equals("TIPO")) {
-                parametros.put("tipo", jTextField_Reportes.getText());
+            if (jComboBox_Ventas.getSelectedItem().equals("PRODUCTO")) {
+                parametros.put("producto", jTextField_Reportes.getText());
                 JasperReport reporte = JasperCompileManager.compileReport("src\\reportes\\reporteAutoxModelo.jrxml");
                 JasperPrint imprimir = JasperFillManager.fillReport(reporte, parametros, cn);
                 JInternalFrame frame = new JInternalFrame("Reporte");
@@ -135,22 +135,7 @@ public class ReporteVentas extends javax.swing.JInternalFrame {
             if (jComboBox_Ventas.getSelectedItem().equals("SELECCIONE")) {
                 JOptionPane.showMessageDialog(null, "SELECCIONE OPCION");
             }
-            if (jComboBox_Ventas.getSelectedItem().equals("GENERAL")) {
-//                parametros.put("año", txtReportes.getText());
-                JasperReport reporte = JasperCompileManager.compileReport("src\\reportes\\reporteAuto.jrxml");
-                JasperPrint imprimir = JasperFillManager.fillReport(reporte, parametros, cn);
-                JInternalFrame frame = new JInternalFrame("Reporte");
-                frame.getContentPane().add(new JRViewer(imprimir));
-                frame.pack();
-                frame.setResizable(true);
-                frame.setClosable(true);
-                frame.setMaximizable(true);
-                frame.setSize(1000, 700);
-                Menu.jDesktopPane1.add(frame);
-                frame.setVisible(true);
-            }
-
-
+            
             //JasperViewer.viewReport(imprimir,false);
         } catch (JRException ex) {
         }

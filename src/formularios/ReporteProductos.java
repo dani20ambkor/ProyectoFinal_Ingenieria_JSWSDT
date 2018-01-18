@@ -151,7 +151,7 @@ public class ReporteProductos extends javax.swing.JInternalFrame {
             }
             if (jComboBox_Productos.getSelectedItem().equals("TIPO")) {
                 parametros.put("nombre", jTextField_Reportes.getText());
-                JasperReport reporte = JasperCompileManager.compileReport("src\\reportes\\rptProductosNombre.jrxml");
+                JasperReport reporte = JasperCompileManager.compileReport("src\\reportes\\rptProductoNombre.jrxml");
                 JasperPrint imprimir = JasperFillManager.fillReport(reporte, parametros, cn);
                 JInternalFrame frame = new JInternalFrame("Reporte");
                 frame.getContentPane().add(new JRViewer(imprimir));
