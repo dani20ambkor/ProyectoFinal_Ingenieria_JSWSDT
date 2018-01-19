@@ -133,9 +133,9 @@ Joaquín Lalama y Avenida Cevallos
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{fecha}]]></textFieldExpression>
 			</textField>
-			<image hAlign="Center">
-				<reportElement x="17" y="0" width="174" height="97"/>
-				<imageExpression class="java.lang.String"><![CDATA["C:\\Users\\user\\Documents\\NetBeansProjects\\ProyectoFinal_Ingenieria_JSWSDT\\src\\Reportes\\LogoR.png"]]></imageExpression>
+			<image>
+				<reportElement x="39" y="-2" width="134" height="97"/>
+				<imageExpression class="java.lang.String"><![CDATA["C:\\Users\\PC\\Documents\\NetBeansProjects\\ProyectoFinal_Ingenieria_JSWSDT\\src\\Reportes\\LogoR.png"]]></imageExpression>
 			</image>
 		</band>
 	</title>
@@ -294,11 +294,7 @@ Joaquín Lalama y Avenida Cevallos
 		</band>
 	</summary>
 	<noData>
-		<band height="502">
-			<image>
-				<reportElement x="0" y="126" width="554" height="351"/>
-				<imageExpression class="java.lang.String"><![CDATA["C:\\Users\\user\\Documents\\NetBeansProjects\\ProyectoFinal_Ingenieria_JSWSDT\\src\\Reportes\\no_datos.jpg"]]></imageExpression>
-			</image>
+		<band height="575">
 			<staticText>
 				<reportElement x="229" y="90" width="100" height="20"/>
 				<textElement/>
@@ -311,6 +307,10 @@ Joaquín Lalama y Avenida Cevallos
 				</textElement>
 				<text><![CDATA[NO EXISTEN DATOS PARA LA FACTURA INGRESADA]]></text>
 			</staticText>
+			<image>
+				<reportElement x="0" y="144" width="555" height="358"/>
+				<imageExpression class="java.lang.String"><![CDATA["C:\\Users\\PC\\Documents\\NetBeansProjects\\ProyectoFinal_Ingenieria_JSWSDT\\src\\Reportes\\no_datos.jpg"]]></imageExpression>
+			</image>
 		</band>
 	</noData>
 </jasperReport>

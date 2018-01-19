@@ -234,10 +234,6 @@ where productos.`ID_PRO` like $P{codigo}"%"]]>
 	</summary>
 	<noData>
 		<band height="536">
-			<image>
-				<reportElement x="1" y="119" width="554" height="351"/>
-				<imageExpression class="java.lang.String"><![CDATA["C:\\Users\\user\\Documents\\NetBeansProjects\\ProyectoFinal_Ingenieria_JSWSDT\\src\\Reportes\\no_datos.jpg"]]></imageExpression>
-			</image>
 			<staticText>
 				<reportElement x="230" y="83" width="100" height="20"/>
 				<textElement/>
@@ -250,6 +246,10 @@ where productos.`ID_PRO` like $P{codigo}"%"]]>
 				</textElement>
 				<text><![CDATA[NO EXISTEN DATOS PARA EL REPORTE INGRESADO]]></text>
 			</staticText>
+			<image>
+				<reportElement x="0" y="137" width="555" height="358"/>
+				<imageExpression class="java.lang.String"><![CDATA["C:\\Users\\PC\\Documents\\NetBeansProjects\\ProyectoFinal_Ingenieria_JSWSDT\\src\\Reportes\\no_datos.jpg"]]></imageExpression>
+			</image>
 		</band>
 	</noData>
 </jasperReport>

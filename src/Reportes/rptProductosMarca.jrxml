@@ -235,10 +235,6 @@ WHERE
 	</summary>
 	<noData>
 		<band height="598">
-			<image>
-				<reportElement x="0" y="121" width="554" height="351"/>
-				<imageExpression class="java.lang.String"><![CDATA["C:\\Users\\user\\Documents\\NetBeansProjects\\ProyectoFinal_Ingenieria_JSWSDT\\src\\Reportes\\no_datos.jpg"]]></imageExpression>
-			</image>
 			<staticText>
 				<reportElement x="229" y="85" width="100" height="20"/>
 				<textElement/>
@@ -251,6 +247,10 @@ WHERE
 				</textElement>
 				<text><![CDATA[NO EXISTEN DATOS PARA EL REPORTE INGRESADO]]></text>
 			</staticText>
+			<image>
+				<reportElement x="1" y="139" width="554" height="358"/>
+				<imageExpression class="java.lang.String"><![CDATA["C:\\Users\\PC\\Documents\\NetBeansProjects\\ProyectoFinal_Ingenieria_JSWSDT\\src\\Reportes\\no_datos.jpg"]]></imageExpression>
+			</image>
 		</band>
 	</noData>
 </jasperReport>
